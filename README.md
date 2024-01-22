@@ -18,4 +18,4 @@ How you can help us:
 
 - **Contribute** - this is how the Core Team is supporting the project.
 - **Spread the word** - tell your friends, colleagues, and followers about Flex Storefront.
-- **Engage with the community** - join our Discord server to ask questions and get assistance.
+- **Engage with the community** - join our [Discord server](https://discord.gg/NDVPcfsHVp) to ask questions and get assistance.
