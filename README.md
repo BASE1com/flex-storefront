@@ -1,21 +1,16 @@
-# Flex Storefront
-An open-source mobile app frontend for headless eCommerce built in Flutter.
+# flex_storefront
 
-The goal of this project is to help commerce professionals build mobile applications easily in order to unlock retail, B2B and B2C use cases.
+A new Flutter project.
 
-This accelerator aims to significantly reduce development time for commerce applications by giving developers a head start on core components and features, while reducing the long term total cost of ownership thanks to development in a single codebase.
+## Getting Started
 
-- **Works with any backend**. Flex Storefront's default integration is SAP Cloud Commerce (Hybris), but it is compatible with any backend that has an API.
+This project is a starting point for a Flutter application.
 
-- **Working eCommerce Storefront**. Flex Storefront delivers fully-working eCommerce storefront, with pre-built commerce flows and core features that follow UX best practices.
+A few resources to get you started if this is your first Flutter project:
 
-- **Fully customizable**. Compose your app with pre-built Flex UI - a Flutter widget library designed for eCommerce, or build your own theme from scratch.
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-## Support us ❤️
-Flex Storefront is and always will be Open Source, released under MIT Licence.
-
-How you can help us:
-
-- **Contribute** - this is how the Core Team is supporting the project.
-- **Spread the word** - tell your friends, colleagues, and followers about Flex Storefront.
-- **Engage with the community** - join our [Discord server](https://discord.gg/NDVPcfsHVp) to ask questions and get assistance.
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
