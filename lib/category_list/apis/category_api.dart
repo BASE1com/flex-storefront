@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flex_storefront/category_list/models/category.dart';
-import 'package:flex_storefront/secrets.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 const DOMAIN = 'https://flex-cms-fpnplvnjqq-uc.a.run.app';
 const PATH = '/api/categories';
@@ -8,7 +8,7 @@ const PATH = '/api/categories';
 class CategoryApi {
   final http = Dio()
     ..options.headers = {
-      'Authorization': 'Bearer $strapiBearerToken',
+      'Authorization': 'Bearer ${dotenv.get('STRAPI_TOKEN')}',
     };
 
   Future<List<Category>> fetchCategories({int? parentId}) async {

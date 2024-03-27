@@ -1,16 +1,25 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flex_storefront/app.dart';
-import 'package:flex_storefront/category_list/apis/category_api.dart';
-import 'package:flex_storefront/firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await dotenv.load(fileName: ".env");
+
+  final platform = defaultTargetPlatform.name.toUpperCase(); // ANDROID or IOS
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: FirebaseOptions(
+      apiKey: dotenv.get('FIREBASE_${platform}_API_KEY'),
+      appId: dotenv.get('FIREBASE_${platform}_APP_ID'),
+      messagingSenderId: dotenv.get('FIREBASE_MESSAGING_SENDER_ID'),
+      projectId: dotenv.get('FIREBASE_PROJECT_ID'),
+      storageBucket: dotenv.get('FIREBASE_STORAGE_BUCKET'),
+      iosBundleId: dotenv.get('FIREBASE_IOS_BUNDLE_ID'),
+    ),
   );
 
   FlutterError.onError = (errorDetails) {
