@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:flex_storefront/category_list/apis/category_api.dart';
-import 'package:flex_storefront/category_list/cubits/category_state.dart';
+import 'package:flex_storefront/category/apis/category_api.dart';
+import 'package:flex_storefront/category/cubits/category_state.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
   final CategoryApi categoryApi = CategoryApi();
