@@ -27,6 +27,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const CartPage(),
       );
     },
+    CategoryIntermediaryRoute.name: (routeData) {
+      final args = routeData.argsAs<CategoryIntermediaryRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: CategoryIntermediaryPage(
+          parentCategory: args.parentCategory,
+          key: args.key,
+        ),
+      );
+    },
+    CategoryRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CategoryPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -72,6 +88,59 @@ class CartRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CartRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CategoryIntermediaryPage]
+class CategoryIntermediaryRoute
+    extends PageRouteInfo<CategoryIntermediaryRouteArgs> {
+  CategoryIntermediaryRoute({
+    required Category parentCategory,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          CategoryIntermediaryRoute.name,
+          args: CategoryIntermediaryRouteArgs(
+            parentCategory: parentCategory,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoryIntermediaryRoute';
+
+  static const PageInfo<CategoryIntermediaryRouteArgs> page =
+      PageInfo<CategoryIntermediaryRouteArgs>(name);
+}
+
+class CategoryIntermediaryRouteArgs {
+  const CategoryIntermediaryRouteArgs({
+    required this.parentCategory,
+    this.key,
+  });
+
+  final Category parentCategory;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'CategoryIntermediaryRouteArgs{parentCategory: $parentCategory, key: $key}';
+  }
+}
+
+/// generated route for
+/// [CategoryPage]
+class CategoryRoute extends PageRouteInfo<void> {
+  const CategoryRoute({List<PageRouteInfo>? children})
+      : super(
+          CategoryRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoryRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

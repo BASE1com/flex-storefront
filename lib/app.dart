@@ -1,4 +1,3 @@
-import 'package:flex_storefront/home/home_page.dart';
 import 'package:flex_storefront/router.dart';
 import 'package:flutter/material.dart';
 

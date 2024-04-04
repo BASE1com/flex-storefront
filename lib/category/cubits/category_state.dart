@@ -1,4 +1,4 @@
-import 'package:flex_storefront/category_list/models/category.dart';
+import 'package:flex_storefront/category/models/category.dart';
 
 enum CategoryStatus {
   pending,

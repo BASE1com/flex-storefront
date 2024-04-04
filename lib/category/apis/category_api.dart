@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flex_storefront/category_list/models/category.dart';
+import 'package:flex_storefront/category/models/category.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 const DOMAIN = 'https://flex-cms-fpnplvnjqq-uc.a.run.app';
