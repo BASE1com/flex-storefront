@@ -5,6 +5,7 @@ import 'package:flex_storefront/category/category_intermediary_page.dart';
 import 'package:flex_storefront/category/category_page.dart';
 import 'package:flex_storefront/category/models/category.dart';
 import 'package:flex_storefront/home/home_page.dart';
+import 'package:flex_storefront/product_list/product_list_page.dart';
 import 'package:flex_storefront/root/root_page.dart';
 import 'package:flex_storefront/shop/shop_page.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,10 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(
                   page: CategoryIntermediaryRoute.page,
                   path: 'category-interediary',
+                ),
+                AutoRoute(
+                  page: ProductListRoute.page,
+                  path: 'product-list',
                 ),
               ],
             ),
