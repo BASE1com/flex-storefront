@@ -28,12 +28,19 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     CategoryIntermediaryRoute.name: (routeData) {
-      final args = routeData.argsAs<CategoryIntermediaryRouteArgs>();
+      final pathParams = routeData.inheritedPathParams;
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<CategoryIntermediaryRouteArgs>(
+          orElse: () => CategoryIntermediaryRouteArgs(
+                categoryId: pathParams.getInt('categoryId'),
+                title: queryParams.optString('title'),
+              ));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: CategoryIntermediaryPage(
-          parentCategory: args.parentCategory,
           key: args.key,
+          categoryId: args.categoryId,
+          title: args.title,
         ),
       );
     },
@@ -97,15 +104,19 @@ class CartRoute extends PageRouteInfo<void> {
 class CategoryIntermediaryRoute
     extends PageRouteInfo<CategoryIntermediaryRouteArgs> {
   CategoryIntermediaryRoute({
-    required Category parentCategory,
     Key? key,
+    required int categoryId,
+    String? title,
     List<PageRouteInfo>? children,
   }) : super(
           CategoryIntermediaryRoute.name,
           args: CategoryIntermediaryRouteArgs(
-            parentCategory: parentCategory,
             key: key,
+            categoryId: categoryId,
+            title: title,
           ),
+          rawPathParams: {'categoryId': categoryId},
+          rawQueryParams: {'title': title},
           initialChildren: children,
         );
 
@@ -117,17 +128,20 @@ class CategoryIntermediaryRoute
 
 class CategoryIntermediaryRouteArgs {
   const CategoryIntermediaryRouteArgs({
-    required this.parentCategory,
     this.key,
+    required this.categoryId,
+    this.title,
   });
-
-  final Category parentCategory;
 
   final Key? key;
 
+  final int categoryId;
+
+  final String? title;
+
   @override
   String toString() {
-    return 'CategoryIntermediaryRouteArgs{parentCategory: $parentCategory, key: $key}';
+    return 'CategoryIntermediaryRouteArgs{key: $key, categoryId: $categoryId, title: $title}';
   }
 }
 

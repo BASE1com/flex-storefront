@@ -12,9 +12,15 @@ Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
       image: json['image'] == null
           ? null
           : CategoryImage.fromJson(json['image'] as Map<String, dynamic>),
+      children: (json['children'] as List<dynamic>?)
+              ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 CategoryImage _$CategoryImageFromJson(Map<String, dynamic> json) =>
     CategoryImage(
+      id: json['id'] as int,
       url: json['url'] as String,
+      name: json['name'] as String,
     );
