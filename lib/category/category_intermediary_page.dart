@@ -1,63 +1,74 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flex_storefront/category/cubits/category_cubit.dart';
-import 'package:flex_storefront/category/cubits/category_state.dart';
-import 'package:flex_storefront/category/models/category.dart';
-import 'package:flex_storefront/router.dart';
+import 'package:flex_storefront/category/cubits/category_intermediary_cubit.dart';
+import 'package:flex_storefront/category/cubits/category_intermediary_state.dart';
+import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class CategoryIntermediaryPage extends StatelessWidget {
-  final Category parentCategory;
+  final int categoryId;
+  final String? title;
 
-  const CategoryIntermediaryPage({required this.parentCategory, super.key});
+  const CategoryIntermediaryPage({
+    super.key,
+    @PathParam() required this.categoryId,
+    @QueryParam() this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Shop'),
+        title: Text(title ?? ''),
       ),
-      body: BlocProvider<CategoryCubit>(
+      body: BlocProvider<CategoryIntermediaryCubit>(
         create: (context) {
-          return CategoryCubit()..loadCategories(parentId: parentCategory.id);
+          return CategoryIntermediaryCubit()
+            ..loadCategory(categoryId: categoryId);
         },
-        child: CategoryIntermediaryView(parentCategory: parentCategory),
+        child: CategoryIntermediaryView(categoryId: categoryId),
       ),
     );
   }
 }
 
 class CategoryIntermediaryView extends StatelessWidget {
-  final Category parentCategory;
+  final int categoryId;
 
-  const CategoryIntermediaryView({required this.parentCategory, super.key});
+  const CategoryIntermediaryView({required this.categoryId, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CategoryCubit, CategoryState>(
+    return BlocBuilder<CategoryIntermediaryCubit, CategoryIntermediaryState>(
       builder: (context, state) {
         switch (state.status) {
-          case CategoryStatus.pending:
+          case Status.pending:
             return const Center(
               child: CircularProgressIndicator(),
             );
-          case CategoryStatus.success:
+          case Status.success:
+            final category = state.category!;
+
             return ListView(
-              children: state.categories
+              children: category.children
                   .map(
                     (category) => ListTile(
                       title: Text(category.name),
                       onTap: () {
-                        context.router.push(
-                          CategoryIntermediaryRoute(parentCategory: category),
-                        );
+                        if (category.children.isNotEmpty) {
+                          context.router.pushNamed(
+                            'category/${category.id}?title=${category.name}',
+                          );
+                        } else {
+                          // TODO navigate to PLP
+                        }
                       },
                     ),
                   )
                   .toList(),
             );
-          case CategoryStatus.failure:
+          case Status.failure:
             return Center(
               child: Column(
                 children: [
@@ -65,8 +76,8 @@ class CategoryIntermediaryView extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       context
-                          .read<CategoryCubit>()
-                          .loadCategories(parentId: parentCategory.id);
+                          .read<CategoryIntermediaryCubit>()
+                          .loadCategory(categoryId: categoryId);
                     },
                     child: const Text('Retry'),
                   )

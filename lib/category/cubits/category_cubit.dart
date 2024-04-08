@@ -1,24 +1,25 @@
 import 'package:bloc/bloc.dart';
 import 'package:flex_storefront/category/apis/category_api.dart';
 import 'package:flex_storefront/category/cubits/category_state.dart';
+import 'package:flex_storefront/shared/bloc_helper.dart';
 
 class CategoryCubit extends Cubit<CategoryState> {
   final CategoryApi categoryApi = CategoryApi();
 
-  CategoryCubit() : super(CategoryState(status: CategoryStatus.pending));
+  CategoryCubit() : super(CategoryState(status: Status.pending));
 
   Future<void> loadCategories({int? parentId}) async {
     try {
-      emit(CategoryState(status: CategoryStatus.pending));
+      emit(CategoryState(status: Status.pending));
 
-      final categories = await categoryApi.fetchCategories(parentId: parentId);
+      final categories = await categoryApi.fetchRootCategories();
 
       emit(CategoryState(
-        status: CategoryStatus.success,
+        status: Status.success,
         categories: categories,
       ));
     } catch (err) {
-      emit(CategoryState(status: CategoryStatus.failure));
+      emit(CategoryState(status: Status.failure));
     }
   }
 }
