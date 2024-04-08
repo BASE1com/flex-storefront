@@ -1,17 +1,17 @@
 import 'package:flex_storefront/category/models/category.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 
-class CategoryState {
+class CategoryIntermediaryState {
   final Status status;
-  final List<Category> categories;
+  final Category? category;
 
-  CategoryState({
+  CategoryIntermediaryState({
     required this.status,
-    this.categories = const [],
+    this.category,
   });
 
   @override
   String toString() {
-    return 'CategoryState{status: $status, categories: ${categories.length}}';
+    return 'CategoryIntermediaryState{status: $status, category: $category}';
   }
 }

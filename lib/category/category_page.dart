@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/category/cubits/category_cubit.dart';
 import 'package:flex_storefront/category/cubits/category_state.dart';
 import 'package:flex_storefront/router.dart';
+import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,26 +34,26 @@ class CategoryView extends StatelessWidget {
     return BlocBuilder<CategoryCubit, CategoryState>(
       builder: (context, state) {
         switch (state.status) {
-          case CategoryStatus.pending:
+          case Status.pending:
             return const Center(
               child: CircularProgressIndicator(),
             );
-          case CategoryStatus.success:
+          case Status.success:
             return ListView(
               children: state.categories
                   .map(
                     (category) => ListTile(
                       title: Text(category.name),
                       onTap: () {
-                        context.router.push(
-                          CategoryIntermediaryRoute(parentCategory: category),
+                        context.router.pushNamed(
+                          'category/${category.id}?title=${category.name}',
                         );
                       },
                     ),
                   )
                   .toList(),
             );
-          case CategoryStatus.failure:
+          case Status.failure:
             return Center(
               child: Column(
                 children: [
