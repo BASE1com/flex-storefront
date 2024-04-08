@@ -17,6 +17,7 @@ class ProductListCubit extends Cubit<ProductListState> {
 
       emit(ProductListState(
         status: ProductListStatus.success,
+        searchResults: searchResults,
         products: products,
       ));
     } catch (err) {

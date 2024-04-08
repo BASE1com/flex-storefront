@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_storefront/flex_ui/widgets/product_list_item.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_cubit.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_state.dart';
+import 'package:flex_storefront/product_list/widgets/search_results_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,15 +39,29 @@ class ProductListView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           case ProductListStatus.success:
-            return ListView(
-              children: state.products
-                  .map(
-                    (product) => ListTile(
-                      title: Text(product.name),
-                      onTap: () {},
+            return Column(
+              children: [
+                if (state.searchResults != null)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SearchResultsHeader(
+                        searchResults: state.searchResults!),
+                  ),
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: state.products.length,
+                    separatorBuilder: (_, __) => Divider(
+                      height: 0,
+                      color: Colors.grey[200],
                     ),
-                  )
-                  .toList(),
+                    itemBuilder: (context, i) {
+                      final product = state.products[i];
+
+                      return ProductListItem(product: product);
+                    },
+                  ),
+                ),
+              ],
             );
           case ProductListStatus.failure:
             return const Center(
