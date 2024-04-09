@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flex_storefront/app.dart';
@@ -31,5 +33,19 @@ void main() async {
     return true;
   };
 
+  // Allow all network requests, temporarily for local hybris instance over https
+  // TODO: Remove when hybris moves to cloud instance
+  // https://stackoverflow.com/questions/61411580/flutter-web-http-request-badcertificatecallback
+  HttpOverrides.global = MyHttpOverrides();
+
   runApp(App());
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }

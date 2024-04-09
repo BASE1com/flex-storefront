@@ -61,7 +61,7 @@ class CategoryIntermediaryView extends StatelessWidget {
                             'category/${category.id}?title=${category.name}',
                           );
                         } else {
-                          // TODO navigate to PLP
+                          context.router.pushNamed('product-list');
                         }
                       },
                     ),
