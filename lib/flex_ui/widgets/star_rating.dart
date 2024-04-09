@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// A widget that displays a row of stars with a specified count and rating.
 class StarRating extends StatelessWidget {
   const StarRating({
     super.key,
@@ -11,29 +10,10 @@ class StarRating extends StatelessWidget {
     this.showRating = false,
   });
 
-  /// The total number of stars in the rating.
-  ///
-  /// Defaults to `5`.
   final int starCount;
-
-  /// The current rating value.
-  ///
-  /// Defaults to `0.0`.
   final double rating;
-
-  /// The color of the stars.
-  ///
-  /// Defaults to `Colors.orangeAccent`.
   final Color? color;
-
-  /// The size of the stars.
-  ///
-  /// Defaults to `30`.
   final double size;
-
-  /// If `true`, will display the rating as text.
-  ///
-  /// Defaults to `false`.
   final bool showRating;
 
   @override

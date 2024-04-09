@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/flex_ui/widgets/product_list_item.dart';
+import 'package:flex_storefront/flex_ui/widgets/search_results_header.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_cubit.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_state.dart';
-import 'package:flex_storefront/product_list/widgets/search_results_header.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 
 @RoutePage()
 class ProductListPage extends StatelessWidget {
