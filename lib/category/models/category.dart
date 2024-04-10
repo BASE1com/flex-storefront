@@ -5,13 +5,17 @@ part 'category.g.dart';
 @JsonSerializable(createToJson: false)
 class Category {
   final int id;
+  final String code;
   final String name;
+  final String? destination;
   final CategoryImage? image;
   final List<Category> children;
 
   Category({
     required this.id,
+    required this.code,
     required this.name,
+    this.destination,
     this.image,
     this.children = const [],
   });
@@ -21,7 +25,7 @@ class Category {
 
   @override
   String toString() {
-    return 'Category{id: $id, name: $name, image: $image, children: ${children.length}}';
+    return 'Category{id: $id, code: $code, name: $name, destination: $destination, image: $image, children: ${children.length}}';
   }
 }
 

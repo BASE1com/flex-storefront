@@ -8,11 +8,12 @@ class ProductListCubit extends Cubit<ProductListState> {
   ProductListCubit()
       : super(ProductListState(status: ProductListStatus.pending));
 
-  Future<void> loadProducts({String? categoryId}) async {
+  Future<void> loadProducts({String? categoryCode}) async {
     try {
       emit(ProductListState(status: ProductListStatus.pending));
 
-      final searchResults = await productListApi.fetchProducts();
+      final searchResults =
+          await productListApi.fetchProducts(categoryCode: categoryCode);
       final products = searchResults.products;
 
       emit(ProductListState(

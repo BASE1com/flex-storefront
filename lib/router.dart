@@ -26,7 +26,7 @@ class AppRouter extends _$AppRouter {
               children: [
                 AutoRoute(
                   page: CategoryRoute.page,
-                  path: 'category',
+                  path: 'categories',
                   initial: true,
                 ),
                 AutoRoute(
@@ -35,7 +35,7 @@ class AppRouter extends _$AppRouter {
                 ),
                 AutoRoute(
                   page: ProductListRoute.page,
-                  path: 'product-list',
+                  path: 'products',
                 ),
               ],
             ),
