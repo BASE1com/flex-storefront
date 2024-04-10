@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'image.g.dart';
@@ -15,6 +16,8 @@ class Image {
     required this.url,
     this.altText,
   });
+
+  String get fullUrl => '${dotenv.get('HYBRIS_BASE_URL')}$url';
 
   factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
 

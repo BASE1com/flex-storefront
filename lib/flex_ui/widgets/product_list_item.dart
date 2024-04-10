@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart';
 import 'package:flex_storefront/flex_ui/widgets/star_rating.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
@@ -16,7 +17,7 @@ class ProductListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO: Navigate to product detail page
+        context.router.navigateNamed('product/${product.code}');
       },
       child: Container(
         padding: const EdgeInsets.all(16.0),
