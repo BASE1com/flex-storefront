@@ -12,13 +12,11 @@ class ProductListPage extends StatelessWidget {
 
   const ProductListPage({
     super.key,
-    @QueryParam() required this.categoryCode,
+    @QueryParam() this.categoryCode,
   });
 
   @override
   Widget build(BuildContext context) {
-    print('######### $categoryCode');
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product List'),

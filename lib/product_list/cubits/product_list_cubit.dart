@@ -12,7 +12,8 @@ class ProductListCubit extends Cubit<ProductListState> {
     try {
       emit(ProductListState(status: ProductListStatus.pending));
 
-      final searchResults = await productListApi.fetchProducts();
+      final searchResults =
+          await productListApi.fetchProducts(categoryCode: categoryCode);
       final products = searchResults.products;
 
       emit(ProductListState(

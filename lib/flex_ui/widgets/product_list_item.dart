@@ -1,4 +1,7 @@
+import 'package:collection/collection.dart';
+
 import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart';
+import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/flex_ui/widgets/star_rating.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +27,11 @@ class ProductListItem extends StatelessWidget {
           children: [
             Flexible(
               flex: 1,
-              child: Image.network(
-                '${dotenv.get('HYBRIS_BASE_URL')}${product.images.first.url}',
+              child: CachedImage(
+                url:
+                    '${dotenv.get('HYBRIS_BASE_URL')}${product.images.firstOrNull?.url}',
                 fit: BoxFit.contain,
+                placeholderAspectRatio: 1,
               ),
             ),
             const SizedBox(width: 16),
