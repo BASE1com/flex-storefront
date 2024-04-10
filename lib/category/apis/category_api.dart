@@ -15,12 +15,9 @@ class CategoryApi {
     final queryString = {
       'filters[parent][id][\$null]': 'true',
       'fields[0]': 'id',
-      'fields[1]': 'name',
-      'populate[image][fields][0]': 'id',
-      'populate[image][fields][1]': 'url',
-      'populate[image][fields][2]': 'name',
-      'populate[children][fields][0]': 'id',
-      'populate[children][fields][1]': 'name',
+      'fields[1]': 'code',
+      'fields[2]': 'name',
+      'fields[3]': 'destination',
     };
 
     final uri = Uri.https(DOMAIN, PATH, queryString);
@@ -36,14 +33,13 @@ class CategoryApi {
   Future<Category> fetchCategory({required int categoryId}) async {
     final queryString = {
       'fields[0]': 'id',
-      'fields[1]': 'name',
-      'populate[image][fields][0]': 'id',
-      'populate[image][fields][1]': 'url',
-      'populate[image][fields][2]': 'name',
+      'fields[1]': 'code',
+      'fields[2]': 'name',
+      'fields[3]': 'destination',
       'populate[children][fields][0]': 'id',
-      'populate[children][fields][1]': 'name',
-      'populate[children][populate][children][fields][0]': 'id',
-      'populate[children][populate][children][fields][1]': 'name',
+      'populate[children][fields][1]': 'code',
+      'populate[children][fields][2]': 'name',
+      'populate[children][fields][3]': 'destination',
     };
 
     final uri = Uri.https(DOMAIN, '$PATH/$categoryId', queryString);

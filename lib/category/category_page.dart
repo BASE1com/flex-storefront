@@ -45,7 +45,8 @@ class CategoryView extends StatelessWidget {
                       title: Text(category.name),
                       onTap: () {
                         context.router.pushNamed(
-                          'category/${category.id}?title=${category.name}',
+                          category.destination ??
+                              'category/${category.id}?title=${category.name}',
                         );
                       },
                     ),

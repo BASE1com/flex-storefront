@@ -8,17 +8,24 @@ import 'package:flutter/material.dart';
 
 @RoutePage()
 class ProductListPage extends StatelessWidget {
-  const ProductListPage({super.key});
+  final String? categoryCode;
+
+  const ProductListPage({
+    super.key,
+    @QueryParam() required this.categoryCode,
+  });
 
   @override
   Widget build(BuildContext context) {
+    print('######### $categoryCode');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product List'),
       ),
       body: BlocProvider<ProductListCubit>(
         create: (context) {
-          return ProductListCubit()..loadProducts();
+          return ProductListCubit()..loadProducts(categoryCode: categoryCode);
         },
         child: const ProductListView(),
       ),
