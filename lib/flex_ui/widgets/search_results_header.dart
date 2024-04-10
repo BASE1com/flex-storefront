@@ -11,33 +11,30 @@ class SearchResultsHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('${searchResults.pagination.totalResults} items'),
-          Row(
-            children: [
-              TextButton.icon(
-                onPressed: () {
-                  // Add sort logic
-                },
-                icon: const Icon(Icons.swap_vert_rounded),
-                label: const Text('Sort'),
-              ),
-              const SizedBox(width: 4.0),
-              TextButton.icon(
-                onPressed: () {
-                  // Add filter logic
-                },
-                icon: const Icon(Icons.tune_rounded),
-                label: Text('Filter (${searchResults.facets.length})'),
-              ),
-            ],
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text('${searchResults.pagination.totalResults} items'),
+        Row(
+          children: [
+            TextButton.icon(
+              onPressed: () {
+                // Add sort logic
+              },
+              icon: const Icon(Icons.swap_vert_rounded),
+              label: const Text('Sort'),
+            ),
+            const SizedBox(width: 4.0),
+            TextButton.icon(
+              onPressed: () {
+                // Add filter logic
+              },
+              icon: const Icon(Icons.tune_rounded),
+              label: Text('Filter (${searchResults.facets.length})'),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
