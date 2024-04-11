@@ -1,5 +1,6 @@
 import 'package:flex_storefront/cart/cubits/cart_cubit.dart';
 import 'package:flex_storefront/cart/models/cart.dart';
+import 'package:flex_storefront/flex_ui/widgets/quantity_selector.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,15 +23,13 @@ class CartEntryActions extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // QuantitySelector(
-        //   disabled: cartLoading,
-        //   quantity: quantity,
-        //   onChanged: (val) {
-        //     context
-        //         .read<CartBloc>()
-        //         .add(UpdateQuantity(entry: entry, quantity: val));
-        //   },
-        // ),
+        QuantitySelector(
+          disabled: cartLoading,
+          quantity: quantity,
+          onChanged: (val) {
+            print(val);
+          },
+        ),
         TextButton(
           onPressed: cartLoading
               ? null

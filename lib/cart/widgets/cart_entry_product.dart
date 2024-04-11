@@ -18,21 +18,50 @@ class CartEntryProduct extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CachedImage(
-          url:
-              '${dotenv.get('HYBRIS_BASE_URL')}${entry.product.cartImage?.url}',
-          placeholderAspectRatio: 1,
+        Container(
+          width: 96,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey[200]!,
+            ),
+          ),
+          child: CachedImage(
+            url:
+                '${dotenv.get('HYBRIS_BASE_URL')}${entry.product.cartImage?.url}',
+            fit: BoxFit.contain,
+            placeholderAspectRatio: 1,
+          ),
         ),
         const SizedBox(
           width: 16,
         ),
-        Expanded(
+        Flexible(
+          flex: 3,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(entry.product.name),
+              Text(
+                entry.product.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.bold),
+              ),
+              if (entry.product.manufacturer != null)
+                Text('by ${entry.product.manufacturer}'),
               const SizedBox(height: 8),
-              if (showPrice) Text(entry.product.price?.formattedValue ?? ''),
+              Text(
+                entry.totalPrice.formattedValue,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.green[700],
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              if (showPrice)
+                Text(
+                  '${entry.basePrice.formattedValue} per item',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               const SizedBox(height: 8),
             ],
           ),

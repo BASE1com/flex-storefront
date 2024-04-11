@@ -26,9 +26,12 @@ class CartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final itemCount =
+        context.select((CartCubit cubit) => cubit.state.cart?.totalItems);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cart'),
+        title: Text('Cart ${itemCount != null ? '($itemCount items)' : ''}'),
       ),
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
