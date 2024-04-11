@@ -23,23 +23,10 @@ class _ProductDetailContentState extends State<ProductDetailContent> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final isLoading = context.select(
-        (ProductDetailCubit bloc) => bloc.state.status == Status.pending);
-    final isFailure = context.select(
-        (ProductDetailCubit bloc) => bloc.state.status == Status.failure);
-
     final product =
-        context.select((ProductDetailCubit bloc) => bloc.state.product);
+        context.select((ProductDetailCubit bloc) => bloc.state.product)!;
     final quantity =
         context.select((ProductDetailCubit bloc) => bloc.state.quantity);
-
-    if (isLoading || product == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (isFailure) {
-      return const Center(child: Text('Failed to load product'));
-    }
 
     final galleryImages = product.galleryImages;
     final galleryThumbnails = product.galleryThumbnails;
@@ -48,7 +35,7 @@ class _ProductDetailContentState extends State<ProductDetailContent> {
       child: Column(
         children: [
           AspectRatio(
-            aspectRatio: galleryImages.isNotEmpty ? 1 : 1,
+            aspectRatio: 1,
             child: CachedImage(
               url: galleryImages.isNotEmpty
                   ? galleryImages[_selectedImage].fullUrl
