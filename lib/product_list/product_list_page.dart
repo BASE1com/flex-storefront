@@ -48,7 +48,7 @@ class ProductListView extends StatelessWidget {
               children: [
                 if (state.searchResults != null)
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: SearchResultsHeader(
                         searchResults: state.searchResults!),
                   ),

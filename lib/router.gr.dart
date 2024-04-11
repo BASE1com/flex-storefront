@@ -56,6 +56,19 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomePage(),
       );
     },
+    ProductDetailRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ProductDetailRouteArgs>(
+          orElse: () => ProductDetailRouteArgs(
+              productId: pathParams.getString('productId')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ProductDetailPage(
+          key: args.key,
+          productId: args.productId,
+        ),
+      );
+    },
     ProductListRoute.name: (routeData) {
       final queryParams = routeData.queryParams;
       final args = routeData.argsAs<ProductListRouteArgs>(
@@ -184,6 +197,45 @@ class HomeRoute extends PageRouteInfo<void> {
   static const String name = 'HomeRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProductDetailPage]
+class ProductDetailRoute extends PageRouteInfo<ProductDetailRouteArgs> {
+  ProductDetailRoute({
+    Key? key,
+    required String productId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ProductDetailRoute.name,
+          args: ProductDetailRouteArgs(
+            key: key,
+            productId: productId,
+          ),
+          rawPathParams: {'productId': productId},
+          initialChildren: children,
+        );
+
+  static const String name = 'ProductDetailRoute';
+
+  static const PageInfo<ProductDetailRouteArgs> page =
+      PageInfo<ProductDetailRouteArgs>(name);
+}
+
+class ProductDetailRouteArgs {
+  const ProductDetailRouteArgs({
+    this.key,
+    required this.productId,
+  });
+
+  final Key? key;
+
+  final String productId;
+
+  @override
+  String toString() {
+    return 'ProductDetailRouteArgs{key: $key, productId: $productId}';
+  }
 }
 
 /// generated route for

@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flex_storefront/category/models/category.dart';
 import 'package:flex_storefront/product_list/models/image.dart';
 import 'package:flex_storefront/product_list/models/price.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -41,6 +40,20 @@ class Product {
   Image? get cartImage =>
       images.firstWhereOrNull((e) => e.format == 'cartIcon') ??
       images.firstOrNull;
+
+  List<Image> get galleryZooms => images
+      .where((image) => image.imageType == 'GALLERY' && image.format == 'zoom')
+      .toList();
+
+  List<Image> get galleryImages => images
+      .where(
+          (image) => image.imageType == 'GALLERY' && image.format == 'product')
+      .toList();
+
+  List<Image> get galleryThumbnails => images
+      .where((image) =>
+          image.imageType == 'GALLERY' && image.format == 'thumbnail')
+      .toList();
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

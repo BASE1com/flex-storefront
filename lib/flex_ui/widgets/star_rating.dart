@@ -40,7 +40,7 @@ class StarRating extends StatelessWidget {
         if (showRating) ...[
           const SizedBox(width: 6),
           Text(
-            rating.toString(),
+            rating.toStringAsFixed(1), // TODO: this should be configurable
             style: Theme.of(context)
                 .textTheme
                 .titleMedium

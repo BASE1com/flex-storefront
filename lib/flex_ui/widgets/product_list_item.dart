@@ -1,11 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-
 import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/flex_ui/widgets/star_rating.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/material.dart';
 
 class ProductListItem extends StatelessWidget {
   const ProductListItem({
@@ -19,7 +19,7 @@ class ProductListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        // TODO: Navigate to product detail page
+        context.router.navigateNamed('product/${product.code}');
       },
       child: Container(
         padding: const EdgeInsets.all(16.0),
