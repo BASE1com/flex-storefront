@@ -19,7 +19,7 @@ class Product {
   final Price? price;
   final String? baseProduct;
   final List<Image> images;
-  final List<Category> categories;
+  // final List<Category> categories;
 
   Product({
     required this.code,
@@ -34,8 +34,22 @@ class Product {
     this.price,
     this.baseProduct,
     this.images = const [],
-    this.categories = const [],
+    // this.categories = const [],
   });
+
+  List<Image> get galleryZooms => images
+      .where((image) => image.imageType == 'GALLERY' && image.format == 'zoom')
+      .toList();
+
+  List<Image> get galleryImages => images
+      .where(
+          (image) => image.imageType == 'GALLERY' && image.format == 'product')
+      .toList();
+
+  List<Image> get galleryThumbnails => images
+      .where((image) =>
+          image.imageType == 'GALLERY' && image.format == 'thumbnail')
+      .toList();
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

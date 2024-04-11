@@ -4,6 +4,7 @@ import 'package:flex_storefront/cart/cart_page.dart';
 import 'package:flex_storefront/category/category_intermediary_page.dart';
 import 'package:flex_storefront/category/category_page.dart';
 import 'package:flex_storefront/home/home_page.dart';
+import 'package:flex_storefront/product_detail/product_detail_page.dart';
 import 'package:flex_storefront/product_list/product_list_page.dart';
 import 'package:flex_storefront/root/root_page.dart';
 import 'package:flex_storefront/shop/shop_page.dart';
@@ -36,6 +37,10 @@ class AppRouter extends _$AppRouter {
                 AutoRoute(
                   page: ProductListRoute.page,
                   path: 'products',
+                ),
+                AutoRoute(
+                  page: ProductDetailRoute.page,
+                  path: 'product/:productId',
                 ),
               ],
             ),
