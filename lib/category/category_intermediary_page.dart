@@ -56,13 +56,10 @@ class CategoryIntermediaryView extends StatelessWidget {
                     (category) => ListTile(
                       title: Text(category.name),
                       onTap: () {
-                        if (category.children.isNotEmpty) {
-                          context.router.pushNamed(
-                            'category/${category.id}?title=${category.name}',
-                          );
-                        } else {
-                          context.router.pushNamed('product-list');
-                        }
+                        context.router.pushNamed(
+                          category.destination ??
+                              'category/${category.id}?title=${category.name}',
+                        );
                       },
                     ),
                   )

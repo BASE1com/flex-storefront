@@ -70,9 +70,16 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     ProductListRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<ProductListRouteArgs>(
+          orElse: () => ProductListRouteArgs(
+              categoryCode: queryParams.optString('categoryCode')));
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ProductListPage(),
+        child: ProductListPage(
+          key: args.key,
+          categoryCode: args.categoryCode,
+        ),
       );
     },
     RootRoute.name: (routeData) {
@@ -233,16 +240,41 @@ class ProductDetailRouteArgs {
 
 /// generated route for
 /// [ProductListPage]
-class ProductListRoute extends PageRouteInfo<void> {
-  const ProductListRoute({List<PageRouteInfo>? children})
-      : super(
+class ProductListRoute extends PageRouteInfo<ProductListRouteArgs> {
+  ProductListRoute({
+    Key? key,
+    String? categoryCode,
+    List<PageRouteInfo>? children,
+  }) : super(
           ProductListRoute.name,
+          args: ProductListRouteArgs(
+            key: key,
+            categoryCode: categoryCode,
+          ),
+          rawQueryParams: {'categoryCode': categoryCode},
           initialChildren: children,
         );
 
   static const String name = 'ProductListRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<ProductListRouteArgs> page =
+      PageInfo<ProductListRouteArgs>(name);
+}
+
+class ProductListRouteArgs {
+  const ProductListRouteArgs({
+    this.key,
+    this.categoryCode,
+  });
+
+  final Key? key;
+
+  final String? categoryCode;
+
+  @override
+  String toString() {
+    return 'ProductListRouteArgs{key: $key, categoryCode: $categoryCode}';
+  }
 }
 
 /// generated route for
