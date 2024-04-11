@@ -11,7 +11,7 @@ class Cart {
   final List<dynamic> appliedVouchers;
   final String code;
   final int? deliveryItemsQuantity;
-  // final List<CartItem> entries;
+  final List<CartItem> entries;
   final String guid;
   final bool net;
   final int? pickupItemsQuantity;
@@ -35,7 +35,7 @@ class Cart {
     this.appliedVouchers = const [],
     required this.code,
     this.deliveryItemsQuantity,
-    // this.entries = const [],
+    this.entries = const [],
     required this.guid,
     this.net = false,
     this.pickupItemsQuantity,
@@ -64,7 +64,7 @@ class Cart {
 @JsonSerializable(createToJson: false)
 class CartItem {
   final CartPrice basePrice;
-  final int cancellableQuantity;
+  final int? cancellableQuantity;
   final List<dynamic> configurationInfos;
   final int entryNumber;
   final Product product;
@@ -76,15 +76,15 @@ class CartItem {
 
   CartItem({
     required this.basePrice,
-    required this.cancellableQuantity,
-    required this.configurationInfos,
+    this.cancellableQuantity = 0,
+    this.configurationInfos = const [],
     required this.entryNumber,
     required this.product,
     required this.quantity,
-    required this.returnableQuantity,
-    required this.statusSummaryList,
+    this.returnableQuantity = 0,
+    this.statusSummaryList = const [],
     required this.totalPrice,
-    required this.updateable,
+    this.updateable = true,
   });
 
   factory CartItem.fromJson(Map<String, dynamic> json) =>
@@ -93,13 +93,13 @@ class CartItem {
 
 @JsonSerializable()
 class CartPrice {
-  final String currencyIso;
+  final String? currencyIso;
   final String formattedValue;
   final String? priceType;
   final double value;
 
   CartPrice({
-    required this.currencyIso,
+    this.currencyIso,
     required this.formattedValue,
     this.priceType,
     required this.value,

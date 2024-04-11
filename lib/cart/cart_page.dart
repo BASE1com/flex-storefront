@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flex_storefront/cart/cubits/cart_cubit.dart';
 import 'package:flex_storefront/cart/cubits/cart_state.dart';
+import 'package:flex_storefront/cart/widgets/cart_content.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +38,7 @@ class CartView extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             case Status.success:
-              return Center(
-                child: Text(
-                    'Total price of your cart: ${state.totalPrice?.formattedValue ?? '\$0.00'}'),
-              );
+              return const CartContent();
             case Status.failure:
               return const Center(
                 child: Text('Failed to load cart'),

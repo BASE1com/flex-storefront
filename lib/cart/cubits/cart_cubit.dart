@@ -12,15 +12,12 @@ class CartCubit extends Cubit<CartState> {
     try {
       emit(CartState(status: Status.pending));
 
-      final testCart = await cartApi.fetchCart(
+      final cart = await cartApi.fetchCart(
           cartCode: '1b2be4d8-c5c7-4b0a-a472-ac7df417d762');
-
-      print(testCart);
 
       emit(CartState(
         status: Status.success,
-        products: [],
-        totalPrice: testCart.totalPrice,
+        cart: cart,
       ));
     } catch (err) {
       print(err);

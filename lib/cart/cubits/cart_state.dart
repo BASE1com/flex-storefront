@@ -1,20 +1,17 @@
 import 'package:flex_storefront/cart/models/cart.dart';
-import 'package:flex_storefront/product_list/models/product.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 
 class CartState {
   final Status status;
-  final List<Product> products;
-  final CartPrice? totalPrice;
+  final Cart? cart;
 
   CartState({
     required this.status,
-    this.products = const [],
-    this.totalPrice,
+    this.cart,
   });
 
   @override
   String toString() {
-    return 'CartState{status: $status, products: ${products.length}}';
+    return 'CartState{status: $status, products: ${cart?.entries.length}}';
   }
 }

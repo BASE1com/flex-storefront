@@ -15,6 +15,10 @@ Cart _$CartFromJson(Map<String, dynamic> json) => Cart(
       appliedVouchers: json['appliedVouchers'] as List<dynamic>? ?? const [],
       code: json['code'] as String,
       deliveryItemsQuantity: json['deliveryItemsQuantity'] as int?,
+      entries: (json['entries'] as List<dynamic>?)
+              ?.map((e) => CartItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       guid: json['guid'] as String,
       net: json['net'] as bool? ?? false,
       pickupItemsQuantity: json['pickupItemsQuantity'] as int?,
@@ -40,20 +44,22 @@ Cart _$CartFromJson(Map<String, dynamic> json) => Cart(
 
 CartItem _$CartItemFromJson(Map<String, dynamic> json) => CartItem(
       basePrice: CartPrice.fromJson(json['basePrice'] as Map<String, dynamic>),
-      cancellableQuantity: json['cancellableQuantity'] as int,
-      configurationInfos: json['configurationInfos'] as List<dynamic>,
+      cancellableQuantity: json['cancellableQuantity'] as int? ?? 0,
+      configurationInfos:
+          json['configurationInfos'] as List<dynamic>? ?? const [],
       entryNumber: json['entryNumber'] as int,
       product: Product.fromJson(json['product'] as Map<String, dynamic>),
       quantity: json['quantity'] as int,
-      returnableQuantity: json['returnableQuantity'] as int,
-      statusSummaryList: json['statusSummaryList'] as List<dynamic>,
+      returnableQuantity: json['returnableQuantity'] as int? ?? 0,
+      statusSummaryList:
+          json['statusSummaryList'] as List<dynamic>? ?? const [],
       totalPrice:
           CartPrice.fromJson(json['totalPrice'] as Map<String, dynamic>),
-      updateable: json['updateable'] as bool,
+      updateable: json['updateable'] as bool? ?? true,
     );
 
 CartPrice _$CartPriceFromJson(Map<String, dynamic> json) => CartPrice(
-      currencyIso: json['currencyIso'] as String,
+      currencyIso: json['currencyIso'] as String?,
       formattedValue: json['formattedValue'] as String,
       priceType: json['priceType'] as String?,
       value: (json['value'] as num).toDouble(),
