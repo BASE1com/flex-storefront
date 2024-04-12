@@ -3,10 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:flex_storefront/category/apis/category_api.dart';
 import 'package:flex_storefront/category/cubits/category_intermediary_state.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
+import 'package:get_it/get_it.dart';
 
 class CategoryIntermediaryCubit extends Cubit<CategoryIntermediaryState> {
-  final CategoryApi categoryApi = CategoryApi();
-
   CategoryIntermediaryCubit()
       : super(CategoryIntermediaryState(status: Status.pending));
 
@@ -14,9 +13,9 @@ class CategoryIntermediaryCubit extends Cubit<CategoryIntermediaryState> {
     try {
       emit(CategoryIntermediaryState(status: Status.pending));
 
-      final category = await categoryApi.fetchCategory(
-        categoryId: categoryId,
-      );
+      final category = await GetIt.instance
+          .get<CategoryApi>()
+          .fetchCategory(categoryId: categoryId);
 
       emit(CategoryIntermediaryState(
         status: Status.success,

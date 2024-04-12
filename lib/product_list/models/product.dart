@@ -1,4 +1,3 @@
-import 'package:flex_storefront/category/models/category.dart';
 import 'package:flex_storefront/product_list/models/image.dart';
 import 'package:flex_storefront/product_list/models/price.dart';
 import 'package:json_annotation/json_annotation.dart';

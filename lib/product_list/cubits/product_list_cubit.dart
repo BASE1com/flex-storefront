@@ -3,18 +3,18 @@ import 'package:dio/dio.dart';
 import 'package:flex_storefront/product_list/apis/product_list_api.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_state.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
+import 'package:get_it/get_it.dart';
 
 class ProductListCubit extends Cubit<ProductListState> {
-  final ProductListApi productListApi = ProductListApi();
-
   ProductListCubit() : super(ProductListState(status: Status.pending));
 
   Future<void> loadProducts({String? categoryCode}) async {
     try {
       emit(ProductListState(status: Status.pending));
 
-      final searchResults =
-          await productListApi.fetchProducts(categoryCode: categoryCode);
+      final searchResults = await GetIt.instance
+          .get<ProductListApi>()
+          .fetchProducts(categoryCode: categoryCode);
       final products = searchResults.products;
 
       emit(ProductListState(
