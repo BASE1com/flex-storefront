@@ -3,6 +3,7 @@ import 'package:flex_storefront/flex_ui/widgets/product_list_item.dart';
 import 'package:flex_storefront/flex_ui/widgets/search_results_header.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_cubit.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_state.dart';
+import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -39,11 +40,11 @@ class ProductListView extends StatelessWidget {
     return BlocBuilder<ProductListCubit, ProductListState>(
       builder: (context, state) {
         switch (state.status) {
-          case ProductListStatus.pending:
+          case Status.pending:
             return const Center(
               child: CircularProgressIndicator(),
             );
-          case ProductListStatus.success:
+          case Status.success:
             return Column(
               children: [
                 if (state.searchResults != null)
@@ -68,7 +69,7 @@ class ProductListView extends StatelessWidget {
                 ),
               ],
             );
-          case ProductListStatus.failure:
+          case Status.failure:
             return const Center(
               child: Text('Failed to load products'),
             );
