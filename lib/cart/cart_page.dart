@@ -6,8 +6,6 @@ import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
-const webCheckout = true;
-
 @RoutePage()
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
