@@ -1,16 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flex_storefront/category/models/category.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flex_storefront/init.dart';
+import 'package:get_it/get_it.dart';
 
 const DOMAIN = 'flex-cms-fpnplvnjqq-uc.a.run.app';
 const PATH = '/api/categories';
 
 class CategoryApi {
-  final http = Dio()
-    ..options.headers = {
-      'Authorization': 'Bearer ${dotenv.get('STRAPI_TOKEN')}',
-    };
-
   Future<List<Category>> fetchRootCategories() async {
     final queryString = {
       'filters[parent][id][\$null]': 'true',
@@ -21,7 +17,9 @@ class CategoryApi {
     };
 
     final uri = Uri.https(DOMAIN, PATH, queryString);
-    final response = await http.get(uri.toString());
+    final response = await GetIt.instance
+        .get<Dio>(instanceName: Singletons.strapiClient)
+        .get(uri.toString());
 
     final result = List<Category>.from(response.data['data'].map(
       (element) => Category.fromJson(element),
@@ -43,7 +41,9 @@ class CategoryApi {
     };
 
     final uri = Uri.https(DOMAIN, '$PATH/$categoryId', queryString);
-    final response = await http.get(uri.toString());
+    final response = await GetIt.instance
+        .get<Dio>(instanceName: Singletons.strapiClient)
+        .get(uri.toString());
 
     final result = Category.fromJson(response.data['data']);
 
