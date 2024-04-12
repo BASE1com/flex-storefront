@@ -27,14 +27,22 @@ class CartEntryActions extends StatelessWidget {
           disabled: cartLoading,
           quantity: quantity,
           onChanged: (val) {
-            print(val);
+            // todo: update quantity via bloc
           },
         ),
         TextButton(
           onPressed: cartLoading
               ? null
               : () {
-                  print('Remove from cart');
+                  // tood: implement save for later
+                },
+          child: const Text('Save for later'),
+        ),
+        TextButton(
+          onPressed: cartLoading
+              ? null
+              : () {
+                  // tood: remove entry via bloc
                 },
           child: const Text('Remove'),
         )

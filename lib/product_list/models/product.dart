@@ -37,8 +37,8 @@ class Product {
     this.categories = const [],
   });
 
-  Image? get cartImage =>
-      images.firstWhereOrNull((e) => e.format == 'cartIcon') ??
+  Image? get productImage =>
+      images.firstWhereOrNull((e) => e.format == 'product') ??
       images.firstOrNull;
 
   List<Image> get galleryZooms => images

@@ -27,7 +27,7 @@ class CartEntryProduct extends StatelessWidget {
           ),
           child: CachedImage(
             url:
-                '${dotenv.get('HYBRIS_BASE_URL')}${entry.product.cartImage?.url}',
+                '${dotenv.get('HYBRIS_BASE_URL')}${entry.product.productImage?.url}',
             fit: BoxFit.contain,
             placeholderAspectRatio: 1,
           ),
