@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flex_storefront/category/models/category.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_loggy_dio/flutter_loggy_dio.dart';
 
 const DOMAIN = 'flex-cms-fpnplvnjqq-uc.a.run.app';
 const PATH = '/api/categories';
 
 class CategoryApi {
   final http = Dio()
+    ..interceptors.add(LoggyDioInterceptor(responseBody: false))
     ..options.headers = {
       'Authorization': 'Bearer ${dotenv.get('STRAPI_TOKEN')}',
     };

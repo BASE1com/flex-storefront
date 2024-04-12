@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:flex_storefront/category/apis/category_api.dart';
 import 'package:flex_storefront/category/cubits/category_state.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
@@ -18,8 +19,12 @@ class CategoryCubit extends Cubit<CategoryState> {
         status: Status.success,
         categories: categories,
       ));
-    } catch (err) {
-      emit(CategoryState(status: Status.failure));
+    } on DioException catch (error) {
+      emit(CategoryState(
+        status: Status.failure,
+        error: error,
+        stackTrace: error.stackTrace,
+      ));
     }
   }
 }

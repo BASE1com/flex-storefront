@@ -1,12 +1,13 @@
 import 'package:flex_storefront/category/models/category.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 
-class CategoryIntermediaryState {
-  final Status status;
+class CategoryIntermediaryState extends BlocState {
   final Category? category;
 
   CategoryIntermediaryState({
-    required this.status,
+    required super.status,
+    super.error,
+    super.stackTrace,
     this.category,
   });
 
