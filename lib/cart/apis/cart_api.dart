@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flex_storefront/cart/models/cart.dart';
+import 'package:flex_storefront/init.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_it/get_it.dart';
 
 const PATH = '/occ/v2/electronics-spa/users/anonymous/carts/';
 const PARAMS =
@@ -10,10 +12,10 @@ class CartApi {
   final http = Dio();
 
   Future<Cart> fetchCart({String? cartCode}) async {
-    final response =
-        await http.get('${dotenv.get('HYBRIS_BASE_URL')}$PATH$cartCode$PARAMS');
+    final response = await GetIt.instance
+        .get<Dio>(instanceName: Singletons.hybrisClient)
+        .get('${dotenv.get('HYBRIS_BASE_URL')}$PATH$cartCode$PARAMS');
 
-    print('Got response: ${response.data}');
     return Cart.fromJson(response.data);
   }
 }
