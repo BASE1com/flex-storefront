@@ -5,7 +5,6 @@ import 'package:flex_storefront/flex_ui/widgets/quantity_selector.dart';
 import 'package:flex_storefront/flex_ui/widgets/selectable_image.dart';
 import 'package:flex_storefront/flex_ui/widgets/star_rating.dart';
 import 'package:flex_storefront/product_detail/cubits/product_detail_cubit.dart';
-import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
