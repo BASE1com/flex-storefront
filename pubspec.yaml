@@ -16,6 +16,7 @@ dependencies:
   dio: ^5.4.1
   firebase_core: ^2.29.0
   firebase_crashlytics: ^3.5.1
+  firebase_remote_config: ^4.4.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.4

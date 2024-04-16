@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flex_storefront/category/apis/category_api.dart';
+import 'package:flex_storefront/config/config_repository.dart';
 import 'package:flex_storefront/product_detail/apis/product_api.dart';
 import 'package:flex_storefront/product_list/apis/product_list_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -28,4 +29,12 @@ void init() {
   GetIt.instance.registerSingleton(CategoryApi());
   GetIt.instance.registerSingleton(ProductApi());
   GetIt.instance.registerSingleton(ProductListApi());
+
+  GetIt.instance.registerSingletonAsync(() async {
+    final ConfigRepository configRepository = ConfigRepository();
+
+    await configRepository.init();
+
+    return configRepository;
+  });
 }
