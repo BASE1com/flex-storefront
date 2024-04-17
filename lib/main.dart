@@ -1,15 +1,18 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flex_storefront/app.dart';
+import 'package:flex_storefront/config/config_repository.dart';
 import 'package:flex_storefront/init.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_loggy/flutter_loggy.dart';
+import 'package:get_it/get_it.dart';
 import 'package:loggy/loggy.dart';
 
 void main() async {
@@ -62,6 +65,10 @@ void main() async {
   Bloc.observer = BlocLogger();
 
   init();
+
+  await GetIt.instance.allReady();
+
+  unawaited(GetIt.instance.get<ConfigRepository>().fetch());
 
   runApp(App());
 }
