@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flex_storefront/product_list/models/image.dart';
 import 'package:flex_storefront/product_list/models/price.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -18,7 +19,7 @@ class Product {
   final Price? price;
   final String? baseProduct;
   final List<Image> images;
-  // final List<Category> categories;
+  final List<ProductCategory> categories;
 
   Product({
     required this.code,
@@ -33,8 +34,12 @@ class Product {
     this.price,
     this.baseProduct,
     this.images = const [],
-    // this.categories = const [],
+    this.categories = const [],
   });
+
+  Image? get productImage =>
+      images.firstWhereOrNull((e) => e.format == 'product') ??
+      images.firstOrNull;
 
   List<Image> get galleryZooms => images
       .where((image) => image.imageType == 'GALLERY' && image.format == 'zoom')
@@ -57,4 +62,18 @@ class Product {
   String toString() {
     return 'Product{code: $code, name: $name, price: $price}';
   }
+}
+
+@JsonSerializable(createToJson: false)
+class ProductCategory {
+  final String code;
+  final String name;
+
+  ProductCategory({
+    required this.code,
+    required this.name,
+  });
+
+  factory ProductCategory.fromJson(Map<String, dynamic> json) =>
+      _$ProductCategoryFromJson(json);
 }

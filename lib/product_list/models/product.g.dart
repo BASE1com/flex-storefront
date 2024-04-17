@@ -24,4 +24,14 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
               ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      categories: (json['categories'] as List<dynamic>?)
+              ?.map((e) => ProductCategory.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+    );
+
+ProductCategory _$ProductCategoryFromJson(Map<String, dynamic> json) =>
+    ProductCategory(
+      code: json['code'] as String,
+      name: json['name'] as String,
     );
