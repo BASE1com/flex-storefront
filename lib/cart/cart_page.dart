@@ -44,10 +44,6 @@ class CartView extends StatelessWidget {
               return const Center(
                 child: Text('Failed to load cart'),
               );
-            default:
-              return const Center(
-                child: Text('An unknown error occurred'),
-              );
           }
         },
       ),

@@ -6,16 +6,10 @@ part 'cart.g.dart';
 @JsonSerializable(createToJson: false)
 class Cart {
   final String type;
-  final List<dynamic> appliedOrderPromotions;
-  final List<dynamic> appliedProductPromotions;
-  final List<dynamic> appliedVouchers;
   final String code;
-  final int? deliveryItemsQuantity;
   final List<CartItem> entries;
   final String guid;
   final bool net;
-  final int? pickupItemsQuantity;
-  // final CartDiscount productDiscounts;
   final CartPrice subTotal;
   final CartPrice totalDiscounts;
   final int totalItems;
@@ -24,22 +18,14 @@ class Cart {
   final CartPrice totalTax;
   final User user;
   final PaymentType? paymentType;
-  final List<dynamic> potentialOrderPromotions;
-  final List<dynamic> potentialProductPromotions;
   final int totalUnitCount;
 
   Cart({
     required this.type,
-    this.appliedOrderPromotions = const [],
-    this.appliedProductPromotions = const [],
-    this.appliedVouchers = const [],
     required this.code,
-    this.deliveryItemsQuantity,
     this.entries = const [],
     required this.guid,
     this.net = false,
-    this.pickupItemsQuantity,
-    // required this.productDiscounts,
     required this.subTotal,
     required this.totalDiscounts,
     required this.totalItems,
@@ -48,8 +34,6 @@ class Cart {
     required this.totalTax,
     required this.user,
     this.paymentType,
-    this.potentialOrderPromotions = const [],
-    this.potentialProductPromotions = const [],
     required this.totalUnitCount,
   });
 
@@ -64,27 +48,17 @@ class Cart {
 @JsonSerializable(createToJson: false)
 class CartItem {
   final CartPrice basePrice;
-  final int? cancellableQuantity;
-  final List<dynamic> configurationInfos;
   final int entryNumber;
   final Product product;
   final int quantity;
-  final int returnableQuantity;
-  final List<dynamic> statusSummaryList;
   final CartPrice totalPrice;
-  final bool updateable;
 
   CartItem({
     required this.basePrice,
-    this.cancellableQuantity = 0,
-    this.configurationInfos = const [],
     required this.entryNumber,
     required this.product,
     required this.quantity,
-    this.returnableQuantity = 0,
-    this.statusSummaryList = const [],
     required this.totalPrice,
-    this.updateable = true,
   });
 
   factory CartItem.fromJson(Map<String, dynamic> json) =>
@@ -109,23 +83,6 @@ class CartPrice {
       _$CartPriceFromJson(json);
 
   Map<String, dynamic> toJson() => _$CartPriceToJson(this);
-}
-
-@JsonSerializable()
-class Stock {
-  final bool isValueRounded;
-  final int stockLevel;
-  final String stockLevelStatus;
-
-  Stock({
-    required this.isValueRounded,
-    required this.stockLevel,
-    required this.stockLevelStatus,
-  });
-
-  factory Stock.fromJson(Map<String, dynamic> json) => _$StockFromJson(json);
-
-  Map<String, dynamic> toJson() => _$StockToJson(this);
 }
 
 @JsonSerializable()
