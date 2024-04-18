@@ -1,22 +1,15 @@
+import 'package:flex_storefront/flex_ui/components/gallery.dart';
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart';
-import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/flex_ui/widgets/product_price.dart';
 import 'package:flex_storefront/flex_ui/widgets/quantity_selector.dart';
-import 'package:flex_storefront/flex_ui/widgets/selectable_image.dart';
 import 'package:flex_storefront/flex_ui/widgets/star_rating.dart';
 import 'package:flex_storefront/product_detail/cubits/product_detail_cubit.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 
-class ProductDetailContent extends StatefulWidget {
+class ProductDetailContent extends StatelessWidget {
   const ProductDetailContent({super.key});
-
-  @override
-  State<ProductDetailContent> createState() => _ProductDetailContentState();
-}
-
-class _ProductDetailContentState extends State<ProductDetailContent> {
-  int _selectedImage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,42 +26,13 @@ class _ProductDetailContentState extends State<ProductDetailContent> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          AspectRatio(
-            aspectRatio: 1,
-            child: CachedImage(
-              url: galleryImages.isNotEmpty
-                  ? galleryImages[_selectedImage].fullUrl
-                  : '',
-              fit: BoxFit.contain,
-            ),
+          // Product Image Carousel
+          FlexGallery(
+            imageUrls: galleryImages.map((e) => e.fullUrl).toList(),
+            thumbnailUrls: galleryThumbnails.map((e) => e.fullUrl).toList(),
+            borderRadius: FlexSizes.borderRadiusSm,
           ),
-          if (galleryThumbnails.length > 1)
-            SizedBox(
-              height: 100,
-              child: ListView.builder(
-                padding: const EdgeInsets.all(8.0),
-                scrollDirection: Axis.horizontal,
-                itemCount: galleryThumbnails.length,
-                itemBuilder: (_, int index) {
-                  return Padding(
-                    padding: index != 0
-                        ? const EdgeInsets.only(left: 8.0)
-                        : EdgeInsets.zero,
-                    child: SelectableImage(
-                      url: galleryThumbnails[index].fullUrl,
-                      fit: BoxFit.contain,
-                      aspectRatio: 1,
-                      selected: index == _selectedImage,
-                      onTap: () {
-                        setState(() {
-                          _selectedImage = index;
-                        });
-                      },
-                    ),
-                  );
-                },
-              ),
-            ),
+
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
