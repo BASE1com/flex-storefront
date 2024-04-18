@@ -13,7 +13,7 @@ class SelectableImage extends StatelessWidget {
     this.fit = BoxFit.contain,
     this.aspectRatio,
     this.backgroundColor,
-    required this.selected,
+    this.selected = false,
     this.onTap,
   });
 
