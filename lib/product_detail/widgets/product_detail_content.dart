@@ -1,4 +1,4 @@
-import 'package:flex_storefront/flex_ui/components/product_gallery.dart';
+import 'package:flex_storefront/flex_ui/components/gallery.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart';
 import 'package:flex_storefront/flex_ui/widgets/product_price.dart';
@@ -27,7 +27,7 @@ class ProductDetailContent extends StatelessWidget {
       child: Column(
         children: [
           // Product Image Carousel
-          FlexProductGallery(
+          FlexGallery(
             imageUrls: galleryImages.map((e) => e.fullUrl).toList(),
             thumbnailUrls: galleryThumbnails.map((e) => e.fullUrl).toList(),
             borderRadius: FlexSizes.borderRadiusSm,

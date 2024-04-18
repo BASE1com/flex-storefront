@@ -3,8 +3,8 @@ import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/flex_ui/widgets/selectable_image.dart';
 import 'package:flutter/material.dart';
 
-class FlexProductGallery extends StatefulWidget {
-  const FlexProductGallery({
+class FlexGallery extends StatefulWidget {
+  const FlexGallery({
     super.key,
     this.imageUrls = const [],
     this.thumbnailUrls = const [],
@@ -17,10 +17,10 @@ class FlexProductGallery extends StatefulWidget {
   // todo: expose many more properties for customization
 
   @override
-  State<FlexProductGallery> createState() => _FlexProductGalleryState();
+  State<FlexGallery> createState() => _FlexGalleryState();
 }
 
-class _FlexProductGalleryState extends State<FlexProductGallery> {
+class _FlexGalleryState extends State<FlexGallery> {
   int _selectedImage = 0;
 
   @override
