@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/widgets/product_list_item.dart';
 import 'package:flex_storefront/flex_ui/widgets/search_results_header.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_cubit.dart';
@@ -19,8 +20,9 @@ class ProductListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Product List'),
+      appBar: const FlexAppBar(
+        title: Text('Product List'),
+        showBackArrow: true,
       ),
       body: BlocProvider<ProductListCubit>(
         create: (context) {

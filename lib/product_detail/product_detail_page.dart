@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/product_detail/cubits/product_detail_cubit.dart';
 import 'package:flex_storefront/product_detail/cubits/product_detail_state.dart';
 import 'package:flex_storefront/product_detail/widgets/product_detail_content.dart';
@@ -34,8 +35,9 @@ class ProductDetailView extends StatelessWidget {
         context.select((ProductDetailCubit cubit) => cubit.state.product?.name);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: FlexAppBar(
         title: productName != null ? Text(productName) : null,
+        showBackArrow: true,
       ),
       body: BlocBuilder<ProductDetailCubit, ProductDetailState>(
         builder: (context, state) {
