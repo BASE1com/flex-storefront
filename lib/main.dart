@@ -24,17 +24,7 @@ void main() async {
     logPrinter: const PrettyDeveloperPrinter(),
   );
 
-  final platform = defaultTargetPlatform.name.toUpperCase(); // ANDROID or IOS
-  await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: dotenv.get('FIREBASE_${platform}_API_KEY'),
-      appId: dotenv.get('FIREBASE_${platform}_APP_ID'),
-      messagingSenderId: dotenv.get('FIREBASE_MESSAGING_SENDER_ID'),
-      projectId: dotenv.get('FIREBASE_PROJECT_ID'),
-      storageBucket: dotenv.get('FIREBASE_STORAGE_BUCKET'),
-      iosBundleId: dotenv.get('FIREBASE_IOS_BUNDLE_ID'),
-    ),
-  );
+  await Firebase.initializeApp();
 
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
