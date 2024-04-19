@@ -16,6 +16,7 @@ doc/api/
 
 # Firebase (Google) created files
 ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
 
 # Avoid committing generated Javascript files:
 *.dart.js

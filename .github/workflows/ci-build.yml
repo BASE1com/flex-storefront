@@ -1,0 +1,49 @@
+name: CI Build
+on: [push]
+jobs:
+  Android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.19.5
+      - name: Prepare environment
+        run: |
+          cp example.env .env
+          sed -i 's/STRAPI_TOKEN=/STRAPI_TOKEN=${{ secrets.STRAPI_TOKEN }}/g' .env
+      - name: Write Firebase credentials file
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'google-services.json'
+          fileDir: './android/app/'
+          encodedString: ${{ secrets.FIREBASE_ANDROID_FILE }}
+      - run: flutter pub get
+      - run: flutter build apk
+      - run: flutter build appbundle
+
+  iOS:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.19.5
+      - name: Prepare environment
+        run: |
+          cp example.env .env
+          sed -i '' 's/STRAPI_TOKEN=/STRAPI_TOKEN=${{ secrets.STRAPI_TOKEN }}/' .env
+      - name: Write Firebase credentials file
+        uses: timheuer/base64-to-file@v1.2
+        with:
+          fileName: 'GoogleService-Info.plist'
+          fileDir: './ios/Runner/'
+          encodedString: ${{ secrets.FIREBASE_IOS_FILE }}
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign

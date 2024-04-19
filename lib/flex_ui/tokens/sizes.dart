@@ -17,6 +17,7 @@ class FlexSizes {
   static const double fontSizeSm = 14.0;
   static const double fontSizeMd = 16.0;
   static const double fontSizeLg = 18.0;
+  static const double fontSizeXl = 20.0;
 
   // Button sizes
   static const double buttonHeight = 18.0;
@@ -26,6 +27,9 @@ class FlexSizes {
 
   // AppBar
   static const double appBarHeight = 56.0;
+
+  // App Padding
+  static const double appPadding = 16.0;
 
   // Image sizes
   static const double imageThumbSize = 80.0;
