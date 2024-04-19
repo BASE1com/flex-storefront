@@ -1,5 +1,5 @@
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
-import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
+import 'package:flex_storefront/flex_ui/widgets/rounded_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -21,8 +21,9 @@ class CategoryCircle extends StatelessWidget {
       onTap: onPressed,
       child: Column(
         children: [
-          ClipOval(
-            child: CachedImage(url: imageUrl),
+          RoundedImage(
+            imageUrl: imageUrl,
+            borderRadius: FlexSizes.circleRadius,
           ),
           const SizedBox(height: FlexSizes.spacerItems),
           Text(

@@ -38,6 +38,7 @@ class FlexSizes {
   static const double borderRadiusSm = 4.0;
   static const double borderRadiusMd = 8.0;
   static const double borderRadiusLg = 12.0;
+  static const double circleRadius = 100.0;
 
   // Input field
   static const double inputFieldRadius = 12.0;
