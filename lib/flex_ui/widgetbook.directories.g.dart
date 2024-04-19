@@ -10,7 +10,9 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:flex_storefront/flex_ui/components/app_bar.dart' as _i2;
-import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart' as _i3;
+import 'package:flex_storefront/flex_ui/components/carousel.dart' as _i3;
+import 'package:flex_storefront/flex_ui/components/gallery.dart' as _i4;
+import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart' as _i5;
 import 'package:widgetbook/widgetbook.dart' as _i1;
 
 final directories = <_i1.WidgetbookNode>[
@@ -26,7 +28,21 @@ final directories = <_i1.WidgetbookNode>[
               name: 'Default',
               builder: _i2.defaultAppBar,
             ),
-          )
+          ),
+          _i1.WidgetbookLeafComponent(
+            name: 'FlexCarousel',
+            useCase: _i1.WidgetbookUseCase(
+              name: 'Default',
+              builder: _i3.defaultCarousel,
+            ),
+          ),
+          _i1.WidgetbookLeafComponent(
+            name: 'FlexGallery',
+            useCase: _i1.WidgetbookUseCase(
+              name: 'Default',
+              builder: _i4.defaultCarousel,
+            ),
+          ),
         ],
       ),
       _i1.WidgetbookFolder(
@@ -37,11 +53,11 @@ final directories = <_i1.WidgetbookNode>[
             useCases: [
               _i1.WidgetbookUseCase(
                 name: 'Disabled',
-                builder: _i3.disabledButton,
+                builder: _i5.disabledButton,
               ),
               _i1.WidgetbookUseCase(
                 name: 'Enabled',
-                builder: _i3.enabledButton,
+                builder: _i5.enabledButton,
               ),
             ],
           )
