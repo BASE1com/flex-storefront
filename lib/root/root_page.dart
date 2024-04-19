@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/router.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 @RoutePage()
 class RootPage extends StatelessWidget {
@@ -20,27 +21,26 @@ class RootPage extends StatelessWidget {
 
         return Scaffold(
           body: child,
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: tabsRouter.activeIndex,
-            onTap: (index) {
+          bottomNavigationBar: NavigationBar(
+            selectedIndex: tabsRouter.activeIndex,
+            onDestinationSelected: (index) {
               tabsRouter.setActiveIndex(index);
             },
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(LineAwesome.home_solid),
                 label: 'Home',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.storefront),
+              NavigationDestination(
+                icon: Icon(LineAwesome.tag_solid),
                 label: 'Shop',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
+              NavigationDestination(
+                icon: Icon(LineAwesome.user_solid),
                 label: 'Account',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
+              NavigationDestination(
+                icon: Icon(LineAwesome.shopping_bag_solid),
                 label: 'Cart',
               ),
             ],

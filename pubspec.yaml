@@ -25,9 +25,12 @@ dependencies:
   flutter_loggy: ^2.0.2
   flutter_loggy_dio: ^3.1.0
   get_it: ^7.6.9
+  icons_plus: ^5.0.0
   json_annotation: ^4.8.1
   loggy: ^2.0.3
   shimmer: ^3.0.0
+  widgetbook: ^3.7.1
+  widgetbook_annotation: ^3.1.0
 
 dev_dependencies:
   auto_route_generator: ^7.3.2
@@ -36,9 +39,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   json_serializable: ^6.7.1
+  widgetbook_generator: ^3.7.0
 
 flutter:
-  uses-material-design: true
-
   assets:
     - .env
