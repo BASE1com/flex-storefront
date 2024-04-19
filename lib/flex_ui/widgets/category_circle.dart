@@ -28,11 +28,11 @@ class CategoryCircle extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontSize: FlexSizes.fontSizeMd,
-              fontWeight: FontWeight.bold,
+              fontSize: FlexSizes.fontSizeSm,
               overflow: TextOverflow.ellipsis,
             ),
-            maxLines: 2,
+            maxLines: 3,
+            textAlign: TextAlign.center,
           ),
         ],
       ),
