@@ -1,3 +1,4 @@
+import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/router.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       title: 'Flex Storefront',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: FlexColors.primary),
       ),
       routerConfig: _appRouter.config(),
     );
