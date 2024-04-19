@@ -1,7 +1,10 @@
+import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/flex_ui/widgets/selectable_image.dart';
 import 'package:flutter/material.dart';
+import 'package:widgetbook/widgetbook.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 class FlexGallery extends StatefulWidget {
   const FlexGallery({
@@ -41,7 +44,7 @@ class _FlexGalleryState extends State<FlexGallery> {
                 url: widget.imageUrls.isNotEmpty
                     ? widget.imageUrls[_selectedImage]
                     : '',
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 // placeholderAspectRatio: 1,
               ),
             ),
@@ -65,7 +68,7 @@ class _FlexGalleryState extends State<FlexGallery> {
                     imageUrl: widget.thumbnailUrls[index],
                     border: Border.all(
                       color: index == _selectedImage
-                          ? Colors.blue
+                          ? FlexColors.primary
                           : Colors.grey[200]!,
                     ),
                     borderRadius: widget.borderRadius,
@@ -84,4 +87,25 @@ class _FlexGalleryState extends State<FlexGallery> {
       ],
     );
   }
+}
+
+@widgetbook.UseCase(
+  name: 'Default',
+  type: FlexGallery,
+)
+Widget defaultCarousel(BuildContext context) {
+  return Center(
+    child: FlexGallery(
+      imageUrls: List.generate(
+        context.knobs.int.slider(label: 'Item count', initialValue: 3),
+        (index) => 'https://picsum.photos/500/500?random=$index',
+      ),
+      thumbnailUrls: List.generate(
+        context.knobs.int.slider(label: 'Item count', initialValue: 3),
+        (index) => 'https://picsum.photos/150/150?random=$index',
+      ),
+      borderRadius:
+          context.knobs.double.input(label: 'Border Radius', initialValue: 0),
+    ),
+  );
 }
