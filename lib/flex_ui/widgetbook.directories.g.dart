@@ -9,13 +9,26 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart' as _i2;
+import 'package:flex_storefront/flex_ui/components/app_bar.dart' as _i2;
+import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart' as _i3;
 import 'package:widgetbook/widgetbook.dart' as _i1;
 
 final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
     name: 'flex_ui',
     children: [
+      _i1.WidgetbookFolder(
+        name: 'components',
+        children: [
+          _i1.WidgetbookLeafComponent(
+            name: 'FlexAppBar',
+            useCase: _i1.WidgetbookUseCase(
+              name: 'Default',
+              builder: _i2.defaultAppBar,
+            ),
+          )
+        ],
+      ),
       _i1.WidgetbookFolder(
         name: 'widgets',
         children: [
@@ -24,16 +37,16 @@ final directories = <_i1.WidgetbookNode>[
             useCases: [
               _i1.WidgetbookUseCase(
                 name: 'Disabled',
-                builder: _i2.disabledButton,
+                builder: _i3.disabledButton,
               ),
               _i1.WidgetbookUseCase(
                 name: 'Enabled',
-                builder: _i2.enabledButton,
+                builder: _i3.enabledButton,
               ),
             ],
           )
         ],
-      )
+      ),
     ],
   )
 ];
