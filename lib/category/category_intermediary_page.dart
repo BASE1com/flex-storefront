@@ -52,32 +52,23 @@ class CategoryIntermediaryView extends StatelessWidget {
           case Status.success:
             final category = state.category!;
 
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  // category header
-                  CategoryHeader(category: category),
-
-                  // subcategory list
-                  ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: category.children
-                        .map(
-                          (category) => ListTile(
-                            title: Text(category.name),
-                            onTap: () {
-                              context.router.pushNamed(
-                                category.destination ??
-                                    'category/${category.id}?title=${category.name}',
-                              );
-                            },
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ],
-              ),
+            return ListView(
+              children: [
+                CategoryHeader(category: category),
+                ...category.children
+                    .map(
+                      (category) => ListTile(
+                        title: Text(category.name),
+                        onTap: () {
+                          context.router.pushNamed(
+                            category.destination ??
+                                'category/${category.id}?title=${category.name}',
+                          );
+                        },
+                      ),
+                    )
+                    .toList(),
+              ],
             );
           case Status.failure:
             return Center(

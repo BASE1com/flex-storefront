@@ -18,7 +18,7 @@ class CategoryHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
+          Expanded(
             child: Text(
               category.name,
               style: Theme.of(context).textTheme.headlineSmall,
@@ -30,7 +30,7 @@ class CategoryHeader extends StatelessWidget {
             imageUrl: category.image?.url ??
                 'https://picsum.photos/240/240?random=${category.id}',
             height: FlexSizes.imageThumbSize,
-            borderRadius: FlexSizes.circleRadius,
+            borderRadius: FlexSizes.cardRadiusMd,
           ),
         ],
       ),

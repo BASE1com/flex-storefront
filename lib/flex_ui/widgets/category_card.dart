@@ -3,8 +3,8 @@ import 'package:flex_storefront/flex_ui/widgets/rounded_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class CategoryCircle extends StatelessWidget {
-  const CategoryCircle({
+class CategoryCard extends StatelessWidget {
+  const CategoryCard({
     super.key,
     required this.title,
     required this.imageUrl,
@@ -23,7 +23,7 @@ class CategoryCircle extends StatelessWidget {
         children: [
           RoundedImage(
             imageUrl: imageUrl,
-            borderRadius: FlexSizes.circleRadius,
+            borderRadius: FlexSizes.borderRadiusMd,
           ),
           const SizedBox(height: FlexSizes.spacerItems),
           Text(

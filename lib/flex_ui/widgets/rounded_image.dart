@@ -14,7 +14,8 @@ class RoundedImage extends StatelessWidget {
   });
 
   final String imageUrl;
-  final double? width, height;
+  final double? width;
+  final double? height;
   final BoxFit fit;
   final double borderRadius;
   final VoidCallback? onPressed;
