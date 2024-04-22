@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/category/cubits/category_intermediary_cubit.dart';
 import 'package:flex_storefront/category/cubits/category_intermediary_state.dart';
+import 'package:flex_storefront/category/widgets/category_header.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,7 @@ class CategoryIntermediaryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: FlexAppBar(
-        title: Text(title ?? ''),
+      appBar: const FlexAppBar(
         showBackArrow: true,
       ),
       body: BlocProvider<CategoryIntermediaryCubit>(
@@ -53,19 +53,22 @@ class CategoryIntermediaryView extends StatelessWidget {
             final category = state.category!;
 
             return ListView(
-              children: category.children
-                  .map(
-                    (category) => ListTile(
-                      title: Text(category.name),
-                      onTap: () {
-                        context.router.pushNamed(
-                          category.destination ??
-                              'category/${category.id}?title=${category.name}',
-                        );
-                      },
-                    ),
-                  )
-                  .toList(),
+              children: [
+                CategoryHeader(category: category),
+                ...category.children
+                    .map(
+                      (category) => ListTile(
+                        title: Text(category.name),
+                        onTap: () {
+                          context.router.pushNamed(
+                            category.destination ??
+                                'category/${category.id}?title=${category.name}',
+                          );
+                        },
+                      ),
+                    )
+                    .toList(),
+              ],
             );
           case Status.failure:
             return Center(

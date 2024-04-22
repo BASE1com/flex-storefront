@@ -38,6 +38,7 @@ class FlexSizes {
   static const double borderRadiusSm = 4.0;
   static const double borderRadiusMd = 8.0;
   static const double borderRadiusLg = 12.0;
+  static const double circleRadius = 100.0;
 
   // Input field
   static const double inputFieldRadius = 12.0;
@@ -59,5 +60,5 @@ class FlexSizes {
   static const double spacerSection = 32.0;
 
   // Grid view spacing
-  static const double gridViewSpacing = 16.0;
+  static const double gridViewSpacing = 24.0;
 }
