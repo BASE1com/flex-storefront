@@ -94,6 +94,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ShopPage(),
       );
     },
+    SortRoute.name: (routeData) {
+      final args =
+          routeData.argsAs<SortRouteArgs>(orElse: () => const SortRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SortPage(
+          key: args.key,
+          sorts: args.sorts,
+        ),
+      );
+    },
   };
 }
 
@@ -303,4 +314,41 @@ class ShopRoute extends PageRouteInfo<void> {
   static const String name = 'ShopRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SortPage]
+class SortRoute extends PageRouteInfo<SortRouteArgs> {
+  SortRoute({
+    Key? key,
+    List<Sort> sorts = const [],
+    List<PageRouteInfo>? children,
+  }) : super(
+          SortRoute.name,
+          args: SortRouteArgs(
+            key: key,
+            sorts: sorts,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SortRoute';
+
+  static const PageInfo<SortRouteArgs> page = PageInfo<SortRouteArgs>(name);
+}
+
+class SortRouteArgs {
+  const SortRouteArgs({
+    this.key,
+    this.sorts = const [],
+  });
+
+  final Key? key;
+
+  final List<Sort> sorts;
+
+  @override
+  String toString() {
+    return 'SortRouteArgs{key: $key, sorts: $sorts}';
+  }
 }
