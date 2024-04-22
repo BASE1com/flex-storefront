@@ -2,6 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/flex_ui/layouts/modal_draggable_sheet.dart';
 import 'package:flutter/material.dart';
 
+/// A custom implementation of an [AutoRoute] that uses a [ModalBottomSheetRoute]
+/// to display a modal bottom sheet.
+///
+/// See https://github.com/Milad-Akarie/auto_route_library/issues/675
+/// Source: https://gist.github.com/emri99/74a4da7a18327814fd8a165949da449e
 class ModalBottomSheetAutoRoute extends CustomRoute {
   ModalBottomSheetAutoRoute({
     required super.page,

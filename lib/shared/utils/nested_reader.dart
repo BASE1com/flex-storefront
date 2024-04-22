@@ -1,5 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
+/// This is an extension for json_serializable and json_annotation.
+/// It reads a nested value from a JSON map, which is not possible by default.
+/// See https://github.com/google/json_serializable.dart/issues/490
 Object? nestedReader(Map json, String key) {
   final keys = key.split('.');
   return _nestedReader(json, keys);
