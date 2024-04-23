@@ -1,10 +1,13 @@
 import 'package:flex_storefront/product_list/models/product.dart';
+import 'package:flex_storefront/shared/utils/nested_reader.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'search_results.g.dart';
 
 @JsonSerializable(createToJson: false)
 class SearchResults {
+  @NestedJsonKey(name: 'currentQuery.query')
+  final SearchQuery currentQuery;
   final List<Facet> facets;
   final String freeTextSearch;
   final Pagination pagination;
@@ -12,6 +15,7 @@ class SearchResults {
   final List<Sort> sorts;
 
   SearchResults({
+    required this.currentQuery,
     this.facets = const [],
     required this.freeTextSearch,
     required this.pagination,
@@ -39,6 +43,11 @@ class Sort {
     required this.selected,
   });
   factory Sort.fromJson(Map<String, dynamic> json) => _$SortFromJson(json);
+
+  @override
+  String toString() {
+    return 'Sort{code: $code, name: $name, selected: $selected}';
+  }
 }
 
 @JsonSerializable(createToJson: false)
@@ -94,4 +103,23 @@ class FacetValue {
 
   factory FacetValue.fromJson(Map<String, dynamic> json) =>
       _$FacetValueFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class SearchQuery {
+  final String value;
+
+  SearchQuery({
+    required this.value,
+  });
+
+  String get lastLeaf => value.split(':').last;
+
+  factory SearchQuery.fromJson(Map<String, dynamic> json) =>
+      _$SearchQueryFromJson(json);
+
+  @override
+  String toString() {
+    return 'SearchQuery{value: $value}';
+  }
 }
