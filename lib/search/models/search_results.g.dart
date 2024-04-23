@@ -57,6 +57,8 @@ FacetValue _$FacetValueFromJson(Map<String, dynamic> json) => FacetValue(
       name: json['name'] as String,
       count: json['count'] as int,
       selected: json['selected'] as bool,
+      query: SearchQuery.fromJson(
+          nestedReader(json, 'query.query') as Map<String, dynamic>),
     );
 
 SearchQuery _$SearchQueryFromJson(Map<String, dynamic> json) => SearchQuery(

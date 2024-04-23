@@ -14,6 +14,7 @@ class ProductListApi {
   Future<SearchResults> fetchProducts({
     String? categoryCode,
     String? sortBy = 'relevance',
+    String? filterQuery,
   }) async {
     final path = PATH.replaceAll(
       '<CATALOG>',
@@ -25,7 +26,7 @@ class ProductListApi {
     final response = await GetIt.instance
         .get<Dio>(instanceName: Singletons.hybrisClient)
         .get(
-            '${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS&query=%3Arelevance%3AallCategories%3A$categoryCode&sort=$sortBy');
+            '${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS&query=${filterQuery ?? '%3Arelevance%3AallCategories%3A$categoryCode'}&sort=$sortBy');
 
     return SearchResults.fromJson(response.data);
   }

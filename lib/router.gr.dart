@@ -50,6 +50,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const CategoryPage(),
       );
     },
+    FilterRoute.name: (routeData) {
+      final args = routeData.argsAs<FilterRouteArgs>(
+          orElse: () => const FilterRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: FilterPage(
+          key: args.key,
+          facets: args.facets,
+        ),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -194,6 +205,43 @@ class CategoryRoute extends PageRouteInfo<void> {
   static const String name = 'CategoryRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [FilterPage]
+class FilterRoute extends PageRouteInfo<FilterRouteArgs> {
+  FilterRoute({
+    Key? key,
+    List<Facet> facets = const [],
+    List<PageRouteInfo>? children,
+  }) : super(
+          FilterRoute.name,
+          args: FilterRouteArgs(
+            key: key,
+            facets: facets,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'FilterRoute';
+
+  static const PageInfo<FilterRouteArgs> page = PageInfo<FilterRouteArgs>(name);
+}
+
+class FilterRouteArgs {
+  const FilterRouteArgs({
+    this.key,
+    this.facets = const [],
+  });
+
+  final Key? key;
+
+  final List<Facet> facets;
+
+  @override
+  String toString() {
+    return 'FilterRouteArgs{key: $key, facets: $facets}';
+  }
 }
 
 /// generated route for

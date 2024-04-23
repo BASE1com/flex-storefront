@@ -28,15 +28,20 @@ class SearchResultsHeader extends StatelessWidget {
 
                 context
                     .read<ProductListCubit>()
-                    .sortProducts(sortBy: result as Sort);
+                    .sortAndFilter(sortBy: result as Sort);
               },
               icon: const Icon(Icons.swap_vert_rounded),
               label: const Text('Sort'),
             ),
             const SizedBox(width: 4.0),
             TextButton.icon(
-              onPressed: () {
-                // Add filter logic
+              onPressed: () async {
+                final result = await context.router.root
+                    .push(FilterRoute(facets: searchResults.facets));
+
+                context
+                    .read<ProductListCubit>()
+                    .sortAndFilter(filterBy: result as FacetValue);
               },
               icon: const Icon(Icons.tune_rounded),
               label: Text('Filter (${searchResults.facets.length})'),

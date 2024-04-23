@@ -87,6 +87,11 @@ class Facet {
     this.visible = false,
   });
   factory Facet.fromJson(Map<String, dynamic> json) => _$FacetFromJson(json);
+
+  @override
+  String toString() {
+    return 'Facet{name: $name, multiSelect: $multiSelect, visible: $visible}';
+  }
 }
 
 @JsonSerializable(createToJson: false)
@@ -94,15 +99,23 @@ class FacetValue {
   final String name;
   final int count;
   final bool selected;
+  @NestedJsonKey(name: 'query.query')
+  final SearchQuery query;
 
   FacetValue({
     required this.name,
     required this.count,
     required this.selected,
+    required this.query,
   });
 
   factory FacetValue.fromJson(Map<String, dynamic> json) =>
       _$FacetValueFromJson(json);
+
+  @override
+  String toString() {
+    return 'FacetValue{name: $name, count: $count, selected: $selected}';
+  }
 }
 
 @JsonSerializable(createToJson: false)

@@ -32,8 +32,11 @@ class ProductListCubit extends Cubit<ProductListState> {
     }
   }
 
-  Future<void> sortProducts(
-      {String? categoryCode, required Sort sortBy}) async {
+  Future<void> sortAndFilter({
+    String? categoryCode,
+    Sort? sortBy,
+    FacetValue? filterBy,
+  }) async {
     try {
       emit(ProductListState(
         status: Status.pending,
@@ -44,7 +47,8 @@ class ProductListCubit extends Cubit<ProductListState> {
       final searchResults =
           await GetIt.instance.get<ProductListApi>().fetchProducts(
                 categoryCode: state.searchResults!.currentQuery.lastLeaf,
-                sortBy: sortBy.code,
+                sortBy: sortBy?.code,
+                filterQuery: filterBy?.query.value,
               );
       final products = searchResults.products;
 
