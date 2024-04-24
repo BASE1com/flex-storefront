@@ -12,16 +12,28 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
   Future<void> searchProducts({
     String? categoryCode,
     Sort? sortBy,
+    FacetValue? filterBy,
   }) async {
     try {
       emit(state.copyWith(status: Status.pending));
 
-      final searchResults =
-          await GetIt.instance.get<ProductListApi>().searchProducts(
-                categoryCode:
-                    categoryCode ?? state.searchResults?.currentQuery.lastLeaf,
-                sortBy: sortBy?.code,
-              );
+      // build our hybris-specific query string
+      // TODO: this is really gross, split it out into multiple cubit methods
+      // that way we can also test them separately, and log events for each
+      final currentQuery = state.searchResults?.currentQuery;
+      String queryString;
+      if (filterBy != null) {
+        queryString = filterBy.query.value;
+      } else if (sortBy != null) {
+        queryString =
+            ':${sortBy.code}:${currentQuery?.withoutSort ?? 'allCategories:${categoryCode ?? currentQuery?.lastLeaf}'}';
+      } else {
+        queryString = ':relevance:allCategories:$categoryCode';
+      }
+
+      final searchResults = await GetIt.instance
+          .get<ProductListApi>()
+          .searchProducts(query: queryString);
       final products = searchResults.products;
 
       emit(state.copyWith(

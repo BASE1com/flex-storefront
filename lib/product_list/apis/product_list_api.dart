@@ -30,8 +30,7 @@ class ProductListApi {
   }
 
   Future<SearchResults> searchProducts({
-    String? categoryCode,
-    String? sortBy,
+    required String query,
   }) async {
     final path = PATH.replaceAll(
       '<CATALOG>',
@@ -40,12 +39,9 @@ class ProductListApi {
           .getString(ConfigKey.shopHybrisCatalog),
     );
 
-    // build our hybris-specific query string
-    final queryString = ':${sortBy ?? 'relevance'}:allCategories:$categoryCode';
-
     final response = await GetIt.instance
         .get<Dio>(instanceName: Singletons.hybrisClient)
-        .get('${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS&query=$queryString');
+        .get('${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS&query=$query');
 
     return SearchResults.fromJson(response.data);
   }

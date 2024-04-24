@@ -126,6 +126,8 @@ class SearchQuery {
     required this.value,
   });
 
+  String get withoutSort => value.split(':').sublist(2).join(':');
+
   String get lastLeaf => value.split(':').last;
 
   factory SearchQuery.fromJson(Map<String, dynamic> json) =>

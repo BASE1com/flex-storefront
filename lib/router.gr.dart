@@ -53,7 +53,7 @@ abstract class _$AppRouter extends RootStackRouter {
     FilterRoute.name: (routeData) {
       final args = routeData.argsAs<FilterRouteArgs>(
           orElse: () => const FilterRouteArgs());
-      return AutoRoutePage<dynamic>(
+      return AutoRoutePage<FacetValue?>(
         routeData: routeData,
         child: FilterPage(
           key: args.key,
