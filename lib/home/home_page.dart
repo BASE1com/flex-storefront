@@ -1,15 +1,29 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flex_storefront/flex_ui/components/carousel.dart';
+import 'package:flex_storefront/cms/cubits/cms_cubit.dart';
+import 'package:flex_storefront/cms/cubits/cms_state.dart';
 import 'package:flex_storefront/flex_ui/tokens/colors.dart';
-import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
-import 'package:flex_storefront/flex_ui/widgets/selectable_image.dart';
+import 'package:flex_storefront/home/home_page_content.dart';
+import 'package:flex_storefront/shared/bloc_helper.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<CmsCubit>(
+      create: (_) => CmsCubit()..loadHomepageContent(),
+      child: const HomeView(),
+    );
+  }
+}
+
+class HomeView extends StatelessWidget {
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,32 +59,32 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ),
-        const SliverFillRemaining(
-          child: Column(
-            children: [
-              SizedBox(height: FlexSizes.spacerItems),
-              FlexCarousel(
-                items: [
-                  SelectableImage(
-                    imageUrl:
-                        'https://spartacus-demo.eastus.cloudapp.azure.com:8443/medias/Elec-350x262-HomeFam-EN-01-350W.jpg?context=bWFzdGVyfGltYWdlc3wyMDg4M3xpbWFnZS9qcGVnfGFXMWhaMlZ6TDJnNU1TOW9Nell2T0RjNU56TTFOamc0TXprNU9DNXFjR2N8ZWY0YTI1MmQ4YmIwNmI4NDAxODJhZGIyMzYxODJkY2Q1YTUxNWU3MzFkNGU3NWE0ZGQ3OGM2OGI5ZjkyMmY5MA',
-                    borderRadius: FlexSizes.borderRadiusMd,
-                  ),
-                  SelectableImage(
-                    imageUrl:
-                        'https://spartacus-demo.eastus.cloudapp.azure.com:8443/medias/Elec-350x262-HomeFamLight-EN-01-350W.jpg?context=bWFzdGVyfGltYWdlc3wxNzgzMHxpbWFnZS9qcGVnfGFXMWhaMlZ6TDJnMk55OW9OV1l2T0RjNU56TTFOamd4T0RRMk1pNXFjR2N8ODM2MjViNzMzZWQ2YmMxYzU3OGM0MWQ1ZGU4NjlkOTU5MzFkYzljMjFhNjE5NGE5ZDRlZTNmMTAxYWI1ZGI0ZA',
-                    borderRadius: FlexSizes.borderRadiusMd,
-                  ),
-                  SelectableImage(
-                    imageUrl:
-                        'https://spartacus-demo.eastus.cloudapp.azure.com:8443/medias/Elec-350x262-HomeCaptureFirst-EN-01-350W.jpg?context=bWFzdGVyfGltYWdlc3wyMzAwOHxpbWFnZS9qcGVnfGFXMWhaMlZ6TDJnMFlpOW9PREF2T0RjNU56TTFOekl4TVRZM09DNXFjR2N8MGI3NWViYWU3YWU0ZGQwYjBhNGQzNDdmNjIwOGMyMWI1MTMyOThhZmVhMjI4OGEzY2ExODhhOGZjMTRlNWQzMg',
-                    borderRadius: FlexSizes.borderRadiusMd,
-                  ),
-                ],
-              ),
-              SizedBox(height: FlexSizes.spacerSection),
-              Text('Home page'),
-            ],
+        SliverFillRemaining(
+          child: BlocBuilder<CmsCubit, CmsState>(
+            builder: (_, state) {
+              switch (state.status) {
+                case Status.pending:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                case Status.success:
+                  return HomePageContent(sections: state.sections);
+                case Status.failure:
+                  return Center(
+                    child: Column(
+                      children: [
+                        const Text('Content loading failed'),
+                        ElevatedButton(
+                          onPressed: () {
+                            context.read<CmsCubit>().loadHomepageContent();
+                          },
+                          child: const Text('Retry'),
+                        )
+                      ],
+                    ),
+                  );
+              }
+            },
           ),
         )
       ],
