@@ -6,14 +6,14 @@ class FlexPill extends StatelessWidget {
     super.key,
     required this.text,
     this.isSelected = false,
-    this.onTap,
     this.margin = const EdgeInsets.only(left: 8),
+    this.onTap,
   });
 
   final String text;
   final bool isSelected;
-  final void Function()? onTap;
   final EdgeInsetsGeometry margin;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

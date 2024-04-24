@@ -13,8 +13,6 @@ const PARAMS =
 class ProductListApi {
   Future<SearchResults> fetchProducts({
     String? categoryCode,
-    String? sortBy = 'relevance',
-    String? filterQuery,
   }) async {
     final path = PATH.replaceAll(
       '<CATALOG>',
@@ -26,7 +24,28 @@ class ProductListApi {
     final response = await GetIt.instance
         .get<Dio>(instanceName: Singletons.hybrisClient)
         .get(
-            '${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS&query=${filterQuery ?? '%3Arelevance%3AallCategories%3A$categoryCode'}&sort=$sortBy');
+            '${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS&query=%3Arelevance%3AallCategories%3A$categoryCode');
+
+    return SearchResults.fromJson(response.data);
+  }
+
+  Future<SearchResults> searchProducts({
+    String? categoryCode,
+    String? sortBy,
+  }) async {
+    final path = PATH.replaceAll(
+      '<CATALOG>',
+      GetIt.instance
+          .get<ConfigRepository>()
+          .getString(ConfigKey.shopHybrisCatalog),
+    );
+
+    // build our hybris-specific query string
+    final queryString = ':${sortBy ?? 'relevance'}:allCategories:$categoryCode';
+
+    final response = await GetIt.instance
+        .get<Dio>(instanceName: Singletons.hybrisClient)
+        .get('${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS&query=$queryString');
 
     return SearchResults.fromJson(response.data);
   }
