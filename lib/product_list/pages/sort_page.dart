@@ -5,7 +5,7 @@ import 'package:flex_storefront/search/models/search_results.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-@RoutePage()
+@RoutePage<Sort?>()
 class SortPage extends StatelessWidget {
   final List<Sort> sorts;
 
@@ -32,7 +32,7 @@ class SortPage extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () => context.router.root.back(),
+              onPressed: () => context.router.maybePop(),
               icon: const Icon(LineAwesome.times_solid),
             ),
           ],

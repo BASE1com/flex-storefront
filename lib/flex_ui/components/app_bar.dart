@@ -29,7 +29,12 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
         automaticallyImplyLeading: false,
         leading: showBackArrow
             ? IconButton(
-                onPressed: onLeadingPressed ?? () => context.router.back(),
+                onPressed: onLeadingPressed ??
+                    () {
+                      context.router.canPop()
+                          ? context.router.maybePop()
+                          : context.router.back();
+                    },
                 icon: Icon(leadingIcon),
               )
             : null,

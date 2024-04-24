@@ -97,7 +97,7 @@ abstract class _$AppRouter extends RootStackRouter {
     SortRoute.name: (routeData) {
       final args =
           routeData.argsAs<SortRouteArgs>(orElse: () => const SortRouteArgs());
-      return AutoRoutePage<dynamic>(
+      return AutoRoutePage<Sort?>(
         routeData: routeData,
         child: SortPage(
           key: args.key,

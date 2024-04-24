@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flex_storefront/product_list/cubits/product_list_cubit.dart';
+import 'package:flex_storefront/product_list/cubits/product_search_cubit.dart';
 import 'package:flex_storefront/router.dart';
 import 'package:flex_storefront/search/models/search_results.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +23,13 @@ class SearchResultsHeader extends StatelessWidget {
           children: [
             TextButton.icon(
               onPressed: () async {
-                final result = await context.router.root
-                    .push(SortRoute(sorts: searchResults.sorts));
+                final result = await context.router
+                    .push<Sort?>(SortRoute(sorts: searchResults.sorts));
 
                 if (context.mounted && result != null) {
                   context
-                      .read<ProductListCubit>()
-                      .sortProducts(sortBy: result as Sort);
+                      .read<ProductSearchCubit>()
+                      .searchProducts(sortBy: result);
                 }
               },
               icon: const Icon(Icons.swap_vert_rounded),
