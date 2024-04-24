@@ -1,3 +1,4 @@
+import 'package:flex_storefront/shared/models/strapi_image.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'category.g.dart';
@@ -8,7 +9,7 @@ class Category {
   final String code;
   final String name;
   final String? destination;
-  final CategoryImage? image;
+  final StrapiImage? image;
   final List<Category> children;
 
   Category({
@@ -26,24 +27,5 @@ class Category {
   @override
   String toString() {
     return 'Category{id: $id, code: $code, name: $name, destination: $destination, image: $image, children: ${children.length}}';
-  }
-}
-
-@JsonSerializable(createToJson: false)
-class CategoryImage {
-  final int id;
-  final String url;
-
-  /// The file name can help retrieving the different urls for each size.
-  final String name;
-
-  CategoryImage({required this.id, required this.url, required this.name});
-
-  factory CategoryImage.fromJson(Map<String, dynamic> json) =>
-      _$CategoryImageFromJson(json);
-
-  @override
-  String toString() {
-    return 'CategoryImage{id: $id, url: $url, name: $name}';
   }
 }
