@@ -26,9 +26,11 @@ class SearchResultsHeader extends StatelessWidget {
                 final result = await context.router.root
                     .push(SortRoute(sorts: searchResults.sorts));
 
-                context
-                    .read<ProductListCubit>()
-                    .sortProducts(sortBy: result as Sort);
+                if (context.mounted && result != null) {
+                  context
+                      .read<ProductListCubit>()
+                      .sortProducts(sortBy: result as Sort);
+                }
               },
               icon: const Icon(Icons.swap_vert_rounded),
               label: const Text('Sort'),
