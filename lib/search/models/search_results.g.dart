@@ -8,6 +8,8 @@ part of 'search_results.dart';
 
 SearchResults _$SearchResultsFromJson(Map<String, dynamic> json) =>
     SearchResults(
+      currentQuery: SearchQuery.fromJson(
+          nestedReader(json, 'currentQuery.query') as Map<String, dynamic>),
       facets: (json['facets'] as List<dynamic>?)
               ?.map((e) => Facet.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -55,4 +57,8 @@ FacetValue _$FacetValueFromJson(Map<String, dynamic> json) => FacetValue(
       name: json['name'] as String,
       count: json['count'] as int,
       selected: json['selected'] as bool,
+    );
+
+SearchQuery _$SearchQueryFromJson(Map<String, dynamic> json) => SearchQuery(
+      value: json['value'] as String,
     );

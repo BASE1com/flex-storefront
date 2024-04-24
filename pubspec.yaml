@@ -28,6 +28,7 @@ dependencies:
   icons_plus: ^5.0.0
   json_annotation: ^4.8.1
   loggy: ^2.0.3
+  sheet: ^1.0.0
   shimmer: ^3.0.0
   widgetbook: ^3.7.1
   widgetbook_annotation: ^3.1.0

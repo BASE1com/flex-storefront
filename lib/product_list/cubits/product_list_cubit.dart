@@ -15,12 +15,10 @@ class ProductListCubit extends Cubit<ProductListState> {
       final searchResults = await GetIt.instance
           .get<ProductListApi>()
           .fetchProducts(categoryCode: categoryCode);
-      final products = searchResults.products;
 
       emit(ProductListState(
         status: Status.success,
-        searchResults: searchResults,
-        products: products,
+        products: searchResults.products,
       ));
     } on DioException catch (error) {
       emit(ProductListState(

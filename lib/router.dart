@@ -3,12 +3,17 @@ import 'package:flex_storefront/account/account_page.dart';
 import 'package:flex_storefront/cart/cart_page.dart';
 import 'package:flex_storefront/category/category_intermediary_page.dart';
 import 'package:flex_storefront/category/category_page.dart';
+import 'package:flex_storefront/flex_ui/layouts/modal_bottom_sheet.dart';
 import 'package:flex_storefront/home/home_page.dart';
 import 'package:flex_storefront/product_detail/product_detail_page.dart';
+import 'package:flex_storefront/product_list/pages/sort_page.dart';
 import 'package:flex_storefront/product_list/product_list_page.dart';
 import 'package:flex_storefront/root/root_page.dart';
+import 'package:flex_storefront/search/models/search_results.dart';
 import 'package:flex_storefront/shop/shop_page.dart';
 import 'package:flutter/material.dart';
+import 'package:sheet/route.dart';
+import 'package:sheet/sheet.dart';
 
 part 'router.gr.dart';
 
@@ -48,5 +53,22 @@ class AppRouter extends _$AppRouter {
             AutoRoute(page: AccountRoute.page, path: 'account'),
           ],
         ),
+        CustomRoute(
+          page: SortRoute.page,
+          path: '/sort',
+          customRouteBuilder: modalSheetBuilder,
+        ),
       ];
+}
+
+Route<T> modalSheetBuilder<T>(
+  BuildContext context,
+  Widget child,
+  AutoRoutePage<T> page,
+) {
+  return SheetRoute(
+    builder: (context) => FlexModalBottomSheet(child: child),
+    settings: page,
+    fit: SheetFit.loose,
+  );
 }
