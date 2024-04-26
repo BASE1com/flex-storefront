@@ -7,6 +7,7 @@ import 'package:flex_storefront/flex_ui/layouts/modal_bottom_sheet.dart';
 import 'package:flex_storefront/home/home_page.dart';
 import 'package:flex_storefront/product_detail/product_detail_page.dart';
 import 'package:flex_storefront/product_list/pages/sort_page.dart';
+import 'package:flex_storefront/product_list/pages/filter_page.dart';
 import 'package:flex_storefront/product_list/product_list_page.dart';
 import 'package:flex_storefront/root/root_page.dart';
 import 'package:flex_storefront/search/models/search_results.dart';
@@ -52,6 +53,11 @@ class AppRouter extends _$AppRouter {
             AutoRoute(page: CartRoute.page, path: 'cart'),
             AutoRoute(page: AccountRoute.page, path: 'account'),
           ],
+        ),
+        AutoRoute(
+          page: FilterRoute.page,
+          path: '/filter',
+          fullscreenDialog: true,
         ),
         CustomRoute(
           page: SortRoute.page,

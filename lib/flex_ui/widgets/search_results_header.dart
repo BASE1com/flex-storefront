@@ -23,7 +23,7 @@ class SearchResultsHeader extends StatelessWidget {
           children: [
             TextButton.icon(
               onPressed: () async {
-                final result = await context.router
+                final result = await context.router.root
                     .push<Sort?>(SortRoute(sorts: searchResults.sorts));
 
                 if (context.mounted && result != null) {
@@ -37,8 +37,15 @@ class SearchResultsHeader extends StatelessWidget {
             ),
             const SizedBox(width: 4.0),
             TextButton.icon(
-              onPressed: () {
-                // Add filter logic
+              onPressed: () async {
+                final result = await context.router.root.push<FacetValue?>(
+                    FilterRoute(facets: searchResults.facets));
+
+                if (context.mounted && result != null) {
+                  context
+                      .read<ProductSearchCubit>()
+                      .searchProducts(filterBy: result);
+                }
               },
               icon: const Icon(Icons.tune_rounded),
               label: Text('Filter (${searchResults.facets.length})'),

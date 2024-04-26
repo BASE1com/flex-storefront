@@ -17,7 +17,7 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const FlexAppBar(
-        title: Text('Shop All Categories'),
+        title: Text('Shop by category'),
       ),
       body: BlocProvider<CategoryCubit>(
         create: (context) {

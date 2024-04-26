@@ -3,6 +3,7 @@ import 'package:flex_storefront/search/models/search_results.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 
 class ProductSearchState extends BlocState {
+  final List<Facet> facets;
   final List<Product> products;
   final SearchResults? searchResults;
 
@@ -10,6 +11,7 @@ class ProductSearchState extends BlocState {
     required super.status,
     super.error,
     super.stackTrace,
+    this.facets = const [],
     this.products = const [],
     this.searchResults,
   });
@@ -18,6 +20,7 @@ class ProductSearchState extends BlocState {
     Status? status,
     Object? error,
     StackTrace? stackTrace,
+    List<Facet>? facets,
     List<Product>? products,
     SearchResults? searchResults,
   }) {
@@ -25,6 +28,7 @@ class ProductSearchState extends BlocState {
       status: status ?? this.status,
       error: error ?? this.error,
       stackTrace: stackTrace ?? this.stackTrace,
+      facets: facets ?? this.facets,
       products: products ?? this.products,
       searchResults: searchResults ?? this.searchResults,
     );
@@ -32,6 +36,6 @@ class ProductSearchState extends BlocState {
 
   @override
   String toString() {
-    return 'ProductSearchState{status: $status, products: ${products.length}}';
+    return 'ProductSearchState{status: $status, facets: ${facets.length}, products: ${products.length}}';
   }
 }
