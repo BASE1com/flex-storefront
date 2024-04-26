@@ -17,9 +17,6 @@ class FilterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sortedFacets = facets
-      ..sort((a, b) => a.priority.compareTo(b.priority));
-
     return Scaffold(
       appBar: FlexAppBar(
         title: const Text('Filters'),
@@ -32,13 +29,10 @@ class FilterPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: FlexSizes.appPadding,
-            vertical: FlexSizes.appBarHeight,
-          ),
+          padding: const EdgeInsets.all(FlexSizes.appPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: sortedFacets.map((e) {
+            children: facets.map((e) {
               return FilterSection(facet: e);
             }).toList(),
           ),

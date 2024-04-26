@@ -21,24 +21,27 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
       // TODO: this is really gross, split it out into multiple cubit methods
       // that way we can also test them separately, and log events for each
       final currentQuery = state.searchResults?.currentQuery;
-      String queryString;
+      String query;
       if (filterBy != null) {
-        queryString = filterBy.query.value;
+        query = filterBy.query.value;
       } else if (sortBy != null) {
-        queryString =
+        query =
             ':${sortBy.code}:${currentQuery?.withoutSort ?? 'allCategories:${categoryCode ?? currentQuery?.lastLeaf}'}';
       } else {
-        queryString = ':relevance:allCategories:$categoryCode';
+        query = ':relevance:allCategories:$categoryCode';
       }
 
       final searchResults = await GetIt.instance
           .get<ProductListApi>()
-          .searchProducts(query: queryString);
+          .searchProducts(query: query);
+      final facets = searchResults.facets
+        ..sort((a, b) => a.priority.compareTo(b.priority));
       final products = searchResults.products;
 
       emit(state.copyWith(
         status: Status.success,
         searchResults: searchResults,
+        facets: facets,
         products: products,
       ));
     } on DioException catch (error) {
