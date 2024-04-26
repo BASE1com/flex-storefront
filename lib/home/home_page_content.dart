@@ -12,10 +12,28 @@ class HomePageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final widgets = sections.map((section) {
-      if (section is CarouselData) {
+      if (section is SpacerData) {
+        return SizedBox(height: section.space);
+      } else if (section is HeaderData) {
+        return Text(
+          section.text,
+          style: const TextStyle(
+            fontSize: FlexSizes.fontSizeLg,
+            fontWeight: FontWeight.w600,
+          ),
+        );
+      } else if (section is BannerData) {
+        return SelectableImage(
+          aspectRatio: section.aspectRatio,
+          imageUrl: section.banner.url,
+          borderRadius: FlexSizes.borderRadiusMd,
+        );
+      } else if (section is CarouselData) {
         return FlexCarousel(
+          height: section.aspectRatio,
           items: section.items.map((item) {
             return SelectableImage(
+              aspectRatio: section.aspectRatio,
               imageUrl: item.media.url,
               borderRadius: FlexSizes.borderRadiusMd,
             );

@@ -5,6 +5,7 @@ import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/home/home_page_content.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,7 +60,7 @@ class HomeView extends StatelessWidget {
             ),
           ),
         ),
-        SliverFillRemaining(
+        SliverToBoxAdapter(
           child: BlocBuilder<CmsCubit, CmsState>(
             builder: (_, state) {
               switch (state.status) {
