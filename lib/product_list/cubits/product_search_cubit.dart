@@ -34,15 +34,17 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
       final searchResults = await GetIt.instance
           .get<ProductListApi>()
           .searchProducts(query: query);
+
+      // sort the facets by priority
       final facets = searchResults.facets
         ..sort((a, b) => a.priority.compareTo(b.priority));
-      final products = searchResults.products;
 
       emit(state.copyWith(
         status: Status.success,
         searchResults: searchResults,
+        breadcrumbs: searchResults.breadcrumbs,
         facets: facets,
-        products: products,
+        products: searchResults.products,
       ));
     } on DioException catch (error) {
       emit(state.copyWith(

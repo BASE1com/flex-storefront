@@ -6,6 +6,7 @@ part 'search_results.g.dart';
 
 @JsonSerializable(createToJson: false)
 class SearchResults {
+  final List<Breadcrumb> breadcrumbs;
   @NestedJsonKey(name: 'currentQuery.query')
   final SearchQuery currentQuery;
   final List<Facet> facets;
@@ -15,6 +16,7 @@ class SearchResults {
   final List<Sort> sorts;
 
   SearchResults({
+    this.breadcrumbs = const [],
     required this.currentQuery,
     this.facets = const [],
     required this.freeTextSearch,
@@ -27,7 +29,34 @@ class SearchResults {
 
   @override
   String toString() {
-    return 'SearchResults{facets: $facets, freeTextSearch: $freeTextSearch, pagination: $pagination, products: $products, sorts: $sorts}';
+    return 'SearchResults{breadcrumbs: $breadcrumbs, currentQuery: $currentQuery, facets: $facets, freeTextSearch: $freeTextSearch, pagination: $pagination, products: $products, sorts: $sorts}';
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class Breadcrumb {
+  final String facetCode;
+  final String facetName;
+  final String facetValueCode;
+  final String facetValueName;
+  final SearchState? removeQuery;
+  final SearchState? truncateQuery;
+
+  Breadcrumb({
+    required this.facetCode,
+    required this.facetName,
+    required this.facetValueCode,
+    required this.facetValueName,
+    this.removeQuery,
+    this.truncateQuery,
+  });
+
+  factory Breadcrumb.fromJson(Map<String, dynamic> json) =>
+      _$BreadcrumbFromJson(json);
+
+  @override
+  String toString() {
+    return 'Breadcrumb{facetCode: $facetCode, facetName: $facetName, facetValueCode: $facetValueCode, facetValueName: $facetValueName}';
   }
 }
 
@@ -115,6 +144,25 @@ class FacetValue {
   @override
   String toString() {
     return 'FacetValue{name: $name, count: $count, selected: $selected}';
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class SearchState {
+  final SearchQuery query;
+  final String? url;
+
+  SearchState({
+    required this.query,
+    this.url,
+  });
+
+  factory SearchState.fromJson(Map<String, dynamic> json) =>
+      _$SearchStateFromJson(json);
+
+  @override
+  String toString() {
+    return 'SearchState{query: $query, url: $url}';
   }
 }
 

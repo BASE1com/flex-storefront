@@ -57,7 +57,9 @@ class ProductListView extends StatelessWidget {
                       horizontal: FlexSizes.appPadding,
                     ),
                     child: SearchResultsHeader(
-                        searchResults: state.searchResults!),
+                      breadcrumbs: state.breadcrumbs,
+                      searchResults: state.searchResults!,
+                    ),
                   ),
                 Expanded(
                   child: ListView.separated(

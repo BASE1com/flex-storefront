@@ -8,6 +8,10 @@ part of 'search_results.dart';
 
 SearchResults _$SearchResultsFromJson(Map<String, dynamic> json) =>
     SearchResults(
+      breadcrumbs: (json['breadcrumbs'] as List<dynamic>?)
+              ?.map((e) => Breadcrumb.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
       currentQuery: SearchQuery.fromJson(
           nestedReader(json, 'currentQuery.query') as Map<String, dynamic>),
       facets: (json['facets'] as List<dynamic>?)
@@ -25,6 +29,19 @@ SearchResults _$SearchResultsFromJson(Map<String, dynamic> json) =>
               ?.map((e) => Sort.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+    );
+
+Breadcrumb _$BreadcrumbFromJson(Map<String, dynamic> json) => Breadcrumb(
+      facetCode: json['facetCode'] as String,
+      facetName: json['facetName'] as String,
+      facetValueCode: json['facetValueCode'] as String,
+      facetValueName: json['facetValueName'] as String,
+      removeQuery: json['removeQuery'] == null
+          ? null
+          : SearchState.fromJson(json['removeQuery'] as Map<String, dynamic>),
+      truncateQuery: json['truncateQuery'] == null
+          ? null
+          : SearchState.fromJson(json['truncateQuery'] as Map<String, dynamic>),
     );
 
 Sort _$SortFromJson(Map<String, dynamic> json) => Sort(
@@ -59,6 +76,11 @@ FacetValue _$FacetValueFromJson(Map<String, dynamic> json) => FacetValue(
       selected: json['selected'] as bool,
       query: SearchQuery.fromJson(
           nestedReader(json, 'query.query') as Map<String, dynamic>),
+    );
+
+SearchState _$SearchStateFromJson(Map<String, dynamic> json) => SearchState(
+      query: SearchQuery.fromJson(json['query'] as Map<String, dynamic>),
+      url: json['url'] as String?,
     );
 
 SearchQuery _$SearchQueryFromJson(Map<String, dynamic> json) => SearchQuery(
