@@ -13,6 +13,7 @@ class CmsApi {
       'populate[content][on][section.banner][populate]': '*',
       'populate[content][on][section.spacer][populate]': '*',
       'populate[content][on][section.header][populate]': '*',
+      'populate[content][on][section.product-carousel][populate]': '*',
     };
 
     final uri = Uri.https(DOMAIN, PATH, queryString);
@@ -42,6 +43,10 @@ class CmsApi {
         case 'section.carousel':
           {
             result.add(CarouselData.fromJson(element));
+          }
+        case 'section.product-carousel':
+          {
+            result.add(ProductCarouselData.fromJson(element));
           }
       }
     }

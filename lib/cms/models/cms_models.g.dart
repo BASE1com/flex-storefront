@@ -38,3 +38,11 @@ CarouselDataItem _$CarouselDataItemFromJson(Map<String, dynamic> json) =>
       link: json['link'] as String,
       media: StrapiImage.fromJson(json['media'] as Map<String, dynamic>),
     );
+
+ProductCarouselData _$ProductCarouselDataFromJson(Map<String, dynamic> json) =>
+    ProductCarouselData(
+      id: json['id'] as int,
+      productCodes: (json['product_codes'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+    );

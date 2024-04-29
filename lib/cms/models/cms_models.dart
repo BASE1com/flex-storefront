@@ -17,7 +17,7 @@ class SpacerData extends CmsData {
 
   SpacerData({
     required super.id,
-    required this.space,
+    this.space = FlexSizes.spacerItems,
   });
 
   factory SpacerData.fromJson(Map<String, dynamic> json) =>
@@ -112,6 +112,25 @@ class CarouselDataItem {
   }
 }
 
+@JsonSerializable(createToJson: false)
+class ProductCarouselData extends CmsData {
+  @JsonKey(name: 'product_codes')
+  final List<String> productCodes;
+
+  ProductCarouselData({
+    required super.id,
+    required this.productCodes,
+  });
+
+  factory ProductCarouselData.fromJson(Map<String, dynamic> json) =>
+      _$ProductCarouselDataFromJson(json);
+
+  @override
+  String toString() {
+    return 'ProductCarouselData{productCodes: $productCodes}';
+  }
+}
+
 class SpaceValueConverter extends JsonConverter<double, String> {
   const SpaceValueConverter();
 
@@ -126,7 +145,7 @@ class SpaceValueConverter extends JsonConverter<double, String> {
       case 'lg':
         return FlexSizes.lg;
       default:
-        throw Exception('Unknown value for space $json');
+        return FlexSizes.spacerItems;
     }
   }
 

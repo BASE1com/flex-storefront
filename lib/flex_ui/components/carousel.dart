@@ -11,10 +11,12 @@ class FlexCarousel extends StatelessWidget {
     super.key,
     this.height = 270,
     this.items,
+    this.floatingIndicator = true,
   });
 
   final double height;
   final List<Widget>? items;
+  final bool floatingIndicator;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +24,11 @@ class FlexCarousel extends StatelessWidget {
       options: CarouselOptions(
         height: height,
         showIndicator: true,
-        floatingIndicator: true,
+        floatingIndicator: floatingIndicator,
         slideIndicator: CircularSlideIndicator(
           currentIndicatorColor: FlexColors.primary,
-          indicatorBackgroundColor: Colors.white.withOpacity(0.7),
+          indicatorBackgroundColor:
+              floatingIndicator ? Colors.white.withOpacity(0.7) : Colors.grey,
         ),
       ),
       items: items,
