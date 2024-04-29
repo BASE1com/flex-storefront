@@ -41,7 +41,7 @@ class SearchResultsHeader extends StatelessWidget {
                   .map(
                     (e) => BreadCrumbItem(
                       content: Text(
-                        e.facetValueName!,
+                        e.facetValueName ?? '',
                         style: TextStyle(
                           color: e.truncateQuery != null ? Colors.blue : null,
                         ),
@@ -49,7 +49,7 @@ class SearchResultsHeader extends StatelessWidget {
                       onTap: e.truncateQuery != null
                           ? () => context.router.popAndPush(
                                 ProductListRoute(
-                                    categoryCode: e.facetValueCode!),
+                                    categoryCode: e.facetValueCode),
                               )
                           : null,
                     ),

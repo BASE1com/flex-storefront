@@ -36,8 +36,26 @@ class ProductListPage extends StatelessWidget {
   }
 }
 
-class ProductListView extends StatelessWidget {
+class ProductListView extends StatefulWidget {
   const ProductListView({super.key});
+
+  @override
+  State<ProductListView> createState() => _ProductListViewState();
+}
+
+class _ProductListViewState extends State<ProductListView> {
+  final controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.position.pixels) {
+        context.read<ProductSearchCubit>().nextPage();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +81,26 @@ class ProductListView extends StatelessWidget {
                   ),
                 Expanded(
                   child: ListView.separated(
-                    itemCount: state.products.length,
+                    controller: controller,
+                    itemCount: state.products.length + 1,
                     separatorBuilder: (_, __) => Divider(
                       height: 0,
                       color: Colors.grey[200],
                     ),
                     itemBuilder: (context, i) {
-                      final product = state.products[i];
+                      if (i == state.products.length) {
+                        return Padding(
+                          padding: const EdgeInsets.all(FlexSizes.xl),
+                          child: Center(
+                            child: state.pagination.currentPage + 1 >=
+                                    state.pagination.totalPages
+                                ? const Text('No more products to load')
+                                : const CircularProgressIndicator(),
+                          ),
+                        );
+                      }
 
-                      return ProductListItem(product: product);
+                      return ProductListItem(product: state.products[i]);
                     },
                   ),
                 ),
@@ -84,5 +113,11 @@ class ProductListView extends StatelessWidget {
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

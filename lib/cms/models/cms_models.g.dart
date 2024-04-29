@@ -8,7 +8,9 @@ part of 'cms_models.dart';
 
 SpacerData _$SpacerDataFromJson(Map<String, dynamic> json) => SpacerData(
       id: json['id'] as int,
-      space: const SpaceValueConverter().fromJson(json['space'] as String),
+      space: json['space'] == null
+          ? FlexSizes.spacerItems
+          : const SpaceValueConverter().fromJson(json['space'] as String),
     );
 
 HeaderData _$HeaderDataFromJson(Map<String, dynamic> json) => HeaderData(
