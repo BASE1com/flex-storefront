@@ -32,10 +32,10 @@ SearchResults _$SearchResultsFromJson(Map<String, dynamic> json) =>
     );
 
 Breadcrumb _$BreadcrumbFromJson(Map<String, dynamic> json) => Breadcrumb(
-      facetCode: json['facetCode'] as String?,
-      facetName: json['facetName'] as String?,
-      facetValueCode: json['facetValueCode'] as String?,
-      facetValueName: json['facetValueName'] as String?,
+      facetCode: json['facetCode'] as String,
+      facetName: json['facetName'] as String,
+      facetValueCode: json['facetValueCode'] as String,
+      facetValueName: json['facetValueName'] as String,
       removeQuery: json['removeQuery'] == null
           ? null
           : SearchState.fromJson(json['removeQuery'] as Map<String, dynamic>),

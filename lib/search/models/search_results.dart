@@ -35,18 +35,18 @@ class SearchResults {
 
 @JsonSerializable(createToJson: false)
 class Breadcrumb {
-  final String? facetCode;
-  final String? facetName;
-  final String? facetValueCode;
-  final String? facetValueName;
+  final String facetCode;
+  final String facetName;
+  final String facetValueCode;
+  final String facetValueName;
   final SearchState? removeQuery;
   final SearchState? truncateQuery;
 
   Breadcrumb({
-    this.facetCode,
-    this.facetName,
-    this.facetValueCode,
-    this.facetValueName,
+    required this.facetCode,
+    required this.facetName,
+    required this.facetValueCode,
+    required this.facetValueName,
     this.removeQuery,
     this.truncateQuery,
   });
