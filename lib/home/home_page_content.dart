@@ -1,8 +1,14 @@
+import 'package:collection/collection.dart';
 import 'package:flex_storefront/cms/models/cms_models.dart';
 import 'package:flex_storefront/flex_ui/components/carousel.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
+import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/flex_ui/widgets/selectable_image.dart';
+import 'package:flex_storefront/product_list/cubits/product_list_cubit.dart';
+import 'package:flex_storefront/product_list/cubits/product_list_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class HomePageContent extends StatelessWidget {
   final List<CmsData> sections;
@@ -38,6 +44,49 @@ class HomePageContent extends StatelessWidget {
               borderRadius: FlexSizes.borderRadiusMd,
             );
           }).toList(),
+        );
+      } else if (section is ProductCarouselData) {
+        return BlocProvider<ProductListCubit>(
+          create: (_) => ProductListCubit()
+            ..loadProductsfromIds(productIds: section.productCodes),
+          child: BlocBuilder<ProductListCubit, ProductListState>(
+              builder: (context, state) {
+            return FlexCarousel(
+              floatingIndicator: false,
+              items: section.productCodes.map((code) {
+                final product =
+                    state.products.firstWhereOrNull((p) => p.code == code);
+
+                if (product != null) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: CachedImage(
+                          url:
+                              '${dotenv.get('HYBRIS_BASE_URL')}${product.images.firstOrNull?.url}',
+                          fit: BoxFit.contain,
+                          placeholderAspectRatio: 1,
+                        ),
+                      ),
+                      Text(
+                        product.name,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      Text(product.price!.formattedValue),
+                    ],
+                  );
+                } else {
+                  return Container(
+                    height: 300,
+                    width: 400,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+              }).toList(),
+            );
+          }),
         );
       } else {
         // TODO GetItfy Crashlytics and log exception
