@@ -10,6 +10,9 @@ class CmsApi {
   Future<List<CmsData>> fetchHomepageContent() async {
     final queryString = {
       'populate[content][on][section.carousel][populate][items][populate]': '*',
+      'populate[content][on][section.banner][populate]': '*',
+      'populate[content][on][section.spacer][populate]': '*',
+      'populate[content][on][section.header][populate]': '*',
     };
 
     final uri = Uri.https(DOMAIN, PATH, queryString);
@@ -24,6 +27,18 @@ class CmsApi {
       final element = elements[i];
 
       switch (element['__component']) {
+        case 'section.spacer':
+          {
+            result.add(SpacerData.fromJson(element));
+          }
+        case 'section.header':
+          {
+            result.add(HeaderData.fromJson(element));
+          }
+        case 'section.banner':
+          {
+            result.add(BannerData.fromJson(element));
+          }
         case 'section.carousel':
           {
             result.add(CarouselData.fromJson(element));
