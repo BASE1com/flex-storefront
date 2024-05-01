@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flex_storefront/cms/models/cms_models.dart';
 import 'package:flex_storefront/flex_ui/components/carousel.dart';
@@ -33,6 +34,9 @@ class HomePageContent extends StatelessWidget {
           aspectRatio: section.aspectRatio,
           imageUrl: section.banner.url,
           borderRadius: FlexSizes.borderRadiusMd,
+          onTap: () {
+            context.router.navigateNamed(section.link);
+          },
         );
       } else if (section is CarouselData) {
         return FlexCarousel(
@@ -42,6 +46,9 @@ class HomePageContent extends StatelessWidget {
               aspectRatio: section.aspectRatio,
               imageUrl: item.media.url,
               borderRadius: FlexSizes.borderRadiusMd,
+              onTap: () {
+                context.router.navigateNamed(item.link);
+              },
             );
           }).toList(),
         );
@@ -58,22 +65,27 @@ class HomePageContent extends StatelessWidget {
                     state.products.firstWhereOrNull((p) => p.code == code);
 
                 if (product != null) {
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: CachedImage(
-                          url:
-                              '${dotenv.get('HYBRIS_BASE_URL')}${product.images.firstOrNull?.url}',
-                          fit: BoxFit.contain,
-                          placeholderAspectRatio: 1,
+                  return InkWell(
+                    onTap: () {
+                      context.router.navigateNamed('/shop/product/$code');
+                    },
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: CachedImage(
+                            url:
+                                '${dotenv.get('HYBRIS_BASE_URL')}${product.images.firstOrNull?.url}',
+                            fit: BoxFit.contain,
+                            placeholderAspectRatio: 1,
+                          ),
                         ),
-                      ),
-                      Text(
-                        product.name,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      Text(product.price!.formattedValue),
-                    ],
+                        Text(
+                          product.name,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        Text(product.price!.formattedValue),
+                      ],
+                    ),
                   );
                 } else {
                   return Container(
