@@ -7,7 +7,11 @@ import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:get_it/get_it.dart';
 
 class ProductSearchCubit extends Cubit<ProductSearchState> {
-  ProductSearchCubit() : super(ProductSearchState(status: Status.pending));
+  ProductSearchCubit()
+      : super(ProductSearchState(
+          status: Status.pending,
+          pagination: Pagination.empty(),
+        ));
 
   Future<void> searchProducts({
     String? categoryCode,
@@ -44,7 +48,41 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
         searchResults: searchResults,
         breadcrumbs: searchResults.breadcrumbs,
         facets: facets,
+        pagination: searchResults.pagination,
         products: searchResults.products,
+      ));
+    } on DioException catch (error) {
+      emit(state.copyWith(
+        status: Status.failure,
+        error: error,
+        stackTrace: error.stackTrace,
+      ));
+    }
+  }
+
+  Future<void> nextPage() async {
+    if (state.pagination.currentPage + 1 >= state.pagination.totalPages ||
+        state.searchResults == null ||
+        state.status == Status.pending) {
+      return;
+    }
+
+    try {
+      emit(state.copyWith(status: Status.pending));
+
+      final searchResults =
+          await GetIt.instance.get<ProductListApi>().searchProducts(
+                query: state.searchResults!.currentQuery.value,
+                page: state.pagination.currentPage + 1,
+              );
+
+      emit(state.copyWith(
+        status: Status.success,
+        searchResults: searchResults,
+        breadcrumbs: searchResults.breadcrumbs,
+        facets: searchResults.facets,
+        pagination: searchResults.pagination,
+        products: [...state.products, ...searchResults.products],
       ));
     } on DioException catch (error) {
       emit(state.copyWith(

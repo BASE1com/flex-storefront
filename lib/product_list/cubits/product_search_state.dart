@@ -6,6 +6,7 @@ class ProductSearchState extends BlocState {
   final List<Breadcrumb> breadcrumbs;
   final List<Facet> facets;
   final List<Product> products;
+  final Pagination pagination;
   final SearchResults? searchResults;
 
   ProductSearchState({
@@ -15,6 +16,7 @@ class ProductSearchState extends BlocState {
     this.breadcrumbs = const [],
     this.facets = const [],
     this.products = const [],
+    required this.pagination,
     this.searchResults,
   });
 
@@ -25,6 +27,7 @@ class ProductSearchState extends BlocState {
     List<Breadcrumb>? breadcrumbs,
     List<Facet>? facets,
     List<Product>? products,
+    Pagination? pagination,
     SearchResults? searchResults,
   }) {
     return ProductSearchState(
@@ -34,6 +37,7 @@ class ProductSearchState extends BlocState {
       breadcrumbs: breadcrumbs ?? this.breadcrumbs,
       facets: facets ?? this.facets,
       products: products ?? this.products,
+      pagination: pagination ?? this.pagination,
       searchResults: searchResults ?? this.searchResults,
     );
   }
@@ -42,6 +46,6 @@ class ProductSearchState extends BlocState {
   String toString() {
     return 'ProductSearchState{status: $status, '
         'breadcrumbs: ${breadcrumbs.length}, facets: ${facets.length}, '
-        'products: ${products.length}}';
+        'pagination: $pagination, products: ${products.length}}';
   }
 }

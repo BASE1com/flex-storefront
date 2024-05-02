@@ -29,7 +29,10 @@ class SearchResults {
 
   @override
   String toString() {
-    return 'SearchResults{breadcrumbs: $breadcrumbs, currentQuery: $currentQuery, facets: $facets, freeTextSearch: $freeTextSearch, pagination: $pagination, products: $products, sorts: $sorts}';
+    return 'SearchResults{breadcrumbs: $breadcrumbs, '
+        'currentQuery: $currentQuery, facets: $facets, '
+        'freeTextSearch: $freeTextSearch, pagination: $pagination, '
+        'products: $products, sorts: $sorts}';
   }
 }
 
@@ -38,7 +41,7 @@ class Breadcrumb {
   final String facetCode;
   final String facetName;
   final String facetValueCode;
-  final String facetValueName;
+  final String? facetValueName;
   final SearchState? removeQuery;
   final SearchState? truncateQuery;
 
@@ -56,7 +59,8 @@ class Breadcrumb {
 
   @override
   String toString() {
-    return 'Breadcrumb{facetCode: $facetCode, facetName: $facetName, facetValueCode: $facetValueCode, facetValueName: $facetValueName}';
+    return 'Breadcrumb{facetCode: $facetCode, facetName: $facetName, '
+        'facetValueCode: $facetValueCode, facetValueName: $facetValueName}';
   }
 }
 
@@ -94,6 +98,15 @@ class Pagination {
     required this.totalPages,
     required this.totalResults,
   });
+
+  factory Pagination.empty() => Pagination(
+        currentPage: 0,
+        pageSize: 0,
+        sort: '',
+        totalPages: 0,
+        totalResults: 0,
+      );
+
   factory Pagination.fromJson(Map<String, dynamic> json) =>
       _$PaginationFromJson(json);
 }

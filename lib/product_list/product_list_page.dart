@@ -36,53 +36,79 @@ class ProductListPage extends StatelessWidget {
   }
 }
 
-class ProductListView extends StatelessWidget {
+class ProductListView extends StatefulWidget {
   const ProductListView({super.key});
+
+  @override
+  State<ProductListView> createState() => _ProductListViewState();
+}
+
+class _ProductListViewState extends State<ProductListView> {
+  final controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.position.pixels) {
+        context.read<ProductSearchCubit>().nextPage();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductSearchCubit, ProductSearchState>(
       builder: (context, state) {
-        switch (state.status) {
-          case Status.pending:
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          case Status.success:
-            return Column(
-              children: [
-                if (state.searchResults != null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: FlexSizes.appPadding,
-                    ),
-                    child: SearchResultsHeader(
-                      breadcrumbs: state.breadcrumbs,
-                      searchResults: state.searchResults!,
-                    ),
-                  ),
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: state.products.length,
-                    separatorBuilder: (_, __) => Divider(
-                      height: 0,
-                      color: Colors.grey[200],
-                    ),
-                    itemBuilder: (context, i) {
-                      final product = state.products[i];
-
-                      return ProductListItem(product: product);
-                    },
-                  ),
+        return Column(
+          children: [
+            if (state.searchResults != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: FlexSizes.appPadding,
                 ),
-              ],
-            );
-          case Status.failure:
-            return const Center(
-              child: Text('Failed to load products'),
-            );
-        }
+                child: SearchResultsHeader(
+                  breadcrumbs: state.breadcrumbs,
+                  searchResults: state.searchResults!,
+                ),
+              ),
+            if (state.status == Status.failure)
+              const Center(child: Text('Failed to load products')),
+            Expanded(
+              child: ListView.separated(
+                controller: controller,
+                itemCount: state.products.length + 1,
+                separatorBuilder: (_, __) => Divider(
+                  height: 0,
+                  color: Colors.grey[200],
+                ),
+                itemBuilder: (context, i) {
+                  // handle the last item
+                  if (i == state.products.length) {
+                    if (state.status == Status.pending) {
+                      return const ProductListItemShimmer();
+                    }
+
+                    return state.pagination.currentPage + 1 >=
+                            state.pagination.totalPages
+                        ? const Center(child: Text('No more products to load'))
+                        : const ProductListItemShimmer();
+                  }
+
+                  return ProductListItem(product: state.products[i]);
+                },
+              ),
+            ),
+          ],
+        );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

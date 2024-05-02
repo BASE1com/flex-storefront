@@ -31,6 +31,7 @@ class ProductListApi {
 
   Future<SearchResults> searchProducts({
     required String query,
+    int page = 0,
   }) async {
     final path = PATH.replaceAll(
       '<CATALOG>',
@@ -41,7 +42,8 @@ class ProductListApi {
 
     final response = await GetIt.instance
         .get<Dio>(instanceName: Singletons.hybrisClient)
-        .get('${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS&query=$query');
+        .get(
+            '${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS&query=$query&currentPage=$page');
 
     return SearchResults.fromJson(response.data);
   }
