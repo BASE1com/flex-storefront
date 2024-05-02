@@ -68,8 +68,7 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
     }
 
     try {
-      // todo: discuss how to handle item pending state
-      // emit(state.copyWith(status: Status.pending));
+      emit(state.copyWith(status: Status.pending));
 
       final searchResults =
           await GetIt.instance.get<ProductListApi>().searchProducts(
