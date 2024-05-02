@@ -7,6 +7,7 @@ import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/flex_ui/widgets/selectable_image.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_cubit.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_state.dart';
+import 'package:flex_storefront/shared/navigation_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -35,7 +36,7 @@ class HomePageContent extends StatelessWidget {
           imageUrl: section.banner.url,
           borderRadius: FlexSizes.borderRadiusMd,
           onTap: () {
-            context.router.navigateNamed(section.link);
+            context.router.navigateNamed(section.link.withTabArg);
           },
         );
       } else if (section is CarouselData) {
@@ -47,7 +48,7 @@ class HomePageContent extends StatelessWidget {
               imageUrl: item.media.url,
               borderRadius: FlexSizes.borderRadiusMd,
               onTap: () {
-                context.router.navigateNamed(item.link);
+                context.router.navigateNamed(item.link.withTabArg);
               },
             );
           }).toList(),
@@ -67,7 +68,9 @@ class HomePageContent extends StatelessWidget {
                 if (product != null) {
                   return InkWell(
                     onTap: () {
-                      context.router.navigateNamed('/shop/product/$code');
+                      context.router.navigateNamed(
+                        '/shop/product/$code'.withTabArg,
+                      );
                     },
                     child: Column(
                       children: [
