@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/flex_ui/widgets/star_rating.dart';
@@ -21,8 +22,8 @@ class ProductListItem extends StatelessWidget {
       onTap: () {
         context.router.navigateNamed('product/${product.code}');
       },
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(FlexSizes.md),
         child: Row(
           children: [
             Flexible(
