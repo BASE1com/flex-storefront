@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flex_storefront/cart/apis/cart_api.dart';
 import 'package:flex_storefront/category/apis/category_api.dart';
 import 'package:flex_storefront/cms/apis/cms_api.dart';
 import 'package:flex_storefront/config/config_repository.dart';
@@ -27,6 +28,7 @@ void init() {
     instanceName: Singletons.hybrisClient,
   );
 
+  GetIt.instance.registerSingleton(CartApi());
   GetIt.instance.registerSingleton(CategoryApi());
   GetIt.instance.registerSingleton(CmsApi());
   GetIt.instance.registerSingleton(ProductApi());

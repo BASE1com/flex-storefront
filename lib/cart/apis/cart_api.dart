@@ -3,14 +3,18 @@ import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/init.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
+import 'package:loggy/loggy.dart';
 
 const PATH = '/occ/v2/electronics-spa/users/anonymous/carts/';
 const PARAMS =
     '?fields=DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),totalUnitCount,deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue,%20value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user,saveTime,name,description&lang=en&curr=USD';
 
-class CartApi {
-  final http = Dio();
+mixin CartApiLoggy implements LoggyType {
+  @override
+  Loggy<CartApiLoggy> get loggy => Loggy<CartApiLoggy>('CartApiLoggy');
+}
 
+class CartApi with CartApiLoggy {
   Future<Cart> fetchCart({String? cartCode}) async {
     final response = await GetIt.instance
         .get<Dio>(instanceName: Singletons.hybrisClient)

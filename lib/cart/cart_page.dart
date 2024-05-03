@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:flex_storefront/cart/bloc/global_cart_bloc.dart';
 import 'package:flex_storefront/cart/cubits/cart_cubit.dart';
 import 'package:flex_storefront/cart/cubits/cart_state.dart';
 import 'package:flex_storefront/cart/widgets/cart_content.dart';
@@ -14,7 +15,9 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<CartCubit>(
-      create: (context) => CartCubit()..loadCart(),
+      create: (context) => CartCubit(
+        globalCartBloc: context.read<GlobalCartBloc>(),
+      )..loadCart(),
       child: const CartView(),
     );
   }
@@ -35,7 +38,7 @@ class CartView extends StatelessWidget {
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           switch (state.status) {
-            case Status.pending:
+            case Status.initial || Status.pending:
               return const Center(
                 child: CircularProgressIndicator(),
               );
