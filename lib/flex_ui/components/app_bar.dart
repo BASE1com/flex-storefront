@@ -23,6 +23,8 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fromTab = RouteData.of(context).queryParams.optInt('fromTab');
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: FlexSizes.appPadding),
       child: AppBar(
@@ -31,9 +33,11 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? IconButton(
                 onPressed: onLeadingPressed ??
                     () {
-                      context.router.canPop()
-                          ? context.router.maybePop()
-                          : context.router.back();
+                      if (fromTab != null) {
+                        AutoTabsRouter.of(context).setActiveIndex(fromTab);
+                      }
+
+                      AutoRouter.of(context).maybePop();
                     },
                 icon: Icon(leadingIcon),
               )
