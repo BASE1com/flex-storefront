@@ -1,7 +1,7 @@
 extension LinkWithTabInfo on String {
-  String get withTabArg {
+  String withTabArg(int tabIndex) {
     final uri = Uri.parse(this);
 
-    return '$this${uri.hasQuery ? '&' : '?'}fromTab=0';
+    return '$this${uri.hasQuery ? '&' : '?'}fromTab=$tabIndex';
   }
 }

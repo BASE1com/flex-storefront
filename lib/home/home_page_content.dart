@@ -19,6 +19,8 @@ class HomePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final activeIndex = AutoTabsRouter.of(context).activeIndex;
+
     final widgets = sections.map((section) {
       if (section is SpacerData) {
         return SizedBox(height: section.space);
@@ -36,7 +38,7 @@ class HomePageContent extends StatelessWidget {
           imageUrl: section.banner.url,
           borderRadius: FlexSizes.borderRadiusMd,
           onTap: () {
-            context.router.navigateNamed(section.link.withTabArg);
+            context.router.navigateNamed(section.link.withTabArg(activeIndex));
           },
         );
       } else if (section is CarouselData) {
@@ -48,7 +50,7 @@ class HomePageContent extends StatelessWidget {
               imageUrl: item.media.url,
               borderRadius: FlexSizes.borderRadiusMd,
               onTap: () {
-                context.router.navigateNamed(item.link.withTabArg);
+                context.router.navigateNamed(item.link.withTabArg(activeIndex));
               },
             );
           }).toList(),
@@ -69,7 +71,7 @@ class HomePageContent extends StatelessWidget {
                   return InkWell(
                     onTap: () {
                       context.router.navigateNamed(
-                        '/shop/product/$code'.withTabArg,
+                        '/shop/product/$code'.withTabArg(activeIndex),
                       );
                     },
                     child: Column(
