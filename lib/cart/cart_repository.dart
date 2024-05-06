@@ -70,4 +70,40 @@ class CartRepository {
       return false;
     }
   }
+
+  Future<bool> removeProductFromCart({
+    required int entryNumber,
+  }) async {
+    const cartCode = kTestCart;
+
+    try {
+      await _cartApi.removeProductFromCart(
+        cartCode: cartCode,
+        entryNumber: entryNumber,
+      );
+
+      // Do other side effects here
+      _cartApi.fetchCart(cartCode: kTestCart).then((cart) {
+        _cartStreamController.add(cart);
+      });
+
+      _cartMessageStreamController.add(
+        AddToCartMessage(
+          CartMessageType.success,
+          'Removed $entryNumber from cart',
+        ),
+      );
+
+      return true;
+    } catch (e) {
+      _cartMessageStreamController.add(
+        AddToCartMessage(
+          CartMessageType.error,
+          'Failed to remove $entryNumber from cart',
+        ),
+      );
+
+      return false;
+    }
+  }
 }

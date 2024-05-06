@@ -30,6 +30,21 @@ class CartPageCubit extends Cubit<CartPageState> {
     );
   }
 
+  Future<void> removeEntry({required int entryNumber}) async {
+    emit(state.copyWith(status: Status.pending));
+
+    try {
+      await GetIt.instance.get<CartRepository>().removeProductFromCart(
+            entryNumber: entryNumber,
+          );
+
+      emit(state.copyWith(status: Status.success));
+    } catch (e) {
+      emit(state.copyWith(status: Status.failure));
+      addError(e);
+    }
+  }
+
   @override
   Future<void> close() {
     _cartStreamSubscription.cancel();

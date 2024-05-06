@@ -42,7 +42,9 @@ class CartEntryActions extends StatelessWidget {
           onPressed: cartLoading
               ? null
               : () {
-                  // tood: remove entry via bloc
+                  context.read<CartPageCubit>().removeEntry(
+                        entryNumber: entry.entryNumber,
+                      );
                 },
           child: const Text('Remove'),
         )
