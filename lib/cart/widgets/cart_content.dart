@@ -1,4 +1,4 @@
-import 'package:flex_storefront/cart/cubits/cart_cubit.dart';
+import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
 import 'package:flex_storefront/cart/widgets/cart_item_entry.dart';
 import 'package:flex_storefront/cart/widgets/order_summary.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +11,7 @@ class CartContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cart = context.select((CartCubit cubit) => cubit.state.cart)!;
+    final cart = context.select((CartPageCubit cubit) => cubit.state.cart)!;
 
     final widgets = [
       ...cart.entries.map((entry) {

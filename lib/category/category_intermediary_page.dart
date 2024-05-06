@@ -45,7 +45,7 @@ class CategoryIntermediaryView extends StatelessWidget {
     return BlocBuilder<CategoryIntermediaryCubit, CategoryIntermediaryState>(
       builder: (context, state) {
         switch (state.status) {
-          case Status.pending:
+          case Status.initial || Status.pending:
             return const Center(
               child: CircularProgressIndicator(),
             );

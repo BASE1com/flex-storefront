@@ -1,4 +1,4 @@
-import 'package:flex_storefront/cart/cubits/cart_cubit.dart';
+import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
 import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/flex_ui/widgets/quantity_selector.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
@@ -18,7 +18,7 @@ class CartEntryActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartLoading = context
-        .select((CartCubit cubit) => cubit.state.status == Status.pending);
+        .select((CartPageCubit cubit) => cubit.state.status == Status.pending);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

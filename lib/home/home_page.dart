@@ -64,7 +64,7 @@ class HomeView extends StatelessWidget {
           child: BlocBuilder<CmsCubit, CmsState>(
             builder: (_, state) {
               switch (state.status) {
-                case Status.pending:
+                case Status.initial || Status.pending:
                   return const Center(
                     child: CircularProgressIndicator(),
                   );

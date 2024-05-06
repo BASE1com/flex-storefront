@@ -74,7 +74,10 @@ class ProductDetailContent extends StatelessWidget {
                       .changeQuantity(quantity: val),
                 ),
                 const SizedBox(width: 16.0),
-                const AddToCartButton(),
+                AddToCartButton(
+                  onPressed: () =>
+                      context.read<ProductDetailCubit>().addToCart(),
+                ),
               ],
             ),
           ),
