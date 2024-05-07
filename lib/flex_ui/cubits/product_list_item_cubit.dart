@@ -52,6 +52,27 @@ class ProductListItemCubit extends Cubit<ProductListItemState> {
     }
   }
 
+  void changeQuantity(int quantity) {
+    try {
+      if (quantity <= 0) return;
+
+      final entry = _cartRepository.latestCart.entries
+          .firstWhereOrNull((entry) => entry.product.code == code);
+
+      if (entry == null) return;
+
+      _cartRepository.changeQuantityInCart(
+        entryNumber: entry.entryNumber,
+        quantity: quantity,
+      );
+
+      emit(state.copyWith(quantity: quantity));
+    } catch (error, stackTrace) {
+      emit(state.copyWith(status: Status.failure));
+      addError(error, stackTrace);
+    }
+  }
+
   @override
   Future<void> close() {
     _cartStreamSubscription.cancel();

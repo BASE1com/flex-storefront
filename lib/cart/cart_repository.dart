@@ -32,6 +32,9 @@ class CartRepository {
   Stream<CartMessage> getCartMessageStream() =>
       _cartMessageStreamController.asBroadcastStream();
 
+  /// The latest Cart in the stream
+  Cart get latestCart => _cartStreamController.value;
+
   Future<bool> addProductToCart({
     required String productCode,
     required int quantity,
@@ -99,6 +102,34 @@ class CartRepository {
       );
 
       return false;
+    }
+  }
+
+  Future<void> changeQuantityInCart({
+    required int entryNumber,
+    required int quantity,
+  }) async {
+    const cartCode = kTestCart;
+
+    try {
+      await _cartApi.changeQuantityInCart(
+        cartCode: cartCode,
+        entryNumber: entryNumber,
+        quantity: quantity,
+      );
+
+      // TODO: add any applicable cart messages
+      return;
+    } catch (e) {
+      _cartMessageStreamController.add(
+        AddToCartMessage(
+          CartMessageType.error,
+          'Failed to change quantity of $entryNumber to $quantity',
+        ),
+      );
+    } finally {
+      final cart = await _cartApi.fetchCart(cartCode: kTestCart);
+      _cartStreamController.add(cart);
     }
   }
 }

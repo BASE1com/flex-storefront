@@ -5,6 +5,7 @@ import 'package:flex_storefront/flex_ui/cubits/product_list_item_state.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
+import 'package:flex_storefront/flex_ui/widgets/quantity_selector.dart';
 import 'package:flex_storefront/flex_ui/widgets/star_rating.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -62,7 +63,12 @@ class ProductListItem extends StatelessWidget {
                     BlocBuilder<ProductListItemCubit, ProductListItemState>(
                       builder: (context, state) {
                         if (state.existsInCart) {
-                          return Text('${state.quantity} in cart');
+                          return QuantitySelector(
+                            quantity: state.quantity,
+                            onChanged: (value) => context
+                                .read<ProductListItemCubit>()
+                                .changeQuantity(value),
+                          );
                         }
 
                         return AddToCartButton(

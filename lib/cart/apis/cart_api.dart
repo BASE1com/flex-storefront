@@ -47,4 +47,21 @@ class CartApi {
     // TODO: handle response deserialization
     return;
   }
+
+  Future<void> changeQuantityInCart({
+    required String cartCode,
+    required int entryNumber,
+    required int quantity,
+  }) async {
+    final response = await GetIt.instance
+        .get<Dio>(instanceName: Singletons.hybrisClient)
+        .patch(
+            '${dotenv.get('HYBRIS_BASE_URL')}$PATH$cartCode/entries/$entryNumber',
+            data: {
+          'quantity': quantity,
+        });
+
+    // TODO: handle response deserialization
+    return;
+  }
 }
