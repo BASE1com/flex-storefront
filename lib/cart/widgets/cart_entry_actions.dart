@@ -26,9 +26,10 @@ class CartEntryActions extends StatelessWidget {
         QuantitySelector(
           disabled: cartLoading,
           quantity: quantity,
-          onChanged: (val) {
-            // todo: update quantity via bloc
-          },
+          onChanged: (value) => context.read<CartPageCubit>().updateQuantity(
+                entryNumber: entry.entryNumber,
+                quantity: value,
+              ),
         ),
         TextButton(
           onPressed: cartLoading
