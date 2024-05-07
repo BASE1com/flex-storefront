@@ -10,11 +10,13 @@ import 'package:get_it/get_it.dart';
 class CartPageCubit extends Cubit<CartPageState> {
   final CartApi cartApi = CartApi();
 
-  CartPageCubit() : super(CartPageState(status: Status.pending));
+  CartPageCubit() : super(CartPageState(status: Status.pending)) {
+    _subscribe();
+  }
 
   late final StreamSubscription _cartStreamSubscription;
 
-  Future<void> subscribe() async {
+  Future<void> _subscribe() async {
     _cartStreamSubscription =
         GetIt.instance.get<CartRepository>().getCartStream().listen(
       (cart) {

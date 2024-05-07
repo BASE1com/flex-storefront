@@ -44,7 +44,7 @@ class RootPage extends StatelessWidget {
               ),
               NavigationDestination(
                 icon: BlocProvider(
-                  create: (context) => CartIconCubit()..subscribe(),
+                  create: (context) => CartIconCubit(),
                   child: const CartIcon(),
                 ),
                 label: 'Cart',
