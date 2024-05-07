@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:loggy/loggy.dart';
 
 enum Status {
+  initial,
   pending,
   success,
   failure,

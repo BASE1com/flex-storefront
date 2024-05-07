@@ -42,7 +42,7 @@ class ProductDetailView extends StatelessWidget {
       body: BlocBuilder<ProductDetailCubit, ProductDetailState>(
         builder: (context, state) {
           switch (state.status) {
-            case Status.pending:
+            case Status.initial || Status.pending:
               return const Center(
                 child: CircularProgressIndicator(),
               );

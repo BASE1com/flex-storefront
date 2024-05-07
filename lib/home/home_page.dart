@@ -5,7 +5,6 @@ import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/home/home_page_content.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,15 +31,6 @@ class HomeView extends StatelessWidget {
       slivers: [
         SliverAppBar(
           backgroundColor: FlexColors.primary,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ),
-            )
-          ],
           pinned: true,
           expandedHeight: 200,
           flexibleSpace: FlexibleSpaceBar(
@@ -64,7 +54,7 @@ class HomeView extends StatelessWidget {
           child: BlocBuilder<CmsCubit, CmsState>(
             builder: (_, state) {
               switch (state.status) {
-                case Status.pending:
+                case Status.initial || Status.pending:
                   return const Center(
                     child: CircularProgressIndicator(),
                   );

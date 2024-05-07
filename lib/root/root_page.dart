@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_storefront/cart/cubits/cart_icon_cubit.dart';
+import 'package:flex_storefront/root/widgets/cart_icon.dart';
 import 'package:flex_storefront/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 @RoutePage()
@@ -26,21 +29,24 @@ class RootPage extends StatelessWidget {
             onDestinationSelected: (index) {
               tabsRouter.setActiveIndex(index);
             },
-            destinations: const [
-              NavigationDestination(
+            destinations: [
+              const NavigationDestination(
                 icon: Icon(LineAwesome.home_solid),
                 label: 'Home',
               ),
-              NavigationDestination(
+              const NavigationDestination(
                 icon: Icon(LineAwesome.tag_solid),
                 label: 'Shop',
               ),
-              NavigationDestination(
+              const NavigationDestination(
                 icon: Icon(LineAwesome.user_solid),
                 label: 'Account',
               ),
               NavigationDestination(
-                icon: Icon(LineAwesome.shopping_bag_solid),
+                icon: BlocProvider(
+                  create: (context) => CartIconCubit(),
+                  child: const CartIcon(),
+                ),
                 label: 'Cart',
               ),
             ],

@@ -18,4 +18,33 @@ class CartApi {
 
     return Cart.fromJson(response.data);
   }
+
+  Future<void> addProductToCart({
+    required String cartCode,
+    required String productCode,
+    required int quantity,
+  }) async {
+    final response = await GetIt.instance
+        .get<Dio>(instanceName: Singletons.hybrisClient)
+        .post('${dotenv.get('HYBRIS_BASE_URL')}$PATH$cartCode/entries', data: {
+      'product': {'code': productCode},
+      'quantity': quantity,
+    });
+
+    // TODO: handle response deserialization
+    return;
+  }
+
+  Future<void> removeProductFromCart({
+    required String cartCode,
+    required int entryNumber,
+  }) async {
+    final response = await GetIt.instance
+        .get<Dio>(instanceName: Singletons.hybrisClient)
+        .delete(
+            '${dotenv.get('HYBRIS_BASE_URL')}$PATH$cartCode/entries/$entryNumber');
+
+    // TODO: handle response deserialization
+    return;
+  }
 }
