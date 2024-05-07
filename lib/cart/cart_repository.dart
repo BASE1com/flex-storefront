@@ -16,14 +16,13 @@ class CartRepository {
 
   late final _cartStreamController = BehaviorSubject<Cart>();
   late final _cartMessageStreamController = BehaviorSubject<CartMessage>.seeded(
-    CartReadyMessage('Welcome to the cart!'),
+    CartReadyMessage('Cart ready!'),
   );
 
-  void init() {
-    _cartApi.fetchCart(cartCode: kTestCart).then((cart) {
-      print('Got cart, adding to straem');
-      _cartStreamController.add(cart);
-    });
+  void init() async {
+    // TODO: proper initialization, find anonymous or user cart, or create one?
+    final cart = await _cartApi.fetchCart(cartCode: kTestCart);
+    _cartStreamController.add(cart);
   }
 
   // Provide a [Stream] of the near real-time cart
@@ -46,11 +45,6 @@ class CartRepository {
         quantity: quantity,
       );
 
-      // Do other side effects here
-      _cartApi.fetchCart(cartCode: kTestCart).then((cart) {
-        _cartStreamController.add(cart);
-      });
-
       _cartMessageStreamController.add(
         AddToCartMessage(
           CartMessageType.success,
@@ -58,12 +52,49 @@ class CartRepository {
         ),
       );
 
+      final cart = await _cartApi.fetchCart(cartCode: kTestCart);
+      _cartStreamController.add(cart);
+
       return true;
     } catch (e) {
       _cartMessageStreamController.add(
         AddToCartMessage(
           CartMessageType.error,
           'Failed to add $quantity of $productCode to cart',
+        ),
+      );
+
+      return false;
+    }
+  }
+
+  Future<bool> removeProductFromCart({
+    required int entryNumber,
+  }) async {
+    const cartCode = kTestCart;
+
+    try {
+      await _cartApi.removeProductFromCart(
+        cartCode: cartCode,
+        entryNumber: entryNumber,
+      );
+
+      _cartMessageStreamController.add(
+        AddToCartMessage(
+          CartMessageType.success,
+          'Removed $entryNumber from cart',
+        ),
+      );
+
+      final cart = await _cartApi.fetchCart(cartCode: kTestCart);
+      _cartStreamController.add(cart);
+
+      return true;
+    } catch (e) {
+      _cartMessageStreamController.add(
+        AddToCartMessage(
+          CartMessageType.error,
+          'Failed to remove $entryNumber from cart',
         ),
       );
 

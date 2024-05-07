@@ -10,6 +10,16 @@ class CartPageState {
     this.cart,
   });
 
+  copyWith({
+    Status? status,
+    Cart? cart,
+  }) {
+    return CartPageState(
+      status: status ?? this.status,
+      cart: cart ?? this.cart,
+    );
+  }
+
   @override
   String toString() {
     return 'CartPageState{status: $status, products: ${cart?.entries.length}}';

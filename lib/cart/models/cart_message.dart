@@ -10,6 +10,11 @@ abstract class CartMessage {
   final String message;
 
   CartMessage(this.type, this.message);
+
+  @override
+  String toString() {
+    return 'CartMessage{type: $type, message: $message}';
+  }
 }
 
 class CartReadyMessage extends CartMessage {

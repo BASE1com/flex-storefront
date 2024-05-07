@@ -31,6 +31,20 @@ class CartApi {
       'quantity': quantity,
     });
 
+    // TODO: handle response deserialization
+    return;
+  }
+
+  Future<void> removeProductFromCart({
+    required String cartCode,
+    required int entryNumber,
+  }) async {
+    final response = await GetIt.instance
+        .get<Dio>(instanceName: Singletons.hybrisClient)
+        .delete(
+            '${dotenv.get('HYBRIS_BASE_URL')}$PATH$cartCode/entries/$entryNumber');
+
+    // TODO: handle response deserialization
     return;
   }
 }
