@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flex_storefront/cart/apis/cart_api.dart';
 import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/cart/models/cart_message.dart';
@@ -59,11 +60,11 @@ class CartRepository {
       _cartStreamController.add(cart);
 
       return true;
-    } catch (e) {
+    } on DioException catch (e) {
       _cartMessageStreamController.add(
         AddToCartMessage(
           CartMessageType.error,
-          'Failed to add $quantity of $productCode to cart',
+          'Failed to add $quantity of $productCode to cart, with $e',
         ),
       );
 
@@ -93,11 +94,11 @@ class CartRepository {
       _cartStreamController.add(cart);
 
       return true;
-    } catch (e) {
+    } on DioException catch (e) {
       _cartMessageStreamController.add(
         AddToCartMessage(
           CartMessageType.error,
-          'Failed to remove $entryNumber from cart',
+          'Failed to remove $entryNumber from cart, with $e',
         ),
       );
 
@@ -118,18 +119,17 @@ class CartRepository {
         quantity: quantity,
       );
 
-      // TODO: add any applicable cart messages
+      final cart = await _cartApi.fetchCart(cartCode: kTestCart);
+      _cartStreamController.add(cart);
+
       return;
-    } catch (e) {
+    } on DioException catch (e) {
       _cartMessageStreamController.add(
         AddToCartMessage(
           CartMessageType.error,
-          'Failed to change quantity of $entryNumber to $quantity',
+          'Failed to change quantity of $entryNumber to $quantity, with $e',
         ),
       );
-    } finally {
-      final cart = await _cartApi.fetchCart(cartCode: kTestCart);
-      _cartStreamController.add(cart);
     }
   }
 }
