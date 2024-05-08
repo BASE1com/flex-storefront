@@ -40,9 +40,9 @@ abstract class CartSubscriptionCubit<T> extends Cubit<T> {
   void onCartError(err, stackTrace);
 
   @override
-  Future<void> close() {
-    _cartStreamSubscription.cancel();
-    _cartMessageStreamSubscription.cancel();
+  Future<void> close() async {
+    await _cartStreamSubscription.cancel();
+    await _cartMessageStreamSubscription.cancel();
     return super.close();
   }
 }
