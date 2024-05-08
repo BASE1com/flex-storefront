@@ -1,13 +1,14 @@
 import 'package:flex_storefront/product_list/models/product.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 
-class ProductDetailState {
-  final Status status;
+class ProductDetailState extends BlocState {
   final Product? product;
   final int quantity;
 
   ProductDetailState({
-    required this.status,
+    required super.status,
+    super.error,
+    super.stackTrace,
     this.product,
     this.quantity = 1,
   });

@@ -11,24 +11,6 @@ const PARAMS =
     '?fields=products(code%2Cname%2Csummary%2Cconfigurable%2CconfiguratorType%2Cmultidimensional%2Cprice(FULL)%2Cimages(DEFAULT)%2Cstock(FULL)%2CaverageRating%2CvariantOptions)%2Cfacets%2Cbreadcrumbs%2Cpagination(DEFAULT)%2Csorts(DEFAULT)%2CfreeTextSearch%2CcurrentQuery&pageSize=12&lang=en&curr=USD';
 
 class ProductListApi {
-  Future<SearchResults> fetchProducts({
-    String? categoryCode,
-  }) async {
-    final path = PATH.replaceAll(
-      '<CATALOG>',
-      GetIt.instance
-          .get<ConfigRepository>()
-          .getString(ConfigKey.shopHybrisCatalog),
-    );
-
-    final response = await GetIt.instance
-        .get<Dio>(instanceName: Singletons.hybrisClient)
-        .get(
-            '${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS&query=%3Arelevance%3AallCategories%3A$categoryCode');
-
-    return SearchResults.fromJson(response.data);
-  }
-
   Future<SearchResults> searchProducts({
     required String query,
     int page = 0,
