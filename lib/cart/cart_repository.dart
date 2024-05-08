@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flex_storefront/cart/apis/cart_api.dart';
 import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/cart/models/cart_message.dart';
@@ -32,6 +33,9 @@ class CartRepository {
   Stream<CartMessage> getCartMessageStream() =>
       _cartMessageStreamController.asBroadcastStream();
 
+  /// The latest Cart in the stream
+  Cart get latestCart => _cartStreamController.value;
+
   Future<bool> addProductToCart({
     required String productCode,
     required int quantity,
@@ -56,11 +60,11 @@ class CartRepository {
       _cartStreamController.add(cart);
 
       return true;
-    } catch (e) {
+    } on DioException catch (e) {
       _cartMessageStreamController.add(
         AddToCartMessage(
           CartMessageType.error,
-          'Failed to add $quantity of $productCode to cart',
+          'Failed to add $quantity of $productCode to cart, with $e',
         ),
       );
 
@@ -90,15 +94,42 @@ class CartRepository {
       _cartStreamController.add(cart);
 
       return true;
-    } catch (e) {
+    } on DioException catch (e) {
       _cartMessageStreamController.add(
         AddToCartMessage(
           CartMessageType.error,
-          'Failed to remove $entryNumber from cart',
+          'Failed to remove $entryNumber from cart, with $e',
         ),
       );
 
       return false;
+    }
+  }
+
+  Future<void> changeQuantityInCart({
+    required int entryNumber,
+    required int quantity,
+  }) async {
+    const cartCode = kTestCart;
+
+    try {
+      await _cartApi.changeQuantityInCart(
+        cartCode: cartCode,
+        entryNumber: entryNumber,
+        quantity: quantity,
+      );
+
+      final cart = await _cartApi.fetchCart(cartCode: kTestCart);
+      _cartStreamController.add(cart);
+
+      return;
+    } on DioException catch (e) {
+      _cartMessageStreamController.add(
+        AddToCartMessage(
+          CartMessageType.error,
+          'Failed to change quantity of $entryNumber to $quantity, with $e',
+        ),
+      );
     }
   }
 }

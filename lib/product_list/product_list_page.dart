@@ -96,7 +96,10 @@ class _ProductListViewState extends State<ProductListView> {
                         : const ProductListItemShimmer();
                   }
 
-                  return ProductListItem(product: state.products[i]);
+                  return ProductListItem(
+                    key: Key(state.products[i].code),
+                    product: state.products[i],
+                  );
                 },
               ),
             ),

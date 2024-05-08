@@ -24,3 +24,8 @@ class CartReadyMessage extends CartMessage {
 class AddToCartMessage extends CartMessage {
   AddToCartMessage(CartMessageType type, String message) : super(type, message);
 }
+
+class ChangeQuantityMessage extends CartMessage {
+  ChangeQuantityMessage(CartMessageType type, String message)
+      : super(type, message);
+}
