@@ -58,7 +58,7 @@ class HomePageContent extends StatelessWidget {
       } else if (section is ProductCarouselData) {
         return BlocProvider<ProductListCubit>(
           create: (_) => ProductListCubit()
-            ..loadProductsfromIds(productIds: section.productCodes),
+            ..loadProductsFromIds(productIds: section.productCodes),
           child: BlocBuilder<ProductListCubit, ProductListState>(
               builder: (context, state) {
             return FlexCarousel(
