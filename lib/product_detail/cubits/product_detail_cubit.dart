@@ -52,7 +52,7 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
 
     try {
       await GetIt.instance.get<CartRepository>().addProductToCart(
-            productCode: state.product!.code,
+            product: state.product!,
             quantity: state.quantity,
           );
 

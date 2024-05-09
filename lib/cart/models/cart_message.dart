@@ -1,31 +1,15 @@
-enum CartMessageType {
-  success,
-  error,
-  warning,
-  info,
-}
+import 'package:flex_storefront/product_list/models/product.dart';
 
-abstract class CartMessage {
-  final CartMessageType type;
-  final String message;
+abstract class CartMessage {}
 
-  CartMessage(this.type, this.message);
-
-  @override
-  String toString() {
-    return 'CartMessage{type: $type, message: $message}';
-  }
-}
-
-class CartReadyMessage extends CartMessage {
-  CartReadyMessage(String message) : super(CartMessageType.info, message);
-}
-
-class AddToCartMessage extends CartMessage {
-  AddToCartMessage(CartMessageType type, String message) : super(type, message);
-}
+class CartReadyMessage extends CartMessage {}
 
 class ChangeQuantityMessage extends CartMessage {
-  ChangeQuantityMessage(CartMessageType type, String message)
-      : super(type, message);
+  final Product product;
+  final int quantityDiff;
+
+  ChangeQuantityMessage(
+    this.product,
+    this.quantityDiff,
+  );
 }

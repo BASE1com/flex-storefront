@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/account/account_page.dart';
+import 'package:flex_storefront/analytics/apis/analytics_api.dart';
+import 'package:flex_storefront/analytics/models/analytics_events.dart';
 import 'package:flex_storefront/cart/cart_page.dart';
+import 'package:flex_storefront/cart/cart_repository.dart';
 import 'package:flex_storefront/category/category_intermediary_page.dart';
 import 'package:flex_storefront/category/category_page.dart';
 import 'package:flex_storefront/flex_ui/layouts/modal_bottom_sheet.dart';
@@ -13,10 +16,24 @@ import 'package:flex_storefront/root/root_page.dart';
 import 'package:flex_storefront/search/models/search_results.dart';
 import 'package:flex_storefront/shop/shop_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:sheet/route.dart';
 import 'package:sheet/sheet.dart';
 
 part 'router.gr.dart';
+
+class AnalyticsNavigationObserver extends AutoRouterObserver {
+  @override
+  void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
+    if (route.name == CartRoute.name) {
+      final cart = GetIt.instance.get<CartRepository>().hasCart
+          ? GetIt.instance.get<CartRepository>().latestCart
+          : null;
+
+      GetIt.instance.get<AnalyticsApi>().track(ViewCartEvent.fromCart(cart));
+    }
+  }
+}
 
 @AutoRouterConfig()
 class AppRouter extends _$AppRouter {

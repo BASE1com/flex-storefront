@@ -1,7 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flex_storefront/cart/apis/cart_api.dart';
 import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/cart/models/cart_message.dart';
+import 'package:flex_storefront/product_list/models/product.dart';
 import 'package:rxdart/subjects.dart';
 
 const kTestCart = '1b2be4d8-c5c7-4b0a-a472-ac7df417d762';
@@ -15,9 +15,9 @@ class CartRepository {
 
   final CartApi _cartApi;
 
-  late final _cartStreamController = BehaviorSubject<Cart>();
-  late final _cartMessageStreamController = BehaviorSubject<CartMessage>.seeded(
-    CartReadyMessage('Cart ready!'),
+  final _cartStreamController = BehaviorSubject<Cart>();
+  final _cartMessageStreamController = BehaviorSubject<CartMessage>.seeded(
+    CartReadyMessage(),
   );
 
   void init() async {
@@ -35,101 +35,66 @@ class CartRepository {
 
   /// The latest Cart in the stream
   Cart get latestCart => _cartStreamController.value;
+  bool get hasCart => _cartStreamController.hasValue;
 
-  Future<bool> addProductToCart({
-    required String productCode,
+  Future<void> addProductToCart({
+    required Product product,
     required int quantity,
   }) async {
     const cartCode = kTestCart;
 
-    try {
-      await _cartApi.addProductToCart(
-        cartCode: cartCode,
-        productCode: productCode,
-        quantity: quantity,
-      );
+    await _cartApi.addProductToCart(
+      cartCode: cartCode,
+      productCode: product.code,
+      quantity: quantity,
+    );
 
-      _cartMessageStreamController.add(
-        AddToCartMessage(
-          CartMessageType.success,
-          'Added $quantity of $productCode to cart',
-        ),
-      );
+    _cartMessageStreamController.add(
+      ChangeQuantityMessage(
+        product,
+        quantity,
+      ),
+    );
 
-      final cart = await _cartApi.fetchCart(cartCode: kTestCart);
-      _cartStreamController.add(cart);
-
-      return true;
-    } on DioException catch (e) {
-      _cartMessageStreamController.add(
-        AddToCartMessage(
-          CartMessageType.error,
-          'Failed to add $quantity of $productCode to cart, with $e',
-        ),
-      );
-
-      return false;
-    }
+    final cart = await _cartApi.fetchCart(cartCode: kTestCart);
+    _cartStreamController.add(cart);
   }
 
-  Future<bool> removeProductFromCart({
-    required int entryNumber,
+  Future<void> removeProductFromCart({
+    required CartItem entry,
   }) async {
     const cartCode = kTestCart;
 
-    try {
-      await _cartApi.removeProductFromCart(
-        cartCode: cartCode,
-        entryNumber: entryNumber,
-      );
+    await _cartApi.removeProductFromCart(
+      cartCode: cartCode,
+      entryNumber: entry.entryNumber,
+    );
 
-      _cartMessageStreamController.add(
-        AddToCartMessage(
-          CartMessageType.success,
-          'Removed $entryNumber from cart',
-        ),
-      );
+    _cartMessageStreamController.add(
+      ChangeQuantityMessage(entry.product, -entry.quantity),
+    );
 
-      final cart = await _cartApi.fetchCart(cartCode: kTestCart);
-      _cartStreamController.add(cart);
-
-      return true;
-    } on DioException catch (e) {
-      _cartMessageStreamController.add(
-        AddToCartMessage(
-          CartMessageType.error,
-          'Failed to remove $entryNumber from cart, with $e',
-        ),
-      );
-
-      return false;
-    }
+    final cart = await _cartApi.fetchCart(cartCode: kTestCart);
+    _cartStreamController.add(cart);
   }
 
   Future<void> changeQuantityInCart({
-    required int entryNumber,
+    required CartItem entry,
     required int quantity,
   }) async {
     const cartCode = kTestCart;
 
-    try {
-      await _cartApi.changeQuantityInCart(
-        cartCode: cartCode,
-        entryNumber: entryNumber,
-        quantity: quantity,
-      );
+    await _cartApi.changeQuantityInCart(
+      cartCode: cartCode,
+      entryNumber: entry.entryNumber,
+      quantity: quantity,
+    );
 
-      final cart = await _cartApi.fetchCart(cartCode: kTestCart);
-      _cartStreamController.add(cart);
+    _cartMessageStreamController.add(
+      ChangeQuantityMessage(entry.product, quantity - entry.quantity),
+    );
 
-      return;
-    } on DioException catch (e) {
-      _cartMessageStreamController.add(
-        AddToCartMessage(
-          CartMessageType.error,
-          'Failed to change quantity of $entryNumber to $quantity, with $e',
-        ),
-      );
-    }
+    final cart = await _cartApi.fetchCart(cartCode: kTestCart);
+    _cartStreamController.add(cart);
   }
 }

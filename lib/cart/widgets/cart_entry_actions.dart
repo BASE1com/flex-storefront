@@ -26,10 +26,9 @@ class CartEntryActions extends StatelessWidget {
         QuantitySelector(
           disabled: cartLoading,
           quantity: quantity,
-          onChanged: (value) => context.read<CartPageCubit>().updateQuantity(
-                entryNumber: entry.entryNumber,
-                quantity: value,
-              ),
+          onChanged: (value) => context
+              .read<CartPageCubit>()
+              .updateQuantity(entry: entry, quantity: value),
         ),
         TextButton(
           onPressed: cartLoading
@@ -43,9 +42,7 @@ class CartEntryActions extends StatelessWidget {
           onPressed: cartLoading
               ? null
               : () {
-                  context.read<CartPageCubit>().removeEntry(
-                        entryNumber: entry.entryNumber,
-                      );
+                  context.read<CartPageCubit>().removeEntry(entry: entry);
                 },
           child: const Text('Remove'),
         )
