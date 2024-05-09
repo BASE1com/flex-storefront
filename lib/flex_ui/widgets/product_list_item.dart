@@ -24,7 +24,7 @@ class ProductListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProductListItemCubit(code: product.code),
+      create: (context) => ProductListItemCubit(product: product),
       child: InkWell(
         onTap: () {
           context.router.navigateNamed('product/${product.code}');

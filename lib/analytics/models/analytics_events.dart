@@ -80,11 +80,11 @@ class ViewCartEvent extends AnalyticsItemsEvent {
     super.parameters,
   });
 
-  factory ViewCartEvent.fromCart(Cart cart) {
+  factory ViewCartEvent.fromCart(Cart? cart) {
     return ViewCartEvent(
-      currency: cart.totalPrice.currencyIso,
-      value: cart.totalPrice.value,
-      items: cart.entries
+      currency: cart?.totalPrice.currencyIso,
+      value: cart?.totalPrice.value,
+      items: cart?.entries
           .map((entry) => AnalyticsEventItem(
                 itemId: entry.product.code,
                 itemName: entry.product.name,

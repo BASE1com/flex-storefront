@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flex_storefront/cart/apis/cart_api.dart';
 import 'package:flex_storefront/cart/cart_repository.dart';
 import 'package:flex_storefront/cart/cubits/cart_page_state.dart';
+import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:get_it/get_it.dart';
 
@@ -32,12 +33,12 @@ class CartPageCubit extends Cubit<CartPageState> {
     );
   }
 
-  Future<void> removeEntry({required int entryNumber}) async {
+  Future<void> removeEntry({required CartItem entry}) async {
     emit(state.copyWith(status: Status.pending));
 
     try {
       await GetIt.instance.get<CartRepository>().removeProductFromCart(
-            entryNumber: entryNumber,
+            entry: entry,
           );
 
       emit(state.copyWith(status: Status.success));
@@ -48,14 +49,14 @@ class CartPageCubit extends Cubit<CartPageState> {
   }
 
   Future<void> updateQuantity({
-    required int entryNumber,
+    required CartItem entry,
     required int quantity,
   }) async {
     emit(state.copyWith(status: Status.pending));
 
     try {
       await GetIt.instance.get<CartRepository>().changeQuantityInCart(
-            entryNumber: entryNumber,
+            entry: entry,
             quantity: quantity,
           );
 
