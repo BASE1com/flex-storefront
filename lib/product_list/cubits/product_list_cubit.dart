@@ -9,28 +9,7 @@ import 'package:get_it/get_it.dart';
 class ProductListCubit extends Cubit<ProductListState> {
   ProductListCubit() : super(ProductListState(status: Status.pending));
 
-  Future<void> loadProducts({String? categoryCode}) async {
-    try {
-      emit(ProductListState(status: Status.pending));
-
-      final searchResults = await GetIt.instance
-          .get<ProductListApi>()
-          .fetchProducts(categoryCode: categoryCode);
-
-      emit(ProductListState(
-        status: Status.success,
-        products: searchResults.products,
-      ));
-    } on DioException catch (error) {
-      emit(ProductListState(
-        status: Status.failure,
-        error: error,
-        stackTrace: error.stackTrace,
-      ));
-    }
-  }
-
-  Future<void> loadProductsfromIds({required List<String> productIds}) async {
+  Future<void> loadProductsFromIds({required List<String> productIds}) async {
     for (var id in productIds) {
       GetIt.instance
           .get<ProductApi>()

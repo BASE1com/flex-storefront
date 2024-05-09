@@ -1,4 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
+import 'package:flex_storefront/analytics/apis/analytics_api.dart';
+import 'package:flex_storefront/analytics/models/analytics_events.dart';
 import 'package:flex_storefront/cart/cart_repository.dart';
 import 'package:flex_storefront/product_detail/apis/product_api.dart';
 import 'package:flex_storefront/product_detail/cubits/product_detail_state.dart';
@@ -8,8 +11,6 @@ import 'package:get_it/get_it.dart';
 class ProductDetailCubit extends Cubit<ProductDetailState> {
   ProductDetailCubit() : super(ProductDetailState(status: Status.pending));
 
-  final CartRepository _cartRepository = GetIt.instance.get<CartRepository>();
-
   Future<void> loadProduct({required String productId}) async {
     try {
       emit(ProductDetailState(status: Status.pending));
@@ -18,12 +19,20 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
           .get<ProductApi>()
           .fetchProduct(productId: productId);
 
+      await GetIt.instance
+          .get<AnalyticsApi>()
+          .track(ViewItemEvent.fromProduct(product));
+
       emit(ProductDetailState(
         status: Status.success,
         product: product,
       ));
-    } catch (err) {
-      emit(ProductDetailState(status: Status.failure));
+    } on DioException catch (error) {
+      emit(ProductDetailState(
+        status: Status.failure,
+        error: error,
+        stackTrace: error.stackTrace,
+      ));
     }
   }
 
@@ -42,14 +51,18 @@ class ProductDetailCubit extends Cubit<ProductDetailState> {
     emit(state.copyWith(status: Status.pending));
 
     try {
-      await _cartRepository.addProductToCart(
-        productCode: state.product!.code,
-        quantity: state.quantity,
-      );
+      await GetIt.instance.get<CartRepository>().addProductToCart(
+            productCode: state.product!.code,
+            quantity: state.quantity,
+          );
 
       emit(state.copyWith(status: Status.success));
-    } catch (e) {
-      emit(state.copyWith(status: Status.failure));
+    } on DioException catch (error) {
+      emit(ProductDetailState(
+        status: Status.failure,
+        error: error,
+        stackTrace: error.stackTrace,
+      ));
     }
   }
 }
