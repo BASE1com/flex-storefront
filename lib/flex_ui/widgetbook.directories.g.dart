@@ -12,7 +12,8 @@
 import 'package:flex_storefront/flex_ui/components/app_bar.dart' as _i2;
 import 'package:flex_storefront/flex_ui/components/carousel.dart' as _i3;
 import 'package:flex_storefront/flex_ui/components/gallery.dart' as _i4;
-import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart' as _i5;
+import 'package:flex_storefront/flex_ui/widgets/ecommerce/add_to_cart_button.dart'
+    as _i5;
 import 'package:widgetbook/widgetbook.dart' as _i1;
 
 final directories = <_i1.WidgetbookNode>[

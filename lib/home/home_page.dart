@@ -4,6 +4,7 @@ import 'package:flex_storefront/cms/cubits/cms_state.dart';
 import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/home/home_page_content.dart';
+import 'package:flex_storefront/flex_ui/widgets/search/search_bar.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 
 import 'package:flutter/material.dart';
@@ -38,8 +39,10 @@ class HomeView extends StatelessWidget {
               child: Container(
                 color: FlexColors.primary,
                 alignment: Alignment.center,
+                padding: const EdgeInsets.all(8.0)
+                    // Add a bottom padding to compensate the searchbar height, so the image is centered above it.
+                    .add(const EdgeInsets.only(bottom: kToolbarHeight)),
                 child: const CachedImage(
-                  width: 200,
                   url:
                       // TODO Replace with the media permalink corresponding to this image
                       'https://spartacus-demo.eastus.cloudapp.azure.com:8443/medias/SAP-scrn-R.png?context=bWFzdGVyfGltYWdlc3wxMDEyN3xpbWFnZS9wbmd8YVcxaFoyVnpMMmhrTmk5b09UTXZPRGM1TnpRNU5qazJOekU1T0M1d2JtY3wzZDU0YTQxNDExOGNhYTczZTViNjllMWIyNDFhMzBkOThmNTRmMTU2MjgwZDM3ZWYxNjIyNzY5MTY5M2M2YmU0',
@@ -48,6 +51,9 @@ class HomeView extends StatelessWidget {
                 ),
               ),
             ),
+            title: const FlexSearchBar(),
+            expandedTitleScale: 1.0,
+            titlePadding: EdgeInsets.zero,
           ),
         ),
         SliverToBoxAdapter(

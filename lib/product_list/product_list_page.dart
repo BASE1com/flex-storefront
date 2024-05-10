@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
-import 'package:flex_storefront/flex_ui/widgets/product_list_item.dart';
-import 'package:flex_storefront/flex_ui/widgets/search_results_header.dart';
+import 'package:flex_storefront/flex_ui/widgets/ecommerce/product_list_item.dart';
+import 'package:flex_storefront/flex_ui/widgets/search/search_results_header.dart';
 import 'package:flex_storefront/product_list/cubits/product_search_cubit.dart';
 import 'package:flex_storefront/product_list/cubits/product_search_state.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';

@@ -1,6 +1,6 @@
 import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
 import 'package:flex_storefront/cart/models/cart.dart';
-import 'package:flex_storefront/flex_ui/widgets/quantity_selector.dart';
+import 'package:flex_storefront/flex_ui/widgets/ecommerce/quantity_selector.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
