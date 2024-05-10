@@ -12,7 +12,9 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       title: 'Flex Storefront',
       theme: FlexAppTheme.lightTheme,
-      routerConfig: _appRouter.config(),
+      routerConfig: _appRouter.config(
+        navigatorObservers: () => [AnalyticsNavigationObserver()],
+      ),
     );
   }
 }

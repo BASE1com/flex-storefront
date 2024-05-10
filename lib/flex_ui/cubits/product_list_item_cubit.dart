@@ -4,14 +4,15 @@ import 'package:bloc/bloc.dart';
 import 'package:collection/collection.dart';
 import 'package:flex_storefront/cart/cart_repository.dart';
 import 'package:flex_storefront/flex_ui/cubits/product_list_item_state.dart';
+import 'package:flex_storefront/product_list/models/product.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:get_it/get_it.dart';
 
 class ProductListItemCubit extends Cubit<ProductListItemState> {
-  final String code;
+  final Product product;
 
   ProductListItemCubit({
-    required this.code,
+    required this.product,
   }) : super(ProductListItemState(status: Status.initial)) {
     _subscribe();
   }
@@ -25,7 +26,8 @@ class ProductListItemCubit extends Cubit<ProductListItemState> {
         emit(ProductListItemState(
           status: Status.success,
           quantity: cart.entries
-                  .firstWhereOrNull((entry) => entry.product.code == code)
+                  .firstWhereOrNull(
+                      (entry) => entry.product.code == product.code)
                   ?.quantity ??
               0,
         ));
@@ -42,7 +44,7 @@ class ProductListItemCubit extends Cubit<ProductListItemState> {
 
     try {
       await _cartRepository.addProductToCart(
-        productCode: code,
+        product: product,
         quantity: 1,
       );
 
@@ -57,12 +59,12 @@ class ProductListItemCubit extends Cubit<ProductListItemState> {
       if (quantity <= 0) return;
 
       final entry = _cartRepository.latestCart.entries
-          .firstWhereOrNull((entry) => entry.product.code == code);
+          .firstWhereOrNull((entry) => entry.product.code == product.code);
 
       if (entry == null) return;
 
       _cartRepository.changeQuantityInCart(
-        entryNumber: entry.entryNumber,
+        entry: entry,
         quantity: quantity,
       );
 

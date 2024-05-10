@@ -80,11 +80,11 @@ class ViewCartEvent extends AnalyticsItemsEvent {
     super.parameters,
   });
 
-  factory ViewCartEvent.fromCart(Cart cart) {
+  factory ViewCartEvent.fromCart(Cart? cart) {
     return ViewCartEvent(
-      currency: cart.totalPrice.currencyIso,
-      value: cart.totalPrice.value,
-      items: cart.entries
+      currency: cart?.totalPrice.currencyIso,
+      value: cart?.totalPrice.value,
+      items: cart?.entries
           .map((entry) => AnalyticsEventItem(
                 itemId: entry.product.code,
                 itemName: entry.product.name,
@@ -130,7 +130,7 @@ class RemoveFromCartEvent extends AnalyticsItemsEvent {
     super.parameters,
   });
 
-  factory RemoveFromCartEvent.fromData(Product product, int quantity) {
+  factory RemoveFromCartEvent.fromProduct(Product product) {
     return RemoveFromCartEvent(
       currency: product.price?.currencyIso,
       value: product.price?.value,
@@ -139,7 +139,6 @@ class RemoveFromCartEvent extends AnalyticsItemsEvent {
           itemId: product.code,
           itemName: product.name,
           price: product.price?.value,
-          quantity: quantity,
         )
       ],
     );

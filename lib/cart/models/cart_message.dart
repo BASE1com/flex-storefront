@@ -1,31 +1,44 @@
-enum CartMessageType {
-  success,
-  error,
-  warning,
-  info,
-}
+import 'package:flex_storefront/product_list/models/product.dart';
 
 abstract class CartMessage {
-  final CartMessageType type;
-  final String message;
-
-  CartMessage(this.type, this.message);
-
-  @override
-  String toString() {
-    return 'CartMessage{type: $type, message: $message}';
-  }
+  const CartMessage();
 }
 
-class CartReadyMessage extends CartMessage {
-  CartReadyMessage(String message) : super(CartMessageType.info, message);
-}
+class CartReadyMessage extends CartMessage {}
 
+/// Add a product to the Cart.
+/// This event is fired when the product wasn't in the Cart before
+/// (i.e. no cart entry with this product)
 class AddToCartMessage extends CartMessage {
-  AddToCartMessage(CartMessageType type, String message) : super(type, message);
+  final Product product;
+  final int quantityAdded;
+
+  const AddToCartMessage({
+    required this.product,
+    required this.quantityAdded,
+  });
 }
 
+/// Remove a Product from the Cart.
+/// This event is fired when the product is no longer in the cart
+/// (i.e. no cart entry with this product anymore)
+class RemoveFromCartMessage extends CartMessage {
+  final Product product;
+
+  const RemoveFromCartMessage({
+    required this.product,
+  });
+}
+
+/// Adjust the quantity of an existing product in the Cart.
 class ChangeQuantityMessage extends CartMessage {
-  ChangeQuantityMessage(CartMessageType type, String message)
-      : super(type, message);
+  final Product product;
+  final int oldQuantity;
+  final int newQuantity;
+
+  const ChangeQuantityMessage({
+    required this.product,
+    required this.oldQuantity,
+    required this.newQuantity,
+  });
 }

@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
 import 'package:flex_storefront/product_detail/apis/product_api.dart';
-import 'package:flex_storefront/product_list/apis/product_list_api.dart';
 import 'package:flex_storefront/product_list/cubits/product_list_state.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:get_it/get_it.dart';
