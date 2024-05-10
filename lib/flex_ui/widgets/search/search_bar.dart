@@ -1,3 +1,4 @@
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';
 
 class FlexSearchBar extends StatelessWidget {
@@ -5,18 +6,20 @@ class FlexSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return Container(
       height: kToolbarHeight,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-        child: SearchBar(
-          trailing: [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Icon(Icons.search),
-            )
-          ],
+      padding: const EdgeInsets.fromLTRB(
+        FlexSizes.sm,
+        FlexSizes.xs,
+        FlexSizes.sm,
+        FlexSizes.sm,
+      ),
+      child: const SearchBar(
+        leading: Padding(
+          padding: EdgeInsets.only(left: FlexSizes.sm),
+          child: Icon(Icons.search_rounded),
         ),
+        hintText: 'What are you looking for?',
       ),
     );
   }
