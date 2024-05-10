@@ -7,19 +7,19 @@ import 'package:flex_storefront/cart/models/cart_message.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-class CartMessageListener extends StatefulWidget {
+class AnalyticsCartListener extends StatefulWidget {
   final Widget child;
 
-  const CartMessageListener({
+  const AnalyticsCartListener({
     super.key,
     required this.child,
   });
 
   @override
-  State<CartMessageListener> createState() => _CartMessageListenerState();
+  State<AnalyticsCartListener> createState() => _AnalyticsCartListenerState();
 }
 
-class _CartMessageListenerState extends State<CartMessageListener> {
+class _AnalyticsCartListenerState extends State<AnalyticsCartListener> {
   late final StreamSubscription<CartMessage> _subscription;
 
   @override
@@ -31,23 +31,20 @@ class _CartMessageListenerState extends State<CartMessageListener> {
         .listen(_onMessage);
   }
 
-  void _onMessage(CartMessage event) {
-    if (event is ChangeQuantityMessage) {
-      if (event.quantityDiff >= 0) {
-        GetIt.instance.get<AnalyticsApi>().track(
-              AddToCartEvent.fromData(
-                event.product,
-                event.quantityDiff,
-              ),
-            );
-      } else {
-        GetIt.instance.get<AnalyticsApi>().track(
-              RemoveFromCartEvent.fromData(
-                event.product,
-                -event.quantityDiff,
-              ),
-            );
-      }
+  void _onMessage(CartMessage message) {
+    if (message is AddToCartMessage) {
+      GetIt.instance.get<AnalyticsApi>().track(
+            AddToCartEvent.fromData(
+              message.product,
+              message.quantityAdded,
+            ),
+          );
+    } else if (message is RemoveFromCartMessage) {
+      GetIt.instance.get<AnalyticsApi>().track(
+            RemoveFromCartEvent.fromProduct(
+              message.product,
+            ),
+          );
     }
   }
 

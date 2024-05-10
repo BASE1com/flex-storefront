@@ -4,7 +4,7 @@ import 'package:flex_storefront/cart/models/cart_message.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
 import 'package:rxdart/subjects.dart';
 
-const kTestCart = '1b2be4d8-c5c7-4b0a-a472-ac7df417d762';
+const kTestCart = '0cb93e1c-7fba-4b2e-9554-045d37979d78';
 
 class CartRepository {
   CartRepository({
@@ -50,9 +50,9 @@ class CartRepository {
     );
 
     _cartMessageStreamController.add(
-      ChangeQuantityMessage(
-        product,
-        quantity,
+      AddToCartMessage(
+        product: product,
+        quantityAdded: quantity,
       ),
     );
 
@@ -71,7 +71,9 @@ class CartRepository {
     );
 
     _cartMessageStreamController.add(
-      ChangeQuantityMessage(entry.product, -entry.quantity),
+      RemoveFromCartMessage(
+        product: entry.product,
+      ),
     );
 
     final cart = await _cartApi.fetchCart(cartCode: kTestCart);
@@ -91,7 +93,11 @@ class CartRepository {
     );
 
     _cartMessageStreamController.add(
-      ChangeQuantityMessage(entry.product, quantity - entry.quantity),
+      ChangeQuantityMessage(
+        product: entry.product,
+        oldQuantity: entry.quantity,
+        newQuantity: quantity,
+      ),
     );
 
     final cart = await _cartApi.fetchCart(cartCode: kTestCart);

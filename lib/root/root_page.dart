@@ -23,7 +23,7 @@ class RootPage extends StatelessWidget {
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
 
-        return CartMessageListener(
+        return AnalyticsCartListener(
           child: Scaffold(
             body: child,
             bottomNavigationBar: NavigationBar(

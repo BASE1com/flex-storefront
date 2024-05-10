@@ -130,7 +130,7 @@ class RemoveFromCartEvent extends AnalyticsItemsEvent {
     super.parameters,
   });
 
-  factory RemoveFromCartEvent.fromData(Product product, int quantity) {
+  factory RemoveFromCartEvent.fromProduct(Product product) {
     return RemoveFromCartEvent(
       currency: product.price?.currencyIso,
       value: product.price?.value,
@@ -139,7 +139,6 @@ class RemoveFromCartEvent extends AnalyticsItemsEvent {
           itemId: product.code,
           itemName: product.name,
           price: product.price?.value,
-          quantity: quantity,
         )
       ],
     );
