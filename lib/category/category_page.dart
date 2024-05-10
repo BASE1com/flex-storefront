@@ -4,7 +4,7 @@ import 'package:flex_storefront/category/cubits/category_state.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/layouts/grid_layout.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
-import 'package:flex_storefront/flex_ui/widgets/category_card.dart';
+import 'package:flex_storefront/flex_ui/widgets/ecommerce/category_card.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';

@@ -1,9 +1,9 @@
 import 'package:flex_storefront/flex_ui/components/gallery.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
-import 'package:flex_storefront/flex_ui/widgets/add_to_cart_button.dart';
-import 'package:flex_storefront/flex_ui/widgets/product_price.dart';
-import 'package:flex_storefront/flex_ui/widgets/quantity_selector.dart';
-import 'package:flex_storefront/flex_ui/widgets/star_rating.dart';
+import 'package:flex_storefront/flex_ui/widgets/ecommerce/add_to_cart_button.dart';
+import 'package:flex_storefront/flex_ui/widgets/ecommerce/product_price.dart';
+import 'package:flex_storefront/flex_ui/widgets/ecommerce/quantity_selector.dart';
+import 'package:flex_storefront/flex_ui/widgets/ecommerce/star_rating.dart';
 import 'package:flex_storefront/product_detail/cubits/product_detail_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
