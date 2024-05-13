@@ -34,18 +34,16 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late ScrollController _scrollController;
-  double expandedHeight = 132;
-  bool lastStatus = true;
-
-  bool get _isShrunk {
-    return _scrollController.hasClients &&
-        _scrollController.offset > (expandedHeight - kToolbarHeight);
-  }
+  final expandedHeight = 132.0;
+  bool isShrunk = false;
 
   void _scrollListener() {
-    if (_isShrunk != lastStatus) {
+    final newScrollPosition = _scrollController.hasClients &&
+        _scrollController.offset > (expandedHeight - kToolbarHeight);
+
+    if (isShrunk != newScrollPosition) {
       setState(() {
-        lastStatus = _isShrunk;
+        isShrunk = newScrollPosition;
       });
     }
   }
@@ -108,7 +106,7 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           actions: [
-            if (_isShrunk)
+            if (isShrunk)
               IconButton(
                 icon: const Icon(
                   LineAwesome.search_solid,

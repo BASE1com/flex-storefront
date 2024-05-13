@@ -13,23 +13,25 @@ class CartIcon extends StatelessWidget {
     final count =
         context.select((CartIconCubit cubit) => cubit.state.totalItems);
 
-    if (count == 0) {
-      return const Icon(LineAwesome.shopping_bag_solid);
+    const icon = Icon(LineAwesome.shopping_bag_solid);
+
+    if (count > 0) {
+      return Badge(
+        position: BadgePosition.topEnd(top: -12, end: -16),
+        badgeContent: Text(
+          count.toString(),
+          style: const TextStyle(
+            fontSize: FlexSizes.fontSizeXs,
+            color: Colors.white,
+          ),
+        ),
+        badgeAnimation: const BadgeAnimation.scale(
+          curve: Curves.fastOutSlowIn,
+        ),
+        child: const Icon(LineAwesome.shopping_bag_solid),
+      );
     }
 
-    return Badge(
-      position: BadgePosition.topEnd(top: -12, end: -16),
-      badgeContent: Text(
-        count.toString(),
-        style: const TextStyle(
-          fontSize: FlexSizes.fontSizeXs,
-          color: Colors.white,
-        ),
-      ),
-      badgeAnimation: const BadgeAnimation.scale(
-        curve: Curves.fastOutSlowIn,
-      ),
-      child: const Icon(LineAwesome.shopping_bag_solid),
-    );
+    return icon;
   }
 }
