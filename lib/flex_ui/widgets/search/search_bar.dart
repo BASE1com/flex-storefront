@@ -9,10 +9,10 @@ class FlexSearchBar extends StatelessWidget {
     return Container(
       height: kToolbarHeight,
       padding: const EdgeInsets.fromLTRB(
-        FlexSizes.sm,
+        FlexSizes.appPadding,
         FlexSizes.xs,
-        FlexSizes.sm,
-        FlexSizes.sm,
+        FlexSizes.appPadding,
+        FlexSizes.xs,
       ),
       child: const SearchBar(
         leading: Padding(

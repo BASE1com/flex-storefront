@@ -6,7 +6,7 @@ class FlexAppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.transparent,
+      backgroundColor: FlexColors.primary,
       surfaceTintColor: Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
@@ -17,7 +17,7 @@ class FlexAppTheme {
       titleTextStyle: TextStyle(
         fontSize: FlexSizes.fontSizeXl,
         fontWeight: FontWeight.w600,
-        color: Colors.black,
+        color: FlexColors.onPrimary,
       ),
     ),
     brightness: Brightness.light,

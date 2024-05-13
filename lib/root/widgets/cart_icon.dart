@@ -13,6 +13,10 @@ class CartIcon extends StatelessWidget {
     final count =
         context.select((CartIconCubit cubit) => cubit.state.totalItems);
 
+    if (count == 0) {
+      return const Icon(LineAwesome.shopping_bag_solid);
+    }
+
     return Badge(
       position: BadgePosition.topEnd(top: -12, end: -16),
       badgeContent: Text(
