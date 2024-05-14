@@ -99,6 +99,25 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const RootPage(),
       );
     },
+    SearchRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SearchPage(),
+      );
+    },
+    SearchProductRoute.name: (routeData) {
+      final queryParams = routeData.queryParams;
+      final args = routeData.argsAs<SearchProductRouteArgs>(
+          orElse: () => SearchProductRouteArgs(
+              searchTerm: queryParams.optString('searchTerm')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SearchProductPage(
+          key: args.key,
+          searchTerm: args.searchTerm,
+        ),
+      );
+    },
     ShopRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -348,6 +367,59 @@ class RootRoute extends PageRouteInfo<void> {
   static const String name = 'RootRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SearchPage]
+class SearchRoute extends PageRouteInfo<void> {
+  const SearchRoute({List<PageRouteInfo>? children})
+      : super(
+          SearchRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SearchProductPage]
+class SearchProductRoute extends PageRouteInfo<SearchProductRouteArgs> {
+  SearchProductRoute({
+    Key? key,
+    String? searchTerm,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SearchProductRoute.name,
+          args: SearchProductRouteArgs(
+            key: key,
+            searchTerm: searchTerm,
+          ),
+          rawQueryParams: {'searchTerm': searchTerm},
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchProductRoute';
+
+  static const PageInfo<SearchProductRouteArgs> page =
+      PageInfo<SearchProductRouteArgs>(name);
+}
+
+class SearchProductRouteArgs {
+  const SearchProductRouteArgs({
+    this.key,
+    this.searchTerm,
+  });
+
+  final Key? key;
+
+  final String? searchTerm;
+
+  @override
+  String toString() {
+    return 'SearchProductRouteArgs{key: $key, searchTerm: $searchTerm}';
+  }
 }
 
 /// generated route for
