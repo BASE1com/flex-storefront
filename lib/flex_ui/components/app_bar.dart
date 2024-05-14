@@ -10,15 +10,17 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.title,
     this.showBackArrow = false,
+    this.showSearchButton = true,
     this.leadingIcon = LineAwesome.arrow_left_solid,
-    this.actions,
+    this.actions = const [],
     this.onLeadingPressed,
   });
 
   final Widget? title;
   final bool showBackArrow;
+  final bool showSearchButton;
   final IconData? leadingIcon;
-  final List<Widget>? actions;
+  final List<Widget> actions;
   final VoidCallback? onLeadingPressed;
 
   @override
@@ -43,7 +45,16 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
               )
             : null,
         title: title,
-        actions: actions,
+        actions: [
+          ...actions,
+          if (showSearchButton)
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                context.router.pushNamed('/search');
+              },
+            )
+        ],
       ),
     );
   }

@@ -49,17 +49,22 @@ final directories = <_i1.WidgetbookNode>[
       _i1.WidgetbookFolder(
         name: 'widgets',
         children: [
-          _i1.WidgetbookComponent(
-            name: 'AddToCartButton',
-            useCases: [
-              _i1.WidgetbookUseCase(
-                name: 'Disabled',
-                builder: _i5.disabledButton,
-              ),
-              _i1.WidgetbookUseCase(
-                name: 'Enabled',
-                builder: _i5.enabledButton,
-              ),
+          _i1.WidgetbookFolder(
+            name: 'ecommerce',
+            children: [
+              _i1.WidgetbookComponent(
+                name: 'AddToCartButton',
+                useCases: [
+                  _i1.WidgetbookUseCase(
+                    name: 'Disabled',
+                    builder: _i5.disabledButton,
+                  ),
+                  _i1.WidgetbookUseCase(
+                    name: 'Enabled',
+                    builder: _i5.enabledButton,
+                  ),
+                ],
+              )
             ],
           )
         ],

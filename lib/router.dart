@@ -12,8 +12,10 @@ import 'package:flex_storefront/product_detail/product_detail_page.dart';
 import 'package:flex_storefront/product_list/pages/sort_page.dart';
 import 'package:flex_storefront/product_list/pages/filter_page.dart';
 import 'package:flex_storefront/product_list/product_list_page.dart';
+import 'package:flex_storefront/product_list/search_product_page.dart';
 import 'package:flex_storefront/root/root_page.dart';
 import 'package:flex_storefront/search/models/search_results.dart';
+import 'package:flex_storefront/search/search_page.dart';
 import 'package:flex_storefront/shop/shop_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -65,6 +67,10 @@ class AppRouter extends _$AppRouter {
                   page: ProductDetailRoute.page,
                   path: 'product/:productId',
                 ),
+                AutoRoute(
+                  page: SearchProductRoute.page,
+                  path: 'search',
+                ),
               ],
             ),
             AutoRoute(page: CartRoute.page, path: 'cart'),
@@ -80,6 +86,11 @@ class AppRouter extends _$AppRouter {
           page: SortRoute.page,
           path: '/sort',
           customRouteBuilder: modalSheetBuilder,
+        ),
+        AutoRoute(
+          page: SearchRoute.page,
+          path: '/search',
+          fullscreenDialog: true,
         ),
       ];
 }

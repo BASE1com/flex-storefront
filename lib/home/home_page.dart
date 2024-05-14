@@ -6,6 +6,7 @@ import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
 import 'package:flex_storefront/home/home_page_content.dart';
 import 'package:flex_storefront/flex_ui/widgets/search/search_bar.dart';
+import 'package:flex_storefront/home/widgets/search_bar_frame.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 
 import 'package:flutter/material.dart';
@@ -101,7 +102,18 @@ class _HomeViewState extends State<HomeView> {
                 color: FlexColors.primary,
                 alignment: Alignment.center,
                 margin: const EdgeInsets.only(top: FlexSizes.appBarHeight),
-                child: const FlexSearchBar(),
+                child: SearchBarFrame(
+                  child: Stack(
+                    children: [
+                      const FlexSearchBar(),
+                      GestureDetector(
+                        onTap: () {
+                          context.router.pushNamed('/search');
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

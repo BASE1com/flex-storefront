@@ -25,6 +25,10 @@ class FlexAppTheme {
     scaffoldBackgroundColor: Colors.white,
     textTheme: Typography.blackHelsinki,
     searchBarTheme: SearchBarThemeData(
+      elevation: const MaterialStatePropertyAll(0),
+      side: const MaterialStatePropertyAll(
+        BorderSide(color: FlexColors.primary),
+      ),
       shape: MaterialStateProperty.resolveWith(
         (states) => RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(FlexSizes.inputFieldRadius),
@@ -55,6 +59,10 @@ class FlexAppTheme {
     scaffoldBackgroundColor: Colors.white,
     textTheme: Typography.blackHelsinki,
     searchBarTheme: SearchBarThemeData(
+      elevation: const MaterialStatePropertyAll(0),
+      side: const MaterialStatePropertyAll(
+        BorderSide(color: FlexColors.primary),
+      ),
       shape: MaterialStateProperty.resolveWith(
         (states) => RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(FlexSizes.inputFieldRadius),
