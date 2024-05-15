@@ -8,6 +8,7 @@ import 'package:flex_storefront/home/home_page_content.dart';
 import 'package:flex_storefront/flex_ui/widgets/search/search_bar.dart';
 import 'package:flex_storefront/home/widgets/search_bar_frame.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
+import 'package:flex_storefront/shared/navigation_helper.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,6 +58,8 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final activeIndex = AutoTabsRouter.of(context).activeIndex;
+
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
@@ -108,7 +111,9 @@ class _HomeViewState extends State<HomeView> {
                       const FlexSearchBar(),
                       GestureDetector(
                         onTap: () {
-                          context.router.pushNamed('/search');
+                          context.router.pushNamed(
+                            '/search'.withTabArg(activeIndex),
+                          );
                         },
                       ),
                     ],
