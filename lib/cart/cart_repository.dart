@@ -1,4 +1,5 @@
 import 'package:flex_storefront/cart/apis/cart_api.dart';
+import 'package:flex_storefront/cart/apis/cart_exceptions.dart';
 import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/cart/models/cart_message.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
@@ -16,14 +17,29 @@ class CartRepository {
   final CartApi _cartApi;
 
   final _cartStreamController = BehaviorSubject<Cart>();
-  final _cartMessageStreamController = BehaviorSubject<CartMessage>.seeded(
-    CartReadyMessage(),
-  );
+  final _cartMessageStreamController =
+      BehaviorSubject<CartMessage>.seeded(CartInitialize());
 
   void init() async {
-    // TODO: proper initialization, find anonymous or user cart, or create one?
-    final cart = await _cartApi.fetchCart(cartCode: kTestCart);
-    _cartStreamController.add(cart);
+    // TODO: fetch previous carts from local storage
+    try {
+      final cart = await _cartApi.fetchCart(cartCode: kTestCart);
+      _cartStreamController.add(cart);
+    } on CartException catch (e) {
+      // if the cart is not found, create a new one
+      if (e.reason == CartExceptionReason.notFound) {
+        _cartMessageStreamController.add(CartNotFound());
+
+        final cart = await _cartApi.createCart();
+
+        _cartStreamController.add(cart);
+        _cartMessageStreamController.add(CartReady());
+      } else {
+        _cartStreamController.addError(e);
+      }
+    } catch (e) {
+      _cartStreamController.addError(e);
+    }
   }
 
   // Provide a [Stream] of the near real-time cart
