@@ -19,6 +19,8 @@ class SearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fromTab = RouteData.of(context).queryParams.optInt('fromTab');
+
     return Scaffold(
       appBar: FlexAppBar(
         showSearchButton: false,
@@ -27,8 +29,9 @@ class SearchView extends StatelessWidget {
         title: Container(
           height: kToolbarHeight,
           padding: const EdgeInsets.all(4.0),
-          child: const FlexSearchBar(
+          child: FlexSearchBar(
             autoFocus: true,
+            fromTab: fromTab,
           ),
         ),
       ),
