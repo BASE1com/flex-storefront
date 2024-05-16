@@ -8,6 +8,8 @@ class CartInitialize extends CartMessage {}
 
 class CartNotFound extends CartMessage {}
 
+class CartCreate extends CartMessage {}
+
 class CartReady extends CartMessage {}
 
 /// Add a product to the Cart.

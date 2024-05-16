@@ -25,19 +25,16 @@ class CartRepository {
     try {
       final cart = await _cartApi.fetchCart(cartCode: kTestCart);
       _cartStreamController.add(cart);
+      _cartMessageStreamController.add(CartReady());
     } on CartException catch (e) {
       // if the cart is not found, create a new one
       if (e.reason == CartExceptionReason.notFound) {
         _cartMessageStreamController.add(CartNotFound());
-
-        final cart = await _cartApi.createCart();
-
-        _cartStreamController.add(cart);
-        _cartMessageStreamController.add(CartReady());
+        await createCart();
       } else {
         _cartStreamController.addError(e);
       }
-    } catch (e) {
+    } on Exception catch (e) {
       _cartStreamController.addError(e);
     }
   }
@@ -52,6 +49,18 @@ class CartRepository {
   /// The latest Cart in the stream
   Cart get latestCart => _cartStreamController.value;
   bool get hasCart => _cartStreamController.hasValue;
+
+  Future<void> createCart() async {
+    try {
+      _cartMessageStreamController.add(CartCreate());
+      final cart = await _cartApi.createCart();
+
+      _cartStreamController.add(cart);
+      _cartMessageStreamController.add(CartReady());
+    } catch (e) {
+      _cartStreamController.addError(e);
+    }
+  }
 
   Future<void> addProductToCart({
     required Product product,

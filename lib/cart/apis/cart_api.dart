@@ -24,7 +24,7 @@ class CartApi {
       return Cart.fromJson(response.data);
     } on DioException catch (e) {
       // try to deserialize error response
-      if (e.response?.data != null) {
+      if (e.response?.data?['errors']?.isNotEmpty) {
         throw CartException.fromJson(e.response!.data['errors'].first);
       }
 
@@ -33,15 +33,11 @@ class CartApi {
   }
 
   Future<Cart> createCart() async {
-    try {
-      final response = await GetIt.instance
-          .get<Dio>(instanceName: Singletons.hybrisClient)
-          .post('${dotenv.get('HYBRIS_BASE_URL')}$PATH$PARAMS', data: {});
+    final response = await GetIt.instance
+        .get<Dio>(instanceName: Singletons.hybrisClient)
+        .post('${dotenv.get('HYBRIS_BASE_URL')}$PATH$PARAMS', data: {});
 
-      return Cart.fromJson(response.data);
-    } on DioException catch (_) {
-      rethrow;
-    }
+    return Cart.fromJson(response.data);
   }
 
   Future<void> addProductToCart({
