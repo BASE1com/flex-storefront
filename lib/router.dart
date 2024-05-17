@@ -29,7 +29,7 @@ class AnalyticsNavigationObserver extends AutoRouterObserver {
   void didChangeTabRoute(TabPageRoute route, TabPageRoute previousRoute) {
     if (route.name == CartRoute.name) {
       final cart = GetIt.instance.get<CartRepository>().hasCart
-          ? GetIt.instance.get<CartRepository>().latestCart
+          ? GetIt.instance.get<CartRepository>().currentCart
           : null;
 
       GetIt.instance.get<AnalyticsApi>().track(ViewCartEvent.fromCart(cart));
