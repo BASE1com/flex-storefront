@@ -58,7 +58,7 @@ class ProductListItemCubit extends Cubit<ProductListItemState> {
     try {
       if (quantity <= 0) return;
 
-      final entry = _cartRepository.latestCart.entries
+      final entry = _cartRepository.currentCart.entries
           .firstWhereOrNull((entry) => entry.product.code == product.code);
 
       if (entry == null) return;

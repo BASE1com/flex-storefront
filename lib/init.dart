@@ -11,6 +11,7 @@ import 'package:flex_storefront/product_list/apis/product_list_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_loggy_dio/flutter_loggy_dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Singletons {
   static const strapiClient = 'StrapiClient';
@@ -33,6 +34,7 @@ void init() {
   );
 
   GetIt.instance.registerSingleton(FirebaseAnalytics.instance);
+  GetIt.instance.registerSingletonAsync(() => SharedPreferences.getInstance());
 
   // Api layer
   GetIt.instance.registerSingleton(AnalyticsApi());
@@ -42,7 +44,10 @@ void init() {
   GetIt.instance.registerSingleton(ProductListApi());
 
   // Repository layer
-  GetIt.instance.registerSingleton(CartRepository(cartApi: CartApi()));
+  GetIt.instance.registerSingletonWithDependencies(
+    () => CartRepository(cartApi: CartApi()),
+    dependsOn: [SharedPreferences],
+  );
 
   GetIt.instance.registerSingletonAsync(() async {
     final ConfigRepository configRepository = ConfigRepository();
