@@ -24,7 +24,6 @@ class CartRepository with CartRepositoryLoggy {
   }
 
   final CartApi _cartApi;
-  final _sharedPrefs = GetIt.instance.get<SharedPreferences>();
 
   final _cartStreamController = BehaviorSubject<Cart>();
   final _cartMessageStreamController =
@@ -37,9 +36,9 @@ class CartRepository with CartRepositoryLoggy {
   Stream<CartMessage> getCartMessageStream() =>
       _cartMessageStreamController.asBroadcastStream();
 
-  String get cartId => _sharedPrefs.getString(ANONYMOUS_CART_GUID) ?? '';
-  set cartId(String value) =>
-      _sharedPrefs.setString(ANONYMOUS_CART_GUID, value);
+  String get cartId =>
+      GetIt.instance.get<SharedPreferences>().getString(ANONYMOUS_CART_GUID) ??
+      '';
   Cart get currentCart => _cartStreamController.value;
   bool get hasCart => _cartStreamController.hasValue;
 
@@ -85,8 +84,9 @@ class CartRepository with CartRepositoryLoggy {
       _cartMessageStreamController.add(CartCreate());
       final cart = await _cartApi.createCart();
 
-      // store the cart id
-      cartId = cart.guid;
+      GetIt.instance
+          .get<SharedPreferences>()
+          .setString(ANONYMOUS_CART_GUID, cart.guid);
 
       _cartStreamController.add(cart);
       _cartMessageStreamController.add(CartReady());
