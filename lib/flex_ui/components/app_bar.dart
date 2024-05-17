@@ -26,6 +26,7 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final fromTab = RouteData.of(context).queryParams.optInt('fromTab');
+    final fullscreenDialog = RouteData.of(context).route.fullscreenDialog;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: FlexSizes.appPadding),
@@ -35,7 +36,7 @@ class FlexAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? IconButton(
                 onPressed: onLeadingPressed ??
                     () {
-                      if (fromTab != null) {
+                      if (!fullscreenDialog && fromTab != null) {
                         AutoTabsRouter.of(context).setActiveIndex(fromTab);
                       }
 
