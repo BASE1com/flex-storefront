@@ -3,9 +3,12 @@ import 'package:flex_storefront/cart/apis/cart_exceptions.dart';
 import 'package:flex_storefront/cart/models/cart_message.dart';
 import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
+import 'package:get_it/get_it.dart';
 import 'package:loggy/loggy.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+const ANONYMOUS_CART_GUID = 'anonymous_cart_guid';
 
 mixin CartRepositoryLoggy implements LoggyType {
   @override
@@ -21,7 +24,7 @@ class CartRepository with CartRepositoryLoggy {
   }
 
   final CartApi _cartApi;
-  late final SharedPreferences _prefs;
+  final _sharedPrefs = GetIt.instance.get<SharedPreferences>();
 
   final _cartStreamController = BehaviorSubject<Cart>();
   final _cartMessageStreamController =
@@ -34,7 +37,9 @@ class CartRepository with CartRepositoryLoggy {
   Stream<CartMessage> getCartMessageStream() =>
       _cartMessageStreamController.asBroadcastStream();
 
-  String cartId = '';
+  String get cartId => _sharedPrefs.getString(ANONYMOUS_CART_GUID) ?? '';
+  set cartId(String value) =>
+      _sharedPrefs.setString(ANONYMOUS_CART_GUID, value);
   Cart get currentCart => _cartStreamController.value;
   bool get hasCart => _cartStreamController.hasValue;
 
@@ -42,9 +47,6 @@ class CartRepository with CartRepositoryLoggy {
   /// local storage or create a new one to prepare the Cart for usage.
   void init() async {
     // 1. check local storage
-    _prefs = await SharedPreferences.getInstance();
-    cartId = _prefs.getString('anonymous_cart_guid') ?? '';
-
     loggy.info(
       'Cart initialization started, local storage cartId: $cartId',
     );
@@ -85,7 +87,6 @@ class CartRepository with CartRepositoryLoggy {
 
       // store the cart id
       cartId = cart.guid;
-      await _prefs.setString('anonymous_cart_guid', cartId);
 
       _cartStreamController.add(cart);
       _cartMessageStreamController.add(CartReady());
