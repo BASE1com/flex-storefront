@@ -4,7 +4,13 @@ abstract class CartMessage {
   const CartMessage();
 }
 
-class CartReadyMessage extends CartMessage {}
+class CartInitialize extends CartMessage {}
+
+class CartNotFound extends CartMessage {}
+
+class CartCreate extends CartMessage {}
+
+class CartReady extends CartMessage {}
 
 /// Add a product to the Cart.
 /// This event is fired when the product wasn't in the Cart before
