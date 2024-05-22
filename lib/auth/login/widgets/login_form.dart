@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
                 FormBuilderTextField(
                   name: 'email',
                   decoration: const InputDecoration(
-                    prefixIcon: Icon(LineAwesome.chevron_right_solid),
+                    prefixIcon: Icon(LineAwesome.envelope_solid),
                     labelText: 'Email',
                   ),
                   initialValue: state.email,

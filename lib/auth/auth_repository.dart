@@ -1,3 +1,8 @@
+import 'dart:math';
+
+import 'package:flex_storefront/auth/apis/auth_api.dart';
+import 'package:flex_storefront/init.dart';
+import 'package:fresh_dio/fresh_dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loggy/loggy.dart';
 
@@ -10,16 +15,34 @@ mixin AuthRepositoryLoggy implements LoggyType {
 class AuthRepository with AuthRepositoryLoggy {
   static AuthRepository get instance => GetIt.instance<AuthRepository>();
 
-  // bool get isLoggedIn => currentUser != null;
-  // bool get isEmailVerified => currentUser?.emailVerified ?? false;
+  AuthRepository({required AuthApi authApi}) : _authApi = authApi;
+
+  final AuthApi _authApi;
+  late final Fresh<OAuth2Token> _fresh = Fresh.oAuth2(
+    tokenStorage: InMemoryTokenStorage<OAuth2Token>(),
+    refreshToken: (token, client) async {
+      loggy.debug('refreshing token...');
+      final refreshedToken = await _authApi.refreshToken(token);
+      loggy.debug('token refreshed!');
+      return refreshedToken;
+    },
+    shouldRefresh: (Response? response) => response?.statusCode == 401,
+  );
+
+  Stream<AuthenticationStatus> get authStatus => _fresh.authenticationStatus;
 
   Future<void> init() async {
     loggy.info(
       'Auth initialization started...',
     );
 
+    // add fresh as our interceptor, to manage token refresh
+    GetIt.instance<Dio>(instanceName: Singletons.hybrisClient)
+        .interceptors
+        .add(_fresh);
+
     loggy.info(
-      'Initialization ended, auth fetched',
+      'Auth initialization ended, fresh_dio ready',
     );
   }
 
@@ -31,10 +54,9 @@ class AuthRepository with AuthRepositoryLoggy {
     required String password,
   }) async {
     loggy.info('Login..');
-    // return _firebaseAuth.signInWithEmailAndPassword(
-    //   email: email,
-    //   password: password,
-    // );
+    final token = await _authApi.getToken(email, password);
+    await _fresh.setToken(token);
+    loggy.info('Login successful, set token: ${token.accessToken}');
   }
 
   /// [EmailAuthentication] - Register
@@ -65,6 +87,6 @@ class AuthRepository with AuthRepositoryLoggy {
 
   /// [LogoutUser] - Valid for any authentication
   Future<void> logout() async {
-    // TODO: Sign out of auth
+    await _fresh.setToken(null);
   }
 }
