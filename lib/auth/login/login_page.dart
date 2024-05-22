@@ -43,13 +43,13 @@ class LoginView extends StatelessWidget {
           context.router.replace(const HomeRoute());
         }
       },
-      child: const SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(FlexSizes.appPadding),
+          padding: const EdgeInsets.all(FlexSizes.appPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              LoginHeader(),
+              const LoginHeader(),
               LoginForm(),
             ],
           ),

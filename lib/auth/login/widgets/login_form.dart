@@ -8,16 +8,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({
-    super.key,
-  });
+class LoginForm extends StatelessWidget {
+  LoginForm({super.key});
 
-  @override
-  State<LoginForm> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormBuilderState>(debugLabel: 'login_form');
 
   @override

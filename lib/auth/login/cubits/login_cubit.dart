@@ -18,7 +18,10 @@ class LoginCubit extends Cubit<LoginState> {
   void init() async {
     final email =
         GetIt.instance<SharedPreferences>().getString(REMEMBER_EMAIL_KEY);
-    emit(state.copyWith(email: email));
+    emit(state.copyWith(
+      email: email,
+      rememberMe: email != null,
+    ));
   }
 
   Future<void> emailAndPasswordSignIn({
