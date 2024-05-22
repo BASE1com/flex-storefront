@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flex_storefront/analytics/apis/analytics_api.dart';
+import 'package:flex_storefront/auth/apis/auth_api.dart';
 import 'package:flex_storefront/auth/auth_repository.dart';
 import 'package:flex_storefront/cart/apis/cart_api.dart';
 import 'package:flex_storefront/cart/cart_repository.dart';
@@ -57,7 +58,7 @@ void init() {
   });
 
   GetIt.instance.registerSingletonAsync(() async {
-    final AuthRepository authRepository = AuthRepository();
+    final AuthRepository authRepository = AuthRepository(authApi: AuthApi());
     await authRepository.init();
     return authRepository;
   });
