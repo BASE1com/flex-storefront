@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/account/account_page.dart';
 import 'package:flex_storefront/analytics/apis/analytics_api.dart';
 import 'package:flex_storefront/analytics/models/analytics_events.dart';
+import 'package:flex_storefront/auth/login/login_page.dart';
 import 'package:flex_storefront/cart/cart_page.dart';
 import 'package:flex_storefront/cart/cart_repository.dart';
 import 'package:flex_storefront/category/category_intermediary_page.dart';
@@ -80,6 +81,11 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: FilterRoute.page,
           path: '/filter',
+          fullscreenDialog: true,
+        ),
+        AutoRoute(
+          page: LoginRoute.page,
+          path: '/login',
           fullscreenDialog: true,
         ),
         CustomRoute(

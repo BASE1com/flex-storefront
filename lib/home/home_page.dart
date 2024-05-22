@@ -9,6 +9,7 @@ import 'package:flex_storefront/flex_ui/widgets/search/search_bar.dart';
 import 'package:flex_storefront/home/widgets/search_bar_frame.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flex_storefront/shared/navigation_helper.dart';
+import 'package:flex_storefront/shared/utils/image_strings.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,9 +72,7 @@ class _HomeViewState extends State<HomeView> {
             children: [
               const CachedImage(
                 height: kToolbarHeight * 0.6,
-                url:
-                    // TODO Replace with the media permalink corresponding to this image
-                    'https://spartacus-demo.eastus.cloudapp.azure.com:8443/medias/SAP-scrn-R.png?context=bWFzdGVyfGltYWdlc3wxMDEyN3xpbWFnZS9wbmd8YVcxaFoyVnpMMmhrTmk5b09UTXZPRGM1TnpRNU5qazJOekU1T0M1d2JtY3wzZDU0YTQxNDExOGNhYTczZTViNjllMWIyNDFhMzBkOThmNTRmMTU2MjgwZDM3ZWYxNjIyNzY5MTY5M2M2YmU0',
+                url: FlexImages.logo,
                 placeholder: SizedBox.shrink(),
                 error: SizedBox.shrink(),
               ),
