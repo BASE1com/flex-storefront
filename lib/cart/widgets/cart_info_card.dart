@@ -3,10 +3,30 @@ import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';
 
 enum CartInfoType {
-  info,
-  success,
-  warning,
-  error,
+  info(
+    cardColor: FlexColors.info,
+    textColor: FlexColors.onInfo,
+  ),
+  success(
+    cardColor: FlexColors.success,
+    textColor: FlexColors.onSuccess,
+  ),
+  warning(
+    cardColor: FlexColors.warning,
+    textColor: FlexColors.onWarning,
+  ),
+  error(
+    cardColor: FlexColors.error,
+    textColor: FlexColors.onError,
+  );
+
+  const CartInfoType({
+    required this.cardColor,
+    required this.textColor,
+  });
+
+  final Color cardColor;
+  final Color textColor;
 }
 
 class CartInfoCard extends StatelessWidget {
@@ -19,38 +39,10 @@ class CartInfoCard extends StatelessWidget {
   final CartInfoType type;
   final String message;
 
-  Color getCardColor() {
-    switch (type) {
-      case CartInfoType.success:
-        return FlexColors.success;
-      case CartInfoType.warning:
-        return FlexColors.warning;
-      case CartInfoType.error:
-        return FlexColors.error;
-      case CartInfoType.info:
-      default:
-        return FlexColors.info;
-    }
-  }
-
-  Color getTextColor() {
-    switch (type) {
-      case CartInfoType.success:
-        return FlexColors.onSuccess;
-      case CartInfoType.warning:
-        return FlexColors.onWarning;
-      case CartInfoType.error:
-        return FlexColors.onError;
-      case CartInfoType.info:
-      default:
-        return FlexColors.onInfo;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: getCardColor(),
+      color: type.cardColor,
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(FlexSizes.md),
@@ -58,7 +50,7 @@ class CartInfoCard extends StatelessWidget {
           children: [
             Text(
               message,
-              style: TextStyle(color: getTextColor()),
+              style: TextStyle(color: type.textColor),
             ),
           ],
         ),
