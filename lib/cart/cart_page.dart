@@ -31,6 +31,7 @@ class CartView extends StatelessWidget {
     return Scaffold(
       appBar: FlexAppBar(
         title: Text('Cart ${itemCount != null ? '($itemCount items)' : ''}'),
+        showSearchButton: false,
       ),
       body: BlocBuilder<CartPageCubit, CartPageState>(
         builder: (context, state) {
