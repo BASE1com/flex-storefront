@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
 import 'package:flex_storefront/cart/widgets/cart_item_entry.dart';
 import 'package:flex_storefront/cart/widgets/order_summary.dart';
@@ -25,7 +26,7 @@ class CartContent extends StatelessWidget {
           OrderSummary(cart: cart),
           const SizedBox(height: 8),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () => context.router.pushNamed('/login'),
             child: const Text('Proceed to Checkout'),
           ),
         ],
