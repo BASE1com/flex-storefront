@@ -22,12 +22,6 @@ class AuthRepository with AuthRepositoryLoggy {
     tokenStorage: InMemoryTokenStorage<OAuth2Token>(),
     refreshToken: (token, client) async {
       loggy.debug('refreshing token...');
-
-      if (Random().nextInt(100) == 0) {
-        loggy.debug('token revoked!');
-        throw RevokeTokenException();
-      }
-
       final refreshedToken = await _authApi.refreshToken(token);
       loggy.debug('token refreshed!');
       return refreshedToken;
