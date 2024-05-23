@@ -10,6 +10,7 @@ import 'package:flex_storefront/cms/apis/cms_api.dart';
 import 'package:flex_storefront/config/config_repository.dart';
 import 'package:flex_storefront/product_detail/apis/product_api.dart';
 import 'package:flex_storefront/product_list/apis/product_list_api.dart';
+import 'package:flex_storefront/search/apis/suggestion_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_loggy_dio/flutter_loggy_dio.dart';
 import 'package:get_it/get_it.dart';
@@ -44,6 +45,7 @@ void init() {
   GetIt.instance.registerSingleton(CmsApi());
   GetIt.instance.registerSingleton(ProductApi());
   GetIt.instance.registerSingleton(ProductListApi());
+  GetIt.instance.registerSingleton(SuggestionApi());
 
   // Repository layer
   GetIt.instance.registerSingletonWithDependencies(
