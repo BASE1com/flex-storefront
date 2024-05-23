@@ -58,10 +58,11 @@ class ProductListItem extends StatelessWidget {
                         rating: product.averageRating!,
                         size: 20,
                       ),
-                    ProductPrice(
-                      price: product.price!,
-                      type: ProductPriceType.list,
-                    ),
+                    if (product.price != null)
+                      ProductPrice(
+                        price: product.price!,
+                        type: ProductPriceType.list,
+                      ),
                     if (product.description != null) Text(product.description!),
                     const SizedBox(height: 8),
                     BlocBuilder<ProductListItemCubit, ProductListItemState>(
