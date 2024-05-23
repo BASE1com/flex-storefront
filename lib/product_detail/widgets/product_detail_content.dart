@@ -57,6 +57,7 @@ class ProductDetailContent extends StatelessWidget {
                 if (product.price != null)
                   ProductPrice(
                     price: product.price!,
+                    type: ProductPriceType.detail,
                   ),
                 const SizedBox(height: 8.0),
                 const Divider(height: 16.0),

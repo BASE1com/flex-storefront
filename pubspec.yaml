@@ -31,6 +31,7 @@ dependencies:
   form_builder_validators: ^9.1.0
   fresh_dio: ^0.4.1
   get_it: ^7.6.9
+  html: ^0.15.4
   icons_plus: ^5.0.0
   json_annotation: ^4.8.1
   loggy: ^2.0.3

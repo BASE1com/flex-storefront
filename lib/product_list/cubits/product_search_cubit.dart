@@ -9,9 +9,25 @@ import 'package:get_it/get_it.dart';
 class ProductSearchCubit extends Cubit<ProductSearchState> {
   ProductSearchCubit()
       : super(ProductSearchState(
-          status: Status.pending,
+          status: Status.initial,
           pagination: Pagination.empty(),
         ));
+
+  Future<void> searchProductsAutocomplete({
+    required String query,
+  }) async {
+    emit(state.copyWith(status: Status.pending));
+
+    final searchResults = await GetIt.instance
+        .get<ProductListApi>()
+        .searchProducts(query: query, limit: 5);
+
+    emit(state.copyWith(
+      status: Status.success,
+      searchResults: searchResults,
+      products: searchResults.products,
+    ));
+  }
 
   Future<void> searchProducts({
     String? categoryCode,

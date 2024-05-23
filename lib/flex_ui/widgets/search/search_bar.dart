@@ -8,6 +8,7 @@ class FlexSearchBar extends StatelessWidget {
     super.key,
     this.autoFocus = false,
     this.fromTab,
+    this.onChanged,
   });
 
   final bool autoFocus;
@@ -16,6 +17,8 @@ class FlexSearchBar extends StatelessWidget {
   /// Example: if the search is initiated from the Home tab, the back button
   /// on the search result page brings back to the Home tab.
   final int? fromTab;
+
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +30,7 @@ class FlexSearchBar extends StatelessWidget {
         child: Icon(Icons.search_rounded),
       ),
       hintText: 'What are you looking for?',
+      onChanged: onChanged,
       onSubmitted: (value) {
         context.maybePop();
         context.router.navigateNamed(

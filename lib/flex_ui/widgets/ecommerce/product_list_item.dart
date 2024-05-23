@@ -5,6 +5,7 @@ import 'package:flex_storefront/flex_ui/cubits/product_list_item_state.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/ecommerce/add_to_cart_button.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
+import 'package:flex_storefront/flex_ui/widgets/ecommerce/product_price.dart';
 import 'package:flex_storefront/flex_ui/widgets/ecommerce/quantity_selector.dart';
 import 'package:flex_storefront/flex_ui/widgets/ecommerce/star_rating.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
@@ -57,7 +58,10 @@ class ProductListItem extends StatelessWidget {
                         rating: product.averageRating!,
                         size: 20,
                       ),
-                    Text(product.price!.formattedValue),
+                    ProductPrice(
+                      price: product.price!,
+                      type: ProductPriceType.list,
+                    ),
                     if (product.description != null) Text(product.description!),
                     const SizedBox(height: 8),
                     BlocBuilder<ProductListItemCubit, ProductListItemState>(
