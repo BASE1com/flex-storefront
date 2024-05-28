@@ -7,7 +7,7 @@ import 'package:flex_storefront/search/utils/emphasis_parsing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class ProductSuggestion extends StatelessWidget with EmphasisParsing {
+class ProductSuggestion extends StatelessWidget {
   const ProductSuggestion({
     super.key,
     required this.product,
@@ -40,7 +40,10 @@ class ProductSuggestion extends StatelessWidget with EmphasisParsing {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  toRichText(product.name),
+                  EmphasisText(
+                    htmlString: product.name,
+                    style: EmphasisTextStyle.invertedBold,
+                  ),
                   const SizedBox(height: FlexSizes.xs),
                   if (product.price != null)
                     ProductPrice(
