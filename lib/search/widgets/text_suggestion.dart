@@ -3,7 +3,7 @@ import 'package:flex_storefront/search/utils/emphasis_parsing.dart';
 import 'package:flex_storefront/shared/navigation_helper.dart';
 import 'package:flutter/material.dart';
 
-class TextSuggestion extends StatelessWidget with EmphasisParsing {
+class TextSuggestion extends StatelessWidget {
   const TextSuggestion({
     super.key,
     required this.suggestion,
@@ -25,9 +25,12 @@ class TextSuggestion extends StatelessWidget with EmphasisParsing {
     if (query != null) {
       final htmlSuggestion = suggestion.replaceFirst(query!, '<em>$query</em>');
 
-      text = toRichText(htmlSuggestion);
+      text = EmphasisText(
+        htmlString: htmlSuggestion,
+        style: EmphasisTextStyle.invertedBold,
+      );
     } else {
-      text = Text(query!);
+      text = Text(suggestion);
     }
 
     return InkWell(

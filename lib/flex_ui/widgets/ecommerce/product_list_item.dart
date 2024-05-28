@@ -9,6 +9,7 @@ import 'package:flex_storefront/flex_ui/widgets/ecommerce/product_price.dart';
 import 'package:flex_storefront/flex_ui/widgets/ecommerce/quantity_selector.dart';
 import 'package:flex_storefront/flex_ui/widgets/ecommerce/star_rating.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
+import 'package:flex_storefront/search/utils/emphasis_parsing.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
@@ -49,9 +50,9 @@ class ProductListItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      product.name,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                    EmphasisText(
+                      htmlString: product.name,
+                      style: EmphasisTextStyle.italic,
                     ),
                     if (product.averageRating != null)
                       StarRating(
