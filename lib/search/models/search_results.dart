@@ -179,6 +179,21 @@ class SearchState {
   }
 }
 
+/// Hybris search query is a string containing different parts separated by
+/// semi-colons `:` :
+/// 1. Search term ("mandatory" in a way, it could be empty string, in that
+/// case, the query starts with a leading `:`)
+/// 2. Sort value, (mandatory, default to "relevance")
+/// 3. Zero, one, or more filters. Warning: the key/value separator is the same
+///    semi-colon character `:`
+/// Examples:
+/// - `:relevance:allCategories:576`: All products from the category 576, sorted
+///   by relevance
+/// - `cyber:price-desc`: All products matching the term "cyber", sorted by
+///   price (descending)
+/// - `camera:name-asc:allCategories:584:availableInStores:Choshi:price:$200-$499.99`:
+///   All products matching the term "camera", from the category 576, filtered
+///   by store and price, sorted by name in alphabetical order.
 @JsonSerializable(createToJson: false)
 class SearchQuery {
   final String value;
@@ -187,9 +202,36 @@ class SearchQuery {
     required this.value,
   });
 
-  String get withoutSort => value.split(':').sublist(2).join(':');
+  String get searchTerm {
+    return value.split(':')[0];
+  }
 
-  String get lastLeaf => value.split(':').last;
+  String get sort {
+    return value.split(':')[1];
+  }
+
+  Map<String, String> get filters {
+    final parts = value.split(':');
+    var filters = <String, String>{};
+
+    if (parts.length == 2) {
+      // Just the sort. Example: `cybershot:relevance` or `:relevance`
+      return {};
+    }
+
+    for (var i = 2; i < parts.length; i = i + 2) {
+      filters[parts[i]] = parts[i + 1];
+    }
+
+    return filters;
+  }
+
+  String copyWithSort(String sort) {
+    final parts = value.split(':');
+    parts[1] = sort;
+
+    return parts.join(':');
+  }
 
   factory SearchQuery.fromJson(Map<String, dynamic> json) =>
       _$SearchQueryFromJson(json);

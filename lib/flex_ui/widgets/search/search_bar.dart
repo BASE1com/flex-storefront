@@ -7,16 +7,10 @@ class FlexSearchBar extends StatelessWidget {
   const FlexSearchBar({
     super.key,
     this.autoFocus = false,
-    this.fromTab,
     this.onChanged,
   });
 
   final bool autoFocus;
-
-  /// Customize the search result page back button behavior.
-  /// Example: if the search is initiated from the Home tab, the back button
-  /// on the search result page brings back to the Home tab.
-  final int? fromTab;
 
   final ValueChanged<String>? onChanged;
 
@@ -32,6 +26,10 @@ class FlexSearchBar extends StatelessWidget {
       hintText: 'What are you looking for?',
       onChanged: onChanged,
       onSubmitted: (value) {
+        // So if the search is initiated from the Home tab, the back button
+        // brings back to the Home tab.
+        final fromTab = RouteData.of(context).queryParams.optInt('fromTab');
+
         context.maybePop();
         context.router.navigateNamed(
           '/shop/search?searchTerm=$value'.withTabArg(fromTab),

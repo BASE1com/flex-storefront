@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/search/utils/emphasis_parsing.dart';
+import 'package:flex_storefront/shared/navigation_helper.dart';
 import 'package:flutter/material.dart';
 
 class TextSuggestion extends StatelessWidget with EmphasisParsing {
@@ -29,7 +31,14 @@ class TextSuggestion extends StatelessWidget with EmphasisParsing {
     }
 
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        final fromTab = RouteData.of(context).queryParams.optInt('fromTab');
+
+        context.router.maybePop();
+        context.router.navigateNamed(
+          '/shop/search?searchTerm=$suggestion'.withTabArg(fromTab),
+        );
+      },
       child: Padding(
         padding: padding,
         child: text,

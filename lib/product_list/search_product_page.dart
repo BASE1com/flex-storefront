@@ -23,7 +23,7 @@ class SearchProductPage extends StatelessWidget {
       ),
       body: BlocProvider<ProductSearchCubit>(
         create: (context) {
-          return ProductSearchCubit(); // TODO Init search
+          return ProductSearchCubit()..searchProducts(searchTerm: searchTerm);
         },
         child: const ProductListView(),
       ),
