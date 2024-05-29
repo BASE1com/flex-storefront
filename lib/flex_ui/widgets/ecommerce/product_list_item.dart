@@ -52,7 +52,7 @@ class ProductListItem extends StatelessWidget {
                   children: [
                     EmphasisText(
                       htmlString: product.name,
-                      style: EmphasisTextStyle.italic,
+                      style: EmphasisTextStyle.invertedBold,
                     ),
                     if (product.averageRating != null)
                       StarRating(
