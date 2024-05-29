@@ -30,6 +30,7 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
   }
 
   Future<void> searchProducts({
+    String? searchTerm,
     String? categoryCode,
     Sort? sortBy,
     FacetValue? filterBy,
@@ -37,18 +38,19 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
     try {
       emit(state.copyWith(status: Status.pending));
 
-      // build our hybris-specific query string
-      // TODO: this is really gross, split it out into multiple cubit methods
-      // that way we can also test them separately, and log events for each
       final currentQuery = state.searchResults?.currentQuery;
       String query;
       if (filterBy != null) {
+        // For each facet value, hybris provides the pre-built query to use
+        // when the user selects this facet value.
         query = filterBy.query.value;
       } else if (sortBy != null) {
-        query =
-            ':${sortBy.code}:${currentQuery?.withoutSort ?? 'allCategories:${categoryCode ?? currentQuery?.lastLeaf}'}';
+        // For the sort, we generate the query ourself (not too complex)
+        query = currentQuery!.copyWithSort(sortBy.code);
       } else {
-        query = ':relevance:allCategories:$categoryCode';
+        // First query of this cubit instance:
+        query =
+            '${searchTerm ?? ''}:relevance${categoryCode != null ? ':allCategories:$categoryCode' : ''}';
       }
 
       final searchResults = await GetIt.instance

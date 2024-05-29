@@ -33,8 +33,6 @@ class SearchView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fromTab = RouteData.of(context).queryParams.optInt('fromTab');
-
     return Scaffold(
       appBar: FlexAppBar(
         showSearchButton: false,
@@ -45,7 +43,6 @@ class SearchView extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           child: FlexSearchBar(
             autoFocus: true,
-            fromTab: fromTab,
             onChanged: (value) {
               BlocProvider.of<ProductSearchCubit>(context)
                   .searchProductsAutocomplete(query: value);
