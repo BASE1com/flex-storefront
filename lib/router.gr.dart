@@ -50,6 +50,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const CategoryPage(),
       );
     },
+    CheckoutRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CheckoutPage(),
+      );
+    },
     FilterRoute.name: (routeData) {
       final args = routeData.argsAs<FilterRouteArgs>(
           orElse: () => const FilterRouteArgs());
@@ -228,6 +234,20 @@ class CategoryRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'CategoryRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [CheckoutPage]
+class CheckoutRoute extends PageRouteInfo<void> {
+  const CheckoutRoute({List<PageRouteInfo>? children})
+      : super(
+          CheckoutRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CheckoutRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
