@@ -1,14 +1,23 @@
 import 'package:flex_storefront/product_list/models/product.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cart.g.dart';
 
+/// User descriptor used when requesting any cart endpoint
+enum UserType {
+  anonymous,
+  current,
+}
+
 @JsonSerializable(createToJson: false)
 class Cart {
   final String type;
-  final String code;
+  @visibleForTesting
+  final String? code;
   final List<CartItem> entries;
-  final String guid;
+  @visibleForTesting
+  final String? guid;
   final bool net;
   final CartPrice subTotal;
   final CartPrice totalDiscounts;
@@ -16,15 +25,14 @@ class Cart {
   final CartPrice totalPrice;
   final CartPrice totalPriceWithTax;
   final CartPrice totalTax;
-  final User user;
   final PaymentType? paymentType;
   final int totalUnitCount;
 
   Cart({
     required this.type,
-    required this.code,
+    this.code,
     this.entries = const [],
-    required this.guid,
+    this.guid,
     this.net = false,
     required this.subTotal,
     required this.totalDiscounts,
@@ -32,12 +40,29 @@ class Cart {
     required this.totalPrice,
     required this.totalPriceWithTax,
     required this.totalTax,
-    required this.user,
     this.paymentType,
     required this.totalUnitCount,
-  });
+  }) : assert((code != null) ^ (guid != null)); // <--- XOR operator
 
-  factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
+  factory Cart.fromJson(UserType userType, Map<String, dynamic> json) {
+    // The `code` is meaningful on user's cart whereas the `guid` is meaningful
+    // on anonymous cart.
+    // To abstract this Hybris particularity, we delete the non-relevant
+    // property, so then we can safely determine whether it's a anonymous or
+    // user cart by looking at the properties (see the `identifier` and
+    // `userType` getter)
+    if (userType == UserType.anonymous) {
+      json.remove('code');
+    } else if (userType == UserType.current) {
+      json.remove('guid');
+    }
+
+    return _$CartFromJson(json);
+  }
+
+  String get identifier => code ?? guid!;
+
+  UserType get userType => code != null ? UserType.current : UserType.anonymous;
 
   @override
   String toString() {
@@ -83,21 +108,6 @@ class CartPrice {
       _$CartPriceFromJson(json);
 
   Map<String, dynamic> toJson() => _$CartPriceToJson(this);
-}
-
-@JsonSerializable()
-class User {
-  final String name;
-  final String uid;
-
-  User({
-    required this.name,
-    required this.uid,
-  });
-
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-
-  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
 @JsonSerializable()

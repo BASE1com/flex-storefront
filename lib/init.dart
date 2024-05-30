@@ -48,16 +48,16 @@ void init() {
   GetIt.instance.registerSingleton(SuggestionApi());
 
   // Repository layer
-  GetIt.instance.registerSingletonWithDependencies(
-    () => CartRepository(cartApi: CartApi()),
-    dependsOn: [SharedPreferences],
-  );
-
   GetIt.instance.registerSingletonAsync(() async {
     final ConfigRepository configRepository = ConfigRepository();
     await configRepository.init();
     return configRepository;
   });
+
+  GetIt.instance.registerSingletonWithDependencies(
+    () => CartRepository(cartApi: CartApi()),
+    dependsOn: [SharedPreferences, ConfigRepository],
+  );
 
   GetIt.instance.registerSingletonAsync(() async {
     final AuthRepository authRepository = AuthRepository(authApi: AuthApi());
