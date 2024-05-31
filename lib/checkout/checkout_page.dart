@@ -1,10 +1,15 @@
 import 'package:auto_route/annotations.dart';
+import 'package:flex_storefront/checkout/cubits/checkout_page_cubit.dart';
+import 'package:flex_storefront/checkout/cubits/checkout_page_state.dart';
+import 'package:flex_storefront/checkout/widgets/address_selection_card.dart';
 import 'package:flex_storefront/checkout/widgets/checkout_footer.dart';
 import 'package:flex_storefront/checkout/widgets/checkout_section.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
+import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 @RoutePage()
@@ -13,7 +18,10 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CheckoutView();
+    return BlocProvider<CheckoutPageCubit>(
+      create: (_) => CheckoutPageCubit()..loadCheckoutInfo(),
+      child: const CheckoutView(),
+    );
   }
 }
 
@@ -38,11 +46,21 @@ class CheckoutView extends StatelessWidget {
               children: [
                 CheckoutSection(
                   title: 'Shipping Address',
-                  content: Container(
-                    color: Colors.grey,
-                    width: 100,
-                    height: 100,
-                  ),
+                  content: BlocBuilder<CheckoutPageCubit, CheckoutPageState>(
+                      builder: (context, state) {
+                    switch (state.status) {
+                      case Status.success:
+                        return AddressSelectionCard(
+                          address: state.checkoutInfo!.deliveryAddress,
+                          onAdd: () {},
+                          onChange: () {},
+                        );
+                      default:
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                    }
+                  }),
                 ),
                 const SizedBox(height: FlexSizes.spacerItems),
                 CheckoutSection(
