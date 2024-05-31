@@ -8,12 +8,12 @@ part of 'cart.dart';
 
 Cart _$CartFromJson(Map<String, dynamic> json) => Cart(
       type: json['type'] as String,
-      code: json['code'] as String,
+      code: json['code'] as String?,
       entries: (json['entries'] as List<dynamic>?)
               ?.map((e) => CartItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      guid: json['guid'] as String,
+      guid: json['guid'] as String?,
       net: json['net'] as bool? ?? false,
       subTotal: CartPrice.fromJson(json['subTotal'] as Map<String, dynamic>),
       totalDiscounts:
@@ -24,7 +24,6 @@ Cart _$CartFromJson(Map<String, dynamic> json) => Cart(
       totalPriceWithTax:
           CartPrice.fromJson(json['totalPriceWithTax'] as Map<String, dynamic>),
       totalTax: CartPrice.fromJson(json['totalTax'] as Map<String, dynamic>),
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
       paymentType: json['paymentType'] == null
           ? null
           : PaymentType.fromJson(json['paymentType'] as Map<String, dynamic>),
@@ -52,16 +51,6 @@ Map<String, dynamic> _$CartPriceToJson(CartPrice instance) => <String, dynamic>{
       'formattedValue': instance.formattedValue,
       'priceType': instance.priceType,
       'value': instance.value,
-    };
-
-User _$UserFromJson(Map<String, dynamic> json) => User(
-      name: json['name'] as String,
-      uid: json['uid'] as String,
-    );
-
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'name': instance.name,
-      'uid': instance.uid,
     };
 
 PaymentType _$PaymentTypeFromJson(Map<String, dynamic> json) => PaymentType(

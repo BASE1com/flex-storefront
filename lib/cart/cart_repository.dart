@@ -1,8 +1,10 @@
+import 'package:flex_storefront/auth/auth_repository.dart';
 import 'package:flex_storefront/cart/apis/cart_api.dart';
 import 'package:flex_storefront/cart/apis/cart_exceptions.dart';
 import 'package:flex_storefront/cart/models/cart_message.dart';
 import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
+import 'package:fresh_dio/fresh_dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loggy/loggy.dart';
 import 'package:rxdart/subjects.dart';
@@ -36,41 +38,57 @@ class CartRepository with CartRepositoryLoggy {
   Stream<CartMessage> getCartMessageStream() =>
       _cartMessageStreamController.asBroadcastStream();
 
-  String get cartId =>
-      GetIt.instance.get<SharedPreferences>().getString(ANONYMOUS_CART_GUID) ??
-      '';
   Cart get currentCart => _cartStreamController.value;
   bool get hasCart => _cartStreamController.hasValue;
 
   /// Initialize the CartRepository, fetch the last-used cart from
   /// local storage or create a new one to prepare the Cart for usage.
   void init() async {
-    // 1. check local storage
-    loggy.info(
-      'Cart initialization started, local storage cartId: $cartId',
-    );
+    loggy.info('Cart initialization started');
 
-    if (cartId.isNotEmpty) {
-      await fetchCart();
-    } else {
-      await createCart();
-    }
+    GetIt.instance.get<AuthRepository>().authStatus.listen((event) async {
+      if (event == AuthenticationStatus.unauthenticated) {
+        loggy.info('Anonymous cart loading');
+        final savedAnonymousCartGuid = GetIt.instance
+            .get<SharedPreferences>()
+            .getString(ANONYMOUS_CART_GUID);
+
+        if (savedAnonymousCartGuid != null) {
+          await fetchCart(
+            userType: UserType.anonymous,
+            cartId: savedAnonymousCartGuid,
+          );
+        } else {
+          await createAnonymousCart();
+        }
+      } else if (event == AuthenticationStatus.authenticated) {
+        loggy.info('User cart loading');
+        await fetchCart(userType: UserType.current, cartId: 'current');
+      }
+    });
 
     loggy.info(
       'Cart initialization ended, cart ready',
     );
   }
 
-  Future<void> fetchCart() async {
+  Future<void> fetchCart({
+    required UserType userType,
+    required String cartId,
+  }) async {
     try {
-      final cart = await _cartApi.fetchCart(cartCode: cartId);
+      final cart = await _cartApi.fetchCart(
+        userType: userType,
+        cartId: cartId,
+      );
+
       _cartStreamController.add(cart);
       _cartMessageStreamController.add(CartReady());
     } on CartException catch (e) {
       // if the cart is not found, create a new one
       if (e.reason == CartExceptionReason.notFound) {
         _cartMessageStreamController.add(CartNotFound());
-        await createCart();
+        await createAnonymousCart();
       } else {
         _cartStreamController.addError(e);
       }
@@ -79,14 +97,14 @@ class CartRepository with CartRepositoryLoggy {
     }
   }
 
-  Future<void> createCart() async {
+  Future<void> createAnonymousCart() async {
     try {
       _cartMessageStreamController.add(CartCreate());
-      final cart = await _cartApi.createCart();
+      final cart = await _cartApi.createCart(userType: UserType.anonymous);
 
       GetIt.instance
           .get<SharedPreferences>()
-          .setString(ANONYMOUS_CART_GUID, cart.guid);
+          .setString(ANONYMOUS_CART_GUID, cart.identifier);
 
       _cartStreamController.add(cart);
       _cartMessageStreamController.add(CartReady());
@@ -100,7 +118,8 @@ class CartRepository with CartRepositoryLoggy {
     required int quantity,
   }) async {
     await _cartApi.addProductToCart(
-      cartCode: cartId,
+      userType: currentCart.userType,
+      cartId: currentCart.identifier,
       productCode: product.code,
       quantity: quantity,
     );
@@ -112,14 +131,18 @@ class CartRepository with CartRepositoryLoggy {
       ),
     );
 
-    await fetchCart();
+    await fetchCart(
+      userType: currentCart.userType,
+      cartId: currentCart.identifier,
+    );
   }
 
   Future<void> removeProductFromCart({
     required CartItem entry,
   }) async {
     await _cartApi.removeProductFromCart(
-      cartCode: cartId,
+      userType: currentCart.userType,
+      cartId: currentCart.identifier,
       entryNumber: entry.entryNumber,
     );
 
@@ -129,7 +152,10 @@ class CartRepository with CartRepositoryLoggy {
       ),
     );
 
-    await fetchCart();
+    await fetchCart(
+      userType: currentCart.userType,
+      cartId: currentCart.identifier,
+    );
   }
 
   Future<void> changeQuantityInCart({
@@ -137,7 +163,8 @@ class CartRepository with CartRepositoryLoggy {
     required int quantity,
   }) async {
     await _cartApi.changeQuantityInCart(
-      cartCode: cartId,
+      userType: currentCart.userType,
+      cartId: currentCart.identifier,
       entryNumber: entry.entryNumber,
       quantity: quantity,
     );
@@ -150,6 +177,9 @@ class CartRepository with CartRepositoryLoggy {
       ),
     );
 
-    await fetchCart();
+    await fetchCart(
+      userType: currentCart.userType,
+      cartId: currentCart.identifier,
+    );
   }
 }

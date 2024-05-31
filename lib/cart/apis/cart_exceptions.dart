@@ -8,18 +8,18 @@ enum CartExceptionReason {
 
 @JsonSerializable(createToJson: false)
 class CartException implements Exception {
-  final String message;
-  final CartExceptionReason reason;
-  final String subject;
-  final String subjectType;
   final String type;
+  final String message;
+  final CartExceptionReason? reason;
+  final String? subject;
+  final String? subjectType;
 
   const CartException({
-    required this.message,
-    required this.reason,
-    required this.subject,
-    required this.subjectType,
     required this.type,
+    required this.message,
+    this.reason,
+    this.subject,
+    this.subjectType,
   });
 
   factory CartException.fromJson(Map<String, dynamic> json) =>

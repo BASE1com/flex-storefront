@@ -1,10 +1,11 @@
-import 'dart:math';
+import 'dart:async';
 
 import 'package:flex_storefront/auth/apis/auth_api.dart';
 import 'package:flex_storefront/init.dart';
 import 'package:fresh_dio/fresh_dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loggy/loggy.dart';
+import 'package:rxdart/rxdart.dart';
 
 mixin AuthRepositoryLoggy implements LoggyType {
   @override
@@ -13,33 +14,43 @@ mixin AuthRepositoryLoggy implements LoggyType {
 }
 
 class AuthRepository with AuthRepositoryLoggy {
-  static AuthRepository get instance => GetIt.instance<AuthRepository>();
-
   AuthRepository({required AuthApi authApi}) : _authApi = authApi;
 
-  final AuthApi _authApi;
-  late final Fresh<OAuth2Token> _fresh = Fresh.oAuth2(
-    tokenStorage: InMemoryTokenStorage<OAuth2Token>(),
-    refreshToken: (token, client) async {
-      loggy.debug('refreshing token...');
-      final refreshedToken = await _authApi.refreshToken(token);
-      loggy.debug('token refreshed!');
-      return refreshedToken;
-    },
-    shouldRefresh: (Response? response) => response?.statusCode == 401,
-  );
+  final _authStreamController = BehaviorSubject<AuthenticationStatus>();
 
-  Stream<AuthenticationStatus> get authStatus => _fresh.authenticationStatus;
+  final AuthApi _authApi;
+  late StreamSubscription freshSubscription;
+  late Fresh<OAuth2Token> freshInstance;
+
+  Stream<AuthenticationStatus> get authStatus =>
+      _authStreamController.asBroadcastStream();
+
+  AuthenticationStatus get currentAuthStatus => _authStreamController.value;
 
   Future<void> init() async {
     loggy.info(
       'Auth initialization started...',
     );
 
+    freshInstance = Fresh.oAuth2(
+      tokenStorage: InMemoryTokenStorage<OAuth2Token>(),
+      refreshToken: (token, client) async {
+        loggy.debug('refreshing token...');
+        final refreshedToken = await _authApi.refreshToken(token);
+        loggy.debug('token refreshed!');
+        return refreshedToken;
+      },
+      shouldRefresh: (Response? response) => response?.statusCode == 401,
+    );
+
+    freshSubscription = freshInstance.authenticationStatus.listen((event) {
+      _authStreamController.add(event);
+    });
+
     // add fresh as our interceptor, to manage token refresh
     GetIt.instance<Dio>(instanceName: Singletons.hybrisClient)
         .interceptors
-        .add(_fresh);
+        .add(freshInstance);
 
     loggy.info(
       'Auth initialization ended, fresh_dio ready',
@@ -55,7 +66,7 @@ class AuthRepository with AuthRepositoryLoggy {
   }) async {
     loggy.info('Login..');
     final token = await _authApi.getToken(email, password);
-    await _fresh.setToken(token);
+    await freshInstance.setToken(token);
     loggy.info('Login successful, set token: ${token.accessToken}');
   }
 
@@ -87,6 +98,12 @@ class AuthRepository with AuthRepositoryLoggy {
 
   /// [LogoutUser] - Valid for any authentication
   Future<void> logout() async {
-    await _fresh.setToken(null);
+    await freshInstance.setToken(null);
+  }
+
+  Future<void> dispose() async {
+    await freshSubscription.cancel();
+    await freshInstance.close();
+    await _authStreamController.close();
   }
 }
