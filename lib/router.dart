@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/account/account_page.dart';
 import 'package:flex_storefront/analytics/apis/analytics_api.dart';
 import 'package:flex_storefront/analytics/models/analytics_events.dart';
+import 'package:flex_storefront/auth/auth_repository.dart';
 import 'package:flex_storefront/auth/login/login_page.dart';
 import 'package:flex_storefront/cart/cart_page.dart';
 import 'package:flex_storefront/cart/cart_repository.dart';
@@ -20,6 +21,7 @@ import 'package:flex_storefront/search/models/search_results.dart';
 import 'package:flex_storefront/search/search_page.dart';
 import 'package:flex_storefront/shop/shop_page.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh_dio/fresh_dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sheet/route.dart';
 import 'package:sheet/sheet.dart';
@@ -35,6 +37,25 @@ class AnalyticsNavigationObserver extends AutoRouterObserver {
           : null;
 
       GetIt.instance.get<AnalyticsApi>().track(ViewCartEvent.fromCart(cart));
+    }
+  }
+}
+
+class AuthGuard extends AutoRouteGuard {
+  @override
+  void onNavigation(NavigationResolver resolver, StackRouter router) {
+    final authenticated =
+        GetIt.instance.get<AuthRepository>().currentAuthStatus ==
+            AuthenticationStatus.authenticated;
+
+    if (authenticated) {
+      resolver.next(true);
+    } else {
+      resolver.redirect(LoginRoute(
+        onLoginAttempt: (success) {
+          resolver.next(success);
+        },
+      ));
     }
   }
 }
@@ -100,10 +121,10 @@ class AppRouter extends _$AppRouter {
           fullscreenDialog: true,
         ),
         AutoRoute(
-          page: CheckoutRoute.page,
-          path: '/checkout',
-          fullscreenDialog: true,
-        ),
+            page: CheckoutRoute.page,
+            path: '/checkout',
+            fullscreenDialog: true,
+            guards: [AuthGuard()]),
       ];
 }
 

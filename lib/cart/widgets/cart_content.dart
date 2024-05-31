@@ -26,7 +26,7 @@ class CartContent extends StatelessWidget {
           OrderSummary(cart: cart),
           const SizedBox(height: 8),
           ElevatedButton(
-            onPressed: () => context.router.pushNamed('/login'),
+            onPressed: () => context.router.pushNamed('/checkout'),
             child: const Text('Proceed to Checkout'),
           ),
         ],

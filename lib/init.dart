@@ -63,5 +63,5 @@ void init() {
     final AuthRepository authRepository = AuthRepository(authApi: AuthApi());
     await authRepository.init();
     return authRepository;
-  });
+  }, dispose: (instance) => instance.dispose());
 }
