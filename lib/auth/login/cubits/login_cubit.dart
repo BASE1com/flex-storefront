@@ -44,16 +44,20 @@ class LoginCubit extends Cubit<LoginState> {
       }
 
       // register user in firebase
-      await AuthRepository.instance.loginWithEmailAndPassword(
-        email: email.trim(),
-        password: password.trim(),
-      );
+      await GetIt.instance.get<AuthRepository>().loginWithEmailAndPassword(
+            email: email.trim(),
+            password: password.trim(),
+          );
 
       // show success
       emit(state.copyWith(status: Status.success));
-    } catch (e) {
+    } catch (e, stacktrace) {
       // show an error to the user
-      emit(state.copyWith(status: Status.failure));
+      emit(state.copyWith(
+        status: Status.failure,
+        error: e,
+        stackTrace: stacktrace,
+      ));
     }
   }
 

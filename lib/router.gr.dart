@@ -74,9 +74,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     LoginRoute.name: (routeData) {
+      final args = routeData.argsAs<LoginRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const LoginPage(),
+        child: LoginPage(
+          key: args.key,
+          onLoginAttempt: args.onLoginAttempt,
+        ),
       );
     },
     ProductDetailRoute.name: (routeData) {
@@ -305,16 +309,39 @@ class HomeRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [LoginPage]
-class LoginRoute extends PageRouteInfo<void> {
-  const LoginRoute({List<PageRouteInfo>? children})
-      : super(
+class LoginRoute extends PageRouteInfo<LoginRouteArgs> {
+  LoginRoute({
+    Key? key,
+    required Function onLoginAttempt,
+    List<PageRouteInfo>? children,
+  }) : super(
           LoginRoute.name,
+          args: LoginRouteArgs(
+            key: key,
+            onLoginAttempt: onLoginAttempt,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'LoginRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<LoginRouteArgs> page = PageInfo<LoginRouteArgs>(name);
+}
+
+class LoginRouteArgs {
+  const LoginRouteArgs({
+    this.key,
+    required this.onLoginAttempt,
+  });
+
+  final Key? key;
+
+  final Function onLoginAttempt;
+
+  @override
+  String toString() {
+    return 'LoginRouteArgs{key: $key, onLoginAttempt: $onLoginAttempt}';
+  }
 }
 
 /// generated route for
