@@ -1,5 +1,7 @@
+import 'package:flex_storefront/account/cubits/account_cubit.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AccountHeader extends StatelessWidget {
   const AccountHeader({
@@ -8,6 +10,8 @@ class AccountHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.select((AccountCubit cubit) => cubit.state.user);
+
     return Padding(
       padding: const EdgeInsets.all(FlexSizes.appPadding),
       child: Column(
@@ -18,7 +22,7 @@ class AccountHeader extends StatelessWidget {
           ),
           const SizedBox(height: FlexSizes.xs),
           Text(
-            'Sign in to access your account.',
+            user?.name ?? 'Sign in to access your account.',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         ],
