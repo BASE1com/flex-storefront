@@ -4,6 +4,7 @@ part 'address.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Address {
+  final String id;
   final String firstName;
   final String lastName;
   final String line1;
@@ -15,6 +16,7 @@ class Address {
   final bool defaultAddress;
 
   Address({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.line1,
@@ -30,8 +32,7 @@ class Address {
     return '''$firstName $lastName
 $line1
 $town${region != null ? ', ${region!.isocode}' : ''}, ${country.isocode}
-$postalCode
-''';
+$postalCode''';
   }
 
   factory Address.fromJson(Map<String, dynamic> json) =>

@@ -42,12 +42,8 @@ class DeliveryModeSelectionCubit extends Cubit<DeliveryModeSelectionState> {
     final cartId = GetIt.instance.get<CartRepository>().currentCart.identifier;
 
     await GetIt.instance
-        .get<DeliveryModeApi>()
-        .updateDeliveryMode(cartId, code);
-
-    await GetIt.instance
         .get<CheckoutRepository>()
-        .fetchCheckoutInfo(cartId: cartId);
+        .updateDeliveryMode(cartId: cartId, code: code);
 
     // Refresh the cart as well
     // TODO: Remove that once we move the price breakdown in CheckoutInfo rather than Cart

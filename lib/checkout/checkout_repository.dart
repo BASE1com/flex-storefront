@@ -27,4 +27,22 @@ class CheckoutRepository with CheckoutRepositoryLoggy {
 
     _checkoutStreamController.add(checkoutInfo);
   }
+
+  Future<void> updateAddress({
+    required String cartId,
+    required String addressId,
+  }) async {
+    await GetIt.instance.get<CheckoutApi>().updateAddress(cartId, addressId);
+
+    await fetchCheckoutInfo(cartId: cartId);
+  }
+
+  Future<void> updateDeliveryMode({
+    required String cartId,
+    required String code,
+  }) async {
+    await GetIt.instance.get<CheckoutApi>().updateDeliveryMode(cartId, code);
+
+    await fetchCheckoutInfo(cartId: cartId);
+  }
 }

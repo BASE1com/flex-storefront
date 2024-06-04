@@ -8,7 +8,7 @@ part of 'delivery_mode.dart';
 
 DeliveryMode _$DeliveryModeFromJson(Map<String, dynamic> json) => DeliveryMode(
       code: json['code'] as String,
-      name: json['name'] as String,
+      name: json['name'] as String?,
       description: json['description'] as String?,
       price: json['price'] == null
           ? null
