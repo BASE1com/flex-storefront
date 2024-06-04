@@ -1,4 +1,3 @@
-import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';
 
