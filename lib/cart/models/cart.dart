@@ -22,10 +22,11 @@ class Cart {
   final CartPrice subTotal;
   final CartPrice totalDiscounts;
   final int totalItems;
+  // TODO Move the price breakdown in CheckoutInfo rather than Cart
   final CartPrice totalPrice;
   final CartPrice totalPriceWithTax;
   final CartPrice totalTax;
-  final PaymentType? paymentType;
+  final CartPrice? deliveryCost;
   final int totalUnitCount;
 
   Cart({
@@ -40,7 +41,7 @@ class Cart {
     required this.totalPrice,
     required this.totalPriceWithTax,
     required this.totalTax,
-    this.paymentType,
+    this.deliveryCost,
     required this.totalUnitCount,
   }) : assert((code != null) ^ (guid != null)); // <--- XOR operator
 

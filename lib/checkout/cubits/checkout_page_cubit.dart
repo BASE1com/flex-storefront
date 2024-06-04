@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flex_storefront/cart/cart_repository.dart';
 import 'package:flex_storefront/cart/models/cart_message.dart';
-import 'package:flex_storefront/checkout/apis/checkout_api.dart';
+import 'package:flex_storefront/checkout/checkout_repository.dart';
 import 'package:flex_storefront/checkout/cubits/checkout_page_state.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:get_it/get_it.dart';
@@ -46,7 +46,17 @@ Future<void> waitFor<T>() async {
 }
 
 class CheckoutPageCubit extends Cubit<CheckoutPageState> {
-  CheckoutPageCubit() : super(CheckoutPageState(status: Status.initial));
+  late StreamSubscription _checkoutStreamSubscription;
+
+  CheckoutPageCubit() : super(CheckoutPageState(status: Status.initial)) {
+    _checkoutStreamSubscription =
+        GetIt.instance.get<CheckoutRepository>().stream.listen((checkoutInfo) {
+      emit(state.copyWith(
+        status: Status.success,
+        checkoutInfo: checkoutInfo,
+      ));
+    });
+  }
 
   Future<void> loadCheckoutInfo() async {
     emit(state.copyWith(status: Status.pending));
@@ -60,10 +70,14 @@ class CheckoutPageCubit extends Cubit<CheckoutPageState> {
 
     final cartId = GetIt.instance.get<CartRepository>().currentCart.identifier;
 
-    final checkoutInfo = await GetIt.instance
-        .get<CheckoutApi>()
+    await GetIt.instance
+        .get<CheckoutRepository>()
         .fetchCheckoutInfo(cartId: cartId);
+  }
 
-    emit(state.copyWith(status: Status.success, checkoutInfo: checkoutInfo));
+  @override
+  Future<void> close() async {
+    await _checkoutStreamSubscription.cancel();
+    super.close();
   }
 }

@@ -10,9 +10,11 @@ Address _$AddressFromJson(Map<String, dynamic> json) => Address(
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String,
       line1: json['line1'] as String,
-      line2: json['line2'] as String,
+      line2: json['line2'] as String?,
       town: json['town'] as String,
-      region: Region.fromJson(json['region'] as Map<String, dynamic>),
+      region: json['region'] == null
+          ? null
+          : Region.fromJson(json['region'] as Map<String, dynamic>),
       country: Country.fromJson(json['country'] as Map<String, dynamic>),
       postalCode: json['postalCode'] as String,
       defaultAddress: json['defaultAddress'] as bool,
@@ -24,7 +26,7 @@ Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
       'line1': instance.line1,
       'line2': instance.line2,
       'town': instance.town,
-      'region': instance.region.toJson(),
+      'region': instance.region?.toJson(),
       'country': instance.country.toJson(),
       'postalCode': instance.postalCode,
       'defaultAddress': instance.defaultAddress,
