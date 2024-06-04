@@ -24,9 +24,9 @@ Cart _$CartFromJson(Map<String, dynamic> json) => Cart(
       totalPriceWithTax:
           CartPrice.fromJson(json['totalPriceWithTax'] as Map<String, dynamic>),
       totalTax: CartPrice.fromJson(json['totalTax'] as Map<String, dynamic>),
-      paymentType: json['paymentType'] == null
+      deliveryCost: json['deliveryCost'] == null
           ? null
-          : PaymentType.fromJson(json['paymentType'] as Map<String, dynamic>),
+          : CartPrice.fromJson(json['deliveryCost'] as Map<String, dynamic>),
       totalUnitCount: json['totalUnitCount'] as int,
     );
 

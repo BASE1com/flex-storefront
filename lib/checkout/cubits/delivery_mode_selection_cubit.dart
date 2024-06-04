@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flex_storefront/cart/cart_repository.dart';
+import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/checkout/apis/delivery_mode_api.dart';
 import 'package:flex_storefront/checkout/checkout_repository.dart';
 import 'package:flex_storefront/checkout/cubits/delivery_mode_selection_state.dart';
@@ -47,6 +48,12 @@ class DeliveryModeSelectionCubit extends Cubit<DeliveryModeSelectionState> {
     await GetIt.instance
         .get<CheckoutRepository>()
         .fetchCheckoutInfo(cartId: cartId);
+
+    // Refresh the cart as well
+    // TODO: Remove that once we move the price breakdown in CheckoutInfo rather than Cart
+    await GetIt.instance
+        .get<CartRepository>()
+        .fetchCart(userType: UserType.current, cartId: cartId);
 
     emit(state.copyWith(status: Status.success));
   }
