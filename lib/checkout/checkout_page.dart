@@ -6,6 +6,7 @@ import 'package:flex_storefront/checkout/widgets/address_selection_card.dart';
 import 'package:flex_storefront/checkout/widgets/checkout_footer.dart';
 import 'package:flex_storefront/checkout/widgets/checkout_section.dart';
 import 'package:flex_storefront/checkout/widgets/delivery_mode_selection_card.dart';
+import 'package:flex_storefront/checkout/widgets/payment_selection_card.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
@@ -85,11 +86,21 @@ class CheckoutView extends StatelessWidget {
                 const SizedBox(height: FlexSizes.spacerItems),
                 CheckoutSection(
                   title: 'Payment',
-                  content: Container(
-                    color: Colors.grey,
-                    width: 100,
-                    height: 100,
-                  ),
+                  content: BlocBuilder<CheckoutPageCubit, CheckoutPageState>(
+                      builder: (context, state) {
+                    switch (state.status) {
+                      case Status.success:
+                        return PaymentSelectionCard(
+                          paymentInfo: state.checkoutInfo!.paymentInfo,
+                          onAdd: () {},
+                          onChange: () {},
+                        );
+                      default:
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                    }
+                  }),
                 ),
                 const SizedBox(height: FlexSizes.spacerItems),
                 CheckoutSection(

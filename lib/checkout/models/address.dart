@@ -7,9 +7,9 @@ class Address {
   final String firstName;
   final String lastName;
   final String line1;
-  final String line2;
+  final String? line2;
   final String town;
-  final Region region;
+  final Region? region;
   final Country country;
   final String postalCode;
   final bool defaultAddress;
@@ -18,9 +18,9 @@ class Address {
     required this.firstName,
     required this.lastName,
     required this.line1,
-    required this.line2,
+    this.line2,
     required this.town,
-    required this.region,
+    this.region,
     required this.country,
     required this.postalCode,
     required this.defaultAddress,
@@ -29,7 +29,7 @@ class Address {
   String get multiLineFormat {
     return '''$firstName $lastName
 $line1
-$town, ${region.isocode}, ${country.isocode}
+$town${region != null ? ', ${region!.isocode}' : ''}, ${country.isocode}
 $postalCode
 ''';
   }
