@@ -6,7 +6,7 @@ part 'delivery_mode.g.dart';
 @JsonSerializable(createToJson: false, explicitToJson: true)
 class DeliveryMode {
   final String code;
-  final String name;
+  final String? name;
   final String? description;
   final Price? price;
 

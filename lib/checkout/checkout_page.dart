@@ -1,6 +1,6 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
-import 'package:flex_storefront/cart/cubits/cart_page_state.dart';
+import 'package:flex_storefront/checkout/cubits/address_selection_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/checkout_page_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/checkout_page_state.dart';
 import 'package:flex_storefront/checkout/cubits/delivery_mode_selection_cubit.dart';
@@ -61,10 +61,12 @@ class CheckoutView extends StatelessWidget {
                       builder: (context, state) {
                     switch (state.status) {
                       case Status.success:
-                        return AddressSelectionCard(
-                          address: state.checkoutInfo!.deliveryAddress,
-                          onAdd: () {},
-                          onChange: () {},
+                        return BlocProvider<AddressSelectionCubit>(
+                          create: (_) =>
+                              AddressSelectionCubit()..loadAddresses(),
+                          child: AddressSelectionCard(
+                            onAdd: () {},
+                          ),
                         );
                       default:
                         return const Center(
