@@ -59,7 +59,7 @@ class CartRepository with CartRepositoryLoggy {
             cartId: savedAnonymousCartGuid,
           );
         } else {
-          await createAnonymousCart();
+          await createCart(userType: UserType.anonymous);
         }
       } else if (event == AuthenticationStatus.authenticated) {
         loggy.info('User cart loading');
@@ -90,7 +90,7 @@ class CartRepository with CartRepositoryLoggy {
       // if the cart is not found, create a new one
       if (e.reason == CartExceptionReason.notFound) {
         _cartMessageStreamController.add(CartNotFound());
-        await createAnonymousCart();
+        await createCart(userType: userType);
       } else {
         _cartStreamController.addError(e);
       }
@@ -99,10 +99,10 @@ class CartRepository with CartRepositoryLoggy {
     }
   }
 
-  Future<void> createAnonymousCart() async {
+  Future<void> createCart({required UserType userType}) async {
     try {
       _cartMessageStreamController.add(CartCreate());
-      final cart = await _cartApi.createCart(userType: UserType.anonymous);
+      final cart = await _cartApi.createCart(userType: userType);
 
       GetIt.instance
           .get<SharedPreferences>()

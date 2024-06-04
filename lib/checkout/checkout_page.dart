@@ -1,4 +1,6 @@
 import 'package:auto_route/annotations.dart';
+import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
+import 'package:flex_storefront/cart/cubits/cart_page_state.dart';
 import 'package:flex_storefront/checkout/cubits/checkout_page_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/checkout_page_state.dart';
 import 'package:flex_storefront/checkout/cubits/delivery_mode_selection_cubit.dart';
@@ -20,8 +22,15 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CheckoutPageCubit>(
-      create: (_) => CheckoutPageCubit()..loadCheckoutInfo(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<CheckoutPageCubit>(
+          create: (_) => CheckoutPageCubit()..loadCheckoutInfo(),
+        ),
+        BlocProvider<CartPageCubit>(
+          create: (_) => CartPageCubit(),
+        ),
+      ],
       child: const CheckoutView(),
     );
   }
@@ -102,15 +111,6 @@ class CheckoutView extends StatelessWidget {
                     }
                   }),
                 ),
-                const SizedBox(height: FlexSizes.spacerItems),
-                CheckoutSection(
-                  title: 'Order Summary',
-                  content: Container(
-                    color: Colors.grey,
-                    width: 100,
-                    height: 100,
-                  ),
-                )
               ],
             ),
           ),
