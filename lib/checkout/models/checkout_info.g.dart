@@ -13,4 +13,7 @@ CheckoutInfo _$CheckoutInfoFromJson(Map<String, dynamic> json) => CheckoutInfo(
       deliveryMode: json['deliveryMode'] == null
           ? null
           : DeliveryMode.fromJson(json['deliveryMode'] as Map<String, dynamic>),
+      paymentInfo: json['paymentInfo'] == null
+          ? null
+          : PaymentInfo.fromJson(json['paymentInfo'] as Map<String, dynamic>),
     );
