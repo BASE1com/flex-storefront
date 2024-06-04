@@ -6,6 +6,7 @@ import 'package:flex_storefront/auth/auth_repository.dart';
 import 'package:flex_storefront/cart/apis/cart_api.dart';
 import 'package:flex_storefront/cart/cart_repository.dart';
 import 'package:flex_storefront/category/apis/category_api.dart';
+import 'package:flex_storefront/checkout/apis/checkout_api.dart';
 import 'package:flex_storefront/cms/apis/cms_api.dart';
 import 'package:flex_storefront/config/config_repository.dart';
 import 'package:flex_storefront/product_detail/apis/product_api.dart';
@@ -46,6 +47,7 @@ void init() {
   GetIt.instance.registerSingleton(ProductApi());
   GetIt.instance.registerSingleton(ProductListApi());
   GetIt.instance.registerSingleton(SuggestionApi());
+  GetIt.instance.registerSingleton(CheckoutApi());
 
   // Repository layer
   GetIt.instance.registerSingletonAsync(() async {

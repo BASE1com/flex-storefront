@@ -77,6 +77,8 @@ class CartRepository with CartRepositoryLoggy {
     required String cartId,
   }) async {
     try {
+      _cartMessageStreamController.add(CartLoading());
+
       final cart = await _cartApi.fetchCart(
         userType: userType,
         cartId: cartId,
