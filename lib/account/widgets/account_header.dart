@@ -15,23 +15,37 @@ class AccountHeader extends StatelessWidget {
     final user = context.select((AccountCubit cubit) => cubit.state.user);
 
     return Padding(
-      padding: const EdgeInsets.all(FlexSizes.appPadding),
+      padding: const EdgeInsets.symmetric(
+        horizontal: FlexSizes.appPadding,
+        vertical: FlexSizes.sm,
+      ),
       child: Column(
         children: [
           Text(
-            'Welcome!',
+            'Welcome,',
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           const SizedBox(height: FlexSizes.xs),
           Text(
             user?.name ?? 'Sign in to access your account.',
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
+          if (user != null)
+            Text(
+              user.uid,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           if (user == null) ...[
             const SizedBox(height: FlexSizes.sm),
             ElevatedButton(
               onPressed: () {
-                context.router.navigate(LoginRoute(onLoginAttempt: () {}));
+                context.router.navigate(LoginRoute(
+                  onLoginAttempt: (success) {
+                    if (success) {
+                      context.router.maybePop();
+                    }
+                  },
+                ));
               },
               child: const Text('Sign In'),
             ),
