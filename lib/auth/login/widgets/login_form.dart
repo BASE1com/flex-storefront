@@ -98,10 +98,6 @@ class LoginForm extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    ),
                     onPressed: () {
                       if (_formKey.currentState!.saveAndValidate()) {
                         context.read<LoginCubit>().emailAndPasswordSignIn(
@@ -119,7 +115,7 @@ class LoginForm extends StatelessWidget {
                 // Create account button
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
+                  child: OutlinedButton(
                     onPressed: () {
                       context.router.navigateNamed('/signup');
                     },

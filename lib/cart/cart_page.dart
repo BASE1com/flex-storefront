@@ -29,10 +29,18 @@ class CartView extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemCount =
         context.select((CartPageCubit cubit) => cubit.state.cart?.totalItems);
+    final totalPrice = context.select(
+        (CartPageCubit cubit) => cubit.state.cart?.totalPrice.formattedValue);
 
     return Scaffold(
       appBar: FlexAppBar(
-        title: Text('Cart ${itemCount != null ? '($itemCount items)' : ''}'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Cart ${itemCount != null ? '($itemCount items)' : ''}'),
+            Text(totalPrice ?? ''),
+          ],
+        ),
         showSearchButton: false,
       ),
       body: BlocBuilder<CartPageCubit, CartPageState>(

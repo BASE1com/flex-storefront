@@ -78,6 +78,7 @@ class ProductListItem extends StatelessWidget {
                         }
 
                         return AddToCartButton(
+                          dense: true,
                           onPressed: () =>
                               context.read<ProductListItemCubit>().addToCart(),
                         );

@@ -1,3 +1,4 @@
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
@@ -6,14 +7,26 @@ class AddToCartButton extends StatelessWidget {
     super.key,
     this.title = 'Add to Cart',
     this.onPressed,
+    this.dense = false,
   });
 
   final String title;
   final VoidCallback? onPressed;
+  final bool dense;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      style: dense
+          ? ButtonStyle(
+              padding: MaterialStateProperty.all(
+                const EdgeInsets.symmetric(
+                  horizontal: FlexSizes.md,
+                  vertical: FlexSizes.sm,
+                ),
+              ),
+            )
+          : null,
       onPressed: onPressed,
       child: const Text('Add to Cart'),
     );
