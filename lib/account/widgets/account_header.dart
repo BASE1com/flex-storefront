@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/account/cubits/account_cubit.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
+import 'package:flex_storefront/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,6 +27,15 @@ class AccountHeader extends StatelessWidget {
             user?.name ?? 'Sign in to access your account.',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
+          if (user == null) ...[
+            const SizedBox(height: FlexSizes.sm),
+            ElevatedButton(
+              onPressed: () {
+                context.router.navigate(LoginRoute(onLoginAttempt: () {}));
+              },
+              child: const Text('Sign In'),
+            ),
+          ],
         ],
       ),
     );

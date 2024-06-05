@@ -55,7 +55,7 @@ class AccountView extends StatelessWidget {
               title: 'Address Book',
               subtitle: 'Manage your shipping addresses',
               trailing: const Icon(LineAwesome.arrow_right_solid),
-              onTap: () {},
+              onTap: () => context.router.pushNamed('/address'),
             ),
             SettingsListTile(
               title: 'Payment Methods',

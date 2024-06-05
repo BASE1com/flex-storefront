@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AccountPage(),
       );
     },
+    AddressRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddressPage(),
+      );
+    },
     CartRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -81,6 +87,12 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           onLoginAttempt: args.onLoginAttempt,
         ),
+      );
+    },
+    NewAddressRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const NewAddressPage(),
       );
     },
     ProductDetailRoute.name: (routeData) {
@@ -164,6 +176,20 @@ class AccountRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AccountRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AddressPage]
+class AddressRoute extends PageRouteInfo<void> {
+  const AddressRoute({List<PageRouteInfo>? children})
+      : super(
+          AddressRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddressRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -342,6 +368,20 @@ class LoginRouteArgs {
   String toString() {
     return 'LoginRouteArgs{key: $key, onLoginAttempt: $onLoginAttempt}';
   }
+}
+
+/// generated route for
+/// [NewAddressPage]
+class NewAddressRoute extends PageRouteInfo<void> {
+  const NewAddressRoute({List<PageRouteInfo>? children})
+      : super(
+          NewAddressRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NewAddressRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

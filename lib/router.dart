@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/account/account_page.dart';
+import 'package:flex_storefront/account/pages/address_page.dart';
+import 'package:flex_storefront/account/pages/new_address_page.dart';
 import 'package:flex_storefront/analytics/apis/analytics_api.dart';
 import 'package:flex_storefront/analytics/models/analytics_events.dart';
 import 'package:flex_storefront/auth/auth_repository.dart';
@@ -101,6 +103,16 @@ class AppRouter extends _$AppRouter {
           ],
         ),
         AutoRoute(
+          page: AddressRoute.page,
+          path: '/address',
+          fullscreenDialog: true,
+        ),
+        AutoRoute(
+          page: NewAddressRoute.page,
+          path: '/address/new',
+          // fullscreenDialog: true,
+        ),
+        AutoRoute(
           page: FilterRoute.page,
           path: '/filter',
           fullscreenDialog: true,
@@ -121,10 +133,11 @@ class AppRouter extends _$AppRouter {
           fullscreenDialog: true,
         ),
         AutoRoute(
-            page: CheckoutRoute.page,
-            path: '/checkout',
-            fullscreenDialog: true,
-            guards: [AuthGuard()]),
+          page: CheckoutRoute.page,
+          path: '/checkout',
+          fullscreenDialog: true,
+          guards: [AuthGuard()],
+        ),
       ];
 }
 
