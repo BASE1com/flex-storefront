@@ -1,16 +1,17 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
+import 'package:flex_storefront/cart/widgets/order_summary.dart';
 import 'package:flex_storefront/checkout/cubits/address_selection_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/checkout_page_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/checkout_page_state.dart';
 import 'package:flex_storefront/checkout/cubits/delivery_mode_selection_cubit.dart';
 import 'package:flex_storefront/checkout/widgets/address_selection_card.dart';
-import 'package:flex_storefront/checkout/widgets/checkout_footer.dart';
 import 'package:flex_storefront/checkout/widgets/checkout_section.dart';
 import 'package:flex_storefront/checkout/widgets/delivery_mode_selection_card.dart';
 import 'package:flex_storefront/checkout/widgets/payment_selection_card.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
+import 'package:flex_storefront/flex_ui/widgets/rounded_card.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,6 +42,8 @@ class CheckoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = context.select((CartPageCubit cubit) => cubit.state.cart);
+
     return Scaffold(
       appBar: const FlexAppBar(
         showSearchButton: false,
@@ -53,7 +56,7 @@ class CheckoutView extends StatelessWidget {
         children: [
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: FlexSizes.md),
+              padding: const EdgeInsets.all(FlexSizes.appPadding),
               children: [
                 CheckoutSection(
                   title: 'Shipping Address',
@@ -113,10 +116,18 @@ class CheckoutView extends StatelessWidget {
                     }
                   }),
                 ),
+                const SizedBox(height: FlexSizes.spacerSection),
+                if (cart != null) ...[
+                  RoundedCard(child: OrderSummary(cart: cart)),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('Place Order'),
+                  ),
+                ],
+                const SizedBox(height: FlexSizes.spacerSection),
               ],
             ),
           ),
-          const CheckoutFooter(),
         ],
       ),
     );

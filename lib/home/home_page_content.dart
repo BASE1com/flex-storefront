@@ -37,6 +37,9 @@ class HomePageContent extends StatelessWidget {
           aspectRatio: section.aspectRatio,
           imageUrl: section.banner.url,
           borderRadius: FlexSizes.borderRadiusMd,
+          padding: const EdgeInsets.symmetric(
+            horizontal: FlexSizes.appPadding,
+          ),
           onTap: () {
             context.router.navigateNamed(section.link.withTabArg(activeIndex));
           },
