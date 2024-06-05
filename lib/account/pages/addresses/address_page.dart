@@ -4,12 +4,9 @@ import 'package:flex_storefront/account/cubits/address_state.dart';
 import 'package:flex_storefront/account/widgets/address_card.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
-import 'package:flex_storefront/router.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
 
 @RoutePage()
 class AddressPage extends StatelessWidget {
@@ -22,7 +19,7 @@ class AddressPage extends StatelessWidget {
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            context.router.push(const NewAddressRoute());
+            context.router.pushNamed('/address/new');
           },
           child: const Icon(Icons.add),
         ),
@@ -54,9 +51,8 @@ class AddressView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(FlexSizes.appPadding),
             child: Column(
-              children: [
-                ...state.addresses.map((a) => AddressCard(address: a)).toList(),
-              ],
+              children:
+                  state.addresses.map((a) => AddressCard(address: a)).toList(),
             ),
           ),
         );

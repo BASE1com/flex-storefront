@@ -4,15 +4,11 @@ import 'package:flex_storefront/shared/bloc_helper.dart';
 class AddressState extends BlocState {
   final List<Address> addresses;
   final String? selectedId;
-  final List<Country> countries;
-  final List<Region> regions;
 
   AddressState({
     required super.status,
     this.addresses = const [],
     this.selectedId,
-    this.countries = const [],
-    this.regions = const [],
   });
 
   AddressState copyWith({
@@ -26,7 +22,5 @@ class AddressState extends BlocState {
         status: status ?? this.status,
         addresses: addresses ?? this.addresses,
         selectedId: selectedId ?? this.selectedId,
-        countries: countries ?? this.countries,
-        regions: regions ?? this.regions,
       );
 }

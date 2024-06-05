@@ -89,6 +89,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    MyAccountRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MyAccountPage(),
+      );
+    },
     NewAddressRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -368,6 +374,20 @@ class LoginRouteArgs {
   String toString() {
     return 'LoginRouteArgs{key: $key, onLoginAttempt: $onLoginAttempt}';
   }
+}
+
+/// generated route for
+/// [MyAccountPage]
+class MyAccountRoute extends PageRouteInfo<void> {
+  const MyAccountRoute({List<PageRouteInfo>? children})
+      : super(
+          MyAccountRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MyAccountRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

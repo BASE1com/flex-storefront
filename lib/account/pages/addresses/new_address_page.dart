@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/account/cubits/address_cubit.dart';
-import 'package:flex_storefront/account/cubits/address_state.dart';
+import 'package:flex_storefront/account/cubits/address_form_cubit.dart';
+import 'package:flex_storefront/account/cubits/address_form_state.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +16,13 @@ class NewAddressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AddressCubit()..loadCountries(),
+      create: (context) => AddressFormCubit()..loadCountries(),
       child: Scaffold(
         appBar: const FlexAppBar(
           showBackArrow: true,
           leadingIcon: Icons.close,
           showSearchButton: false,
-          title: Text('New address'),
+          title: Text('New shipping address'),
         ),
         body: NewAddressForm(),
       ),
@@ -36,7 +37,7 @@ class NewAddressForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AddressCubit, AddressState>(
+    return BlocBuilder<AddressFormCubit, AddressFormState>(
       builder: (context, state) {
         return SingleChildScrollView(
           child: FormBuilder(
@@ -48,7 +49,7 @@ class NewAddressForm extends StatelessWidget {
                 children: [
                   // conutry
                   FormBuilderDropdown(
-                    name: 'country',
+                    name: 'countryIsoCode',
                     items: state.countries
                         .map((e) => DropdownMenuItem(
                             value: e.isocode, child: Text(e.name ?? '')))
@@ -56,7 +57,7 @@ class NewAddressForm extends StatelessWidget {
                     decoration: const InputDecoration(labelText: 'Country'),
                     validator: FormBuilderValidators.required(),
                     onChanged: (value) => context
-                        .read<AddressCubit>()
+                        .read<AddressFormCubit>()
                         .loadRegions(isocode: value!),
                   ),
 
@@ -113,7 +114,7 @@ class NewAddressForm extends StatelessWidget {
                     children: [
                       Expanded(
                         child: FormBuilderDropdown(
-                          name: 'region',
+                          name: 'regionIsoCode',
                           items: state.regions
                               .map((e) => DropdownMenuItem(
                                   value: e.isocode, child: Text(e.name ?? '')))
@@ -161,26 +162,9 @@ class NewAddressForm extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.saveAndValidate()) {
-                        context.read<AddressCubit>().saveAddress(
-                              countryIsoCode: _formKey
-                                  .currentState!.fields['country']!.value,
-                              firstName: _formKey
-                                  .currentState!.fields['firstName']!.value,
-                              lastName: _formKey
-                                  .currentState!.fields['lastName']!.value,
-                              line1:
-                                  _formKey.currentState!.fields['line1']!.value,
-                              line2:
-                                  _formKey.currentState!.fields['line2']!.value,
-                              phone:
-                                  _formKey.currentState!.fields['phone']!.value,
-                              postalCode: _formKey
-                                  .currentState!.fields['postalCode']!.value,
-                              regionIsoCode: _formKey
-                                  .currentState!.fields['region']!.value,
-                              town:
-                                  _formKey.currentState!.fields['town']!.value,
-                            );
+                        context
+                            .read<AddressFormCubit>()
+                            .saveAddress(_formKey.currentState!.value);
                       }
                     },
                     child: const Text('Add Address'),
