@@ -4,7 +4,8 @@ part 'address.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Address {
-  final String id;
+  final String? id;
+  final String? titleCode;
   final String firstName;
   final String lastName;
   final String line1;
@@ -14,9 +15,12 @@ class Address {
   final Country country;
   final String postalCode;
   final bool defaultAddress;
+  final String? cellphone;
+  final String? phone;
 
   Address({
-    required this.id,
+    this.id,
+    this.titleCode,
     required this.firstName,
     required this.lastName,
     required this.line1,
@@ -26,6 +30,8 @@ class Address {
     required this.country,
     required this.postalCode,
     required this.defaultAddress,
+    this.cellphone,
+    this.phone,
   });
 
   String get multiLineFormat {
@@ -49,8 +55,12 @@ $postalCode''';
 @JsonSerializable()
 class Country {
   final String isocode;
+  final String? name;
 
-  Country({required this.isocode});
+  Country({
+    required this.isocode,
+    this.name,
+  });
 
   factory Country.fromJson(Map<String, dynamic> json) =>
       _$CountryFromJson(json);
@@ -59,15 +69,19 @@ class Country {
 
   @override
   String toString() {
-    return 'Country{isocode: $isocode}';
+    return 'Country{isocode: $isocode, name: $name}';
   }
 }
 
 @JsonSerializable()
 class Region {
   final String isocode;
+  final String? name;
 
-  Region({required this.isocode});
+  Region({
+    required this.isocode,
+    this.name,
+  });
 
   factory Region.fromJson(Map<String, dynamic> json) => _$RegionFromJson(json);
 
@@ -75,6 +89,6 @@ class Region {
 
   @override
   String toString() {
-    return 'Region{isocode: $isocode}';
+    return 'Region{isocode: $isocode, name: $name}';
   }
 }

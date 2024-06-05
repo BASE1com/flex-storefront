@@ -74,7 +74,7 @@ class AddressSelectionCard extends StatelessWidget {
 
                       if (address != null) {
                         BlocProvider.of<AddressSelectionCubit>(context)
-                            .changeAddress(address.id);
+                            .changeAddress(address.id!);
                       }
                     }
                   : onAdd,
