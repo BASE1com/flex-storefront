@@ -3,6 +3,7 @@ import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/selectable_image.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
@@ -32,6 +33,35 @@ class FlexCarousel extends StatelessWidget {
         ),
       ),
       items: items,
+    );
+  }
+}
+
+class FlexCarouselShimmer extends StatelessWidget {
+  const FlexCarouselShimmer({
+    super.key,
+    this.height = 132,
+  });
+
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: FlexSizes.appPadding,
+        vertical: FlexSizes.sm,
+      ),
+      child: Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Container(
+            height: height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(FlexSizes.borderRadiusLg),
+              color: Colors.white,
+            ),
+          )),
     );
   }
 }
