@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/cms/cubits/cms_cubit.dart';
 import 'package:flex_storefront/cms/cubits/cms_state.dart';
+import 'package:flex_storefront/flex_ui/components/carousel.dart';
 import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
@@ -139,8 +140,11 @@ class _HomeViewState extends State<HomeView> {
             builder: (_, state) {
               switch (state.status) {
                 case Status.initial || Status.pending:
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return const Column(
+                    children: [
+                      FlexCarouselShimmer(),
+                      FlexCarouselShimmer(),
+                    ],
                   );
                 case Status.success:
                   return HomePageContent(sections: state.sections);
