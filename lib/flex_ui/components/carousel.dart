@@ -53,15 +53,16 @@ class FlexCarouselShimmer extends StatelessWidget {
         vertical: FlexSizes.sm,
       ),
       child: Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          child: Container(
-            height: height,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(FlexSizes.borderRadiusLg),
-              color: Colors.white,
-            ),
-          )),
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          height: height,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(FlexSizes.borderRadiusLg),
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }
