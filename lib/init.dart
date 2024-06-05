@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flex_storefront/account/apis/user_api.dart';
 import 'package:flex_storefront/analytics/apis/analytics_api.dart';
 import 'package:flex_storefront/auth/apis/auth_api.dart';
 import 'package:flex_storefront/auth/auth_repository.dart';
@@ -53,6 +54,7 @@ void init() {
   GetIt.instance.registerSingleton(CheckoutApi());
   GetIt.instance.registerSingleton(DeliveryModeApi());
   GetIt.instance.registerSingleton(AddressApi());
+  GetIt.instance.registerSingleton(UserApi());
 
   // Repository layer
   GetIt.instance.registerSingleton(CheckoutRepository());

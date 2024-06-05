@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/account/account_page.dart';
+import 'package:flex_storefront/account/pages/my_account_page.dart';
+import 'package:flex_storefront/account/pages/addresses/address_page.dart';
+import 'package:flex_storefront/account/pages/addresses/new_address_page.dart';
 import 'package:flex_storefront/analytics/apis/analytics_api.dart';
 import 'package:flex_storefront/analytics/models/analytics_events.dart';
 import 'package:flex_storefront/auth/auth_repository.dart';
@@ -97,8 +100,29 @@ class AppRouter extends _$AppRouter {
               ],
             ),
             AutoRoute(page: CartRoute.page, path: 'cart'),
-            AutoRoute(page: AccountRoute.page, path: 'account'),
+            AutoRoute(
+              page: AccountRoute.page,
+              path: 'account',
+              children: [
+                AutoRoute(
+                  page: MyAccountRoute.page,
+                  path: 'me',
+                  initial: true,
+                ),
+                AutoRoute(
+                  page: AddressRoute.page,
+                  path: 'address',
+                  guards: [AuthGuard()],
+                ),
+              ],
+            ),
           ],
+        ),
+        AutoRoute(
+          page: NewAddressRoute.page,
+          path: '/address/new',
+          fullscreenDialog: true,
+          guards: [AuthGuard()],
         ),
         AutoRoute(
           page: FilterRoute.page,
@@ -121,10 +145,11 @@ class AppRouter extends _$AppRouter {
           fullscreenDialog: true,
         ),
         AutoRoute(
-            page: CheckoutRoute.page,
-            path: '/checkout',
-            fullscreenDialog: true,
-            guards: [AuthGuard()]),
+          page: CheckoutRoute.page,
+          path: '/checkout',
+          fullscreenDialog: true,
+          guards: [AuthGuard()],
+        ),
       ];
 }
 
