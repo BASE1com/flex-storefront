@@ -1,6 +1,5 @@
 import 'package:flex_storefront/checkout/cubits/delivery_mode_selection_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/delivery_mode_selection_state.dart';
-import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/rounded_card.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
