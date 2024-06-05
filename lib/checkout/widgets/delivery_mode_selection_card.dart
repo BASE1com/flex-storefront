@@ -1,5 +1,7 @@
 import 'package:flex_storefront/checkout/cubits/delivery_mode_selection_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/delivery_mode_selection_state.dart';
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
+import 'package:flex_storefront/flex_ui/widgets/rounded_card.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,30 +20,32 @@ class DeliveryModeSelectionCard extends StatelessWidget {
         builder: (context, state) {
       switch (state.status) {
         case Status.success:
-          return FormBuilder(
-            key: _formKey,
-            onChanged: () {
-              final code = _formKey.currentState!.instantValue['deliveryMode'];
-              print('Changed $code');
-              BlocProvider.of<DeliveryModeSelectionCubit>(context)
-                  .changeDeliveryMode(
-                code,
-              );
-            },
-            child: FormBuilderRadioGroup<String>(
-              name: 'deliveryMode',
-              initialValue: state.selectedCode,
-              orientation: OptionsOrientation.vertical,
-              options: state.deliveryModes
-                  .map(
-                    (d) => FormBuilderFieldOption(
-                      value: d.code,
-                      child: Text(
-                        '${d.name} ${d.description != null ? '(${d.description})' : ''}',
+          return RoundedCard(
+            padding: const EdgeInsets.all(0),
+            child: FormBuilder(
+              key: _formKey,
+              onChanged: () {
+                final code =
+                    _formKey.currentState!.instantValue['deliveryMode'];
+                BlocProvider.of<DeliveryModeSelectionCubit>(context)
+                    .changeDeliveryMode(code);
+              },
+              child: FormBuilderRadioGroup<String>(
+                name: 'deliveryMode',
+                initialValue: state.selectedCode,
+                orientation: OptionsOrientation.vertical,
+                decoration: const InputDecoration(border: InputBorder.none),
+                options: state.deliveryModes
+                    .map(
+                      (d) => FormBuilderFieldOption(
+                        value: d.code,
+                        child: Text(
+                          '${d.name} ${d.description != null ? '(${d.description})' : ''}',
+                        ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+              ),
             ),
           );
         default:

@@ -3,6 +3,7 @@ import 'package:collection/collection.dart';
 import 'package:flex_storefront/checkout/cubits/address_selection_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/address_selection_state.dart';
 import 'package:flex_storefront/checkout/models/address.dart';
+import 'package:flex_storefront/flex_ui/widgets/rounded_card.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,27 +61,29 @@ class AddressSelectionCard extends StatelessWidget {
           (a) => a.id == state.selectedId,
         );
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            address != null
-                ? Text(address.multiLineFormat)
-                : const SizedBox.shrink(),
-            ElevatedButton(
-              onPressed: address != null
-                  ? () async {
-                      final address = await _showAddressSelection(
-                          context, state.addresses, state.selectedId);
+        return RoundedCard(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              address != null
+                  ? Text(address.multiLineFormat)
+                  : const SizedBox.shrink(),
+              ElevatedButton(
+                onPressed: address != null
+                    ? () async {
+                        final address = await _showAddressSelection(
+                            context, state.addresses, state.selectedId);
 
-                      if (address != null) {
-                        BlocProvider.of<AddressSelectionCubit>(context)
-                            .changeAddress(address.id!);
+                        if (address != null) {
+                          BlocProvider.of<AddressSelectionCubit>(context)
+                              .changeAddress(address.id!);
+                        }
                       }
-                    }
-                  : onAdd,
-              child: Text(address != null ? 'Change' : 'Add'),
-            ),
-          ],
+                    : onAdd,
+                child: Text(address != null ? 'Change' : 'Add'),
+              ),
+            ],
+          ),
         );
       },
     );
