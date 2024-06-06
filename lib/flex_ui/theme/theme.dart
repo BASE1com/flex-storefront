@@ -1,3 +1,5 @@
+import 'package:flex_storefront/flex_ui/theme/elevated_button_theme.dart';
+import 'package:flex_storefront/flex_ui/theme/outlined_button_theme.dart';
 import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,8 @@ class FlexAppTheme {
     primaryColor: FlexColors.primary,
     scaffoldBackgroundColor: Colors.white,
     textTheme: Typography.blackHelsinki,
+    elevatedButtonTheme: FlexElevatedButtonTheme.lightElevatedButtonTheme,
+    outlinedButtonTheme: FlexOutlinedButtonTheme.lightOutlinedButtonTheme,
     searchBarTheme: SearchBarThemeData(
       elevation: const MaterialStatePropertyAll(0),
       side: const MaterialStatePropertyAll(
@@ -58,6 +62,8 @@ class FlexAppTheme {
     primaryColor: FlexColors.primary,
     scaffoldBackgroundColor: Colors.white,
     textTheme: Typography.blackHelsinki,
+    elevatedButtonTheme: FlexElevatedButtonTheme.darkElevatedButtonTheme,
+    outlinedButtonTheme: FlexOutlinedButtonTheme.darkOutlinedButtonTheme,
     searchBarTheme: SearchBarThemeData(
       elevation: const MaterialStatePropertyAll(0),
       side: const MaterialStatePropertyAll(

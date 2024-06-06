@@ -4,6 +4,8 @@ import 'package:flex_storefront/analytics/apis/analytics_api.dart';
 import 'package:flex_storefront/analytics/models/analytics_events.dart';
 import 'package:flex_storefront/cart/cart_repository.dart';
 import 'package:flex_storefront/cart/models/cart_message.dart';
+import 'package:flex_storefront/flex_ui/tokens/colors.dart';
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -39,12 +41,38 @@ class _AnalyticsCartListenerState extends State<AnalyticsCartListener> {
               message.quantityAdded,
             ),
           );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: FlexColors.success,
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(milliseconds: 1500),
+          elevation: FlexSizes.cardElevation,
+          content: Text(
+            'Added ${message.quantityAdded} item(s) to cart',
+            style: const TextStyle(color: FlexColors.onSuccess),
+          ),
+        ),
+      );
     } else if (message is RemoveFromCartMessage) {
       GetIt.instance.get<AnalyticsApi>().track(
             RemoveFromCartEvent.fromProduct(
               message.product,
             ),
           );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: FlexColors.error,
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(milliseconds: 1500),
+          elevation: FlexSizes.cardElevation,
+          content: Text(
+            'Item removed from cart',
+            style: TextStyle(color: FlexColors.onError),
+          ),
+        ),
+      );
     }
   }
 

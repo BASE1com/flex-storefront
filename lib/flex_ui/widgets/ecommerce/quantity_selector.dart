@@ -1,3 +1,4 @@
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';
 
 class QuantitySelector extends StatelessWidget {
@@ -23,8 +24,8 @@ class QuantitySelector extends StatelessWidget {
           ? Theme.of(context).disabledColor
           : (color ?? Theme.of(context).colorScheme.secondary),
       borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(4),
-        bottomLeft: Radius.circular(4),
+        topLeft: Radius.circular(FlexSizes.borderRadiusSm),
+        bottomLeft: Radius.circular(FlexSizes.borderRadiusSm),
       ),
       child: InkWell(
         onTap: disabled ? null : () => onChanged(quantity - 1),
@@ -44,8 +45,8 @@ class QuantitySelector extends StatelessWidget {
           ? Colors.grey
           : (color ?? Theme.of(context).colorScheme.secondary),
       borderRadius: const BorderRadius.only(
-        topRight: Radius.circular(4),
-        bottomRight: Radius.circular(4),
+        topRight: Radius.circular(FlexSizes.borderRadiusSm),
+        bottomRight: Radius.circular(FlexSizes.borderRadiusSm),
       ),
       child: InkWell(
         onTap: disabled ? null : () => onChanged(quantity + 1),
