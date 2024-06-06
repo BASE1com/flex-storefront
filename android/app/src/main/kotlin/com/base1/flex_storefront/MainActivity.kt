@@ -1,4 +1,4 @@
-package com.example.flex_storefront
+package com.base1.flex_storefront
 
 import io.flutter.embedding.android.FlutterActivity
 
