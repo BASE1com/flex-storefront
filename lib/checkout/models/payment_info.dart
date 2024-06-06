@@ -23,6 +23,12 @@ class PaymentInfo {
     required this.expiryYear,
   });
 
+  String get multiLineDisplay {
+    return '''$accountHolderName
+$cardNumber
+Expires: ${expiryMonth.padLeft(2, '0')}/${expiryYear}''';
+  }
+
   factory PaymentInfo.fromJson(Map<String, dynamic> json) =>
       _$PaymentInfoFromJson(json);
 
