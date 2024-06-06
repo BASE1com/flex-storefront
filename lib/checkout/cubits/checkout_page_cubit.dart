@@ -5,7 +5,7 @@ import 'package:flex_storefront/cart/cart_repository.dart';
 import 'package:flex_storefront/cart/models/cart_message.dart';
 import 'package:flex_storefront/checkout/checkout_repository.dart';
 import 'package:flex_storefront/checkout/cubits/checkout_page_state.dart';
-import 'package:flex_storefront/shared/bloc_helper.dart';
+import 'package:flex_storefront/order/apis/order_api.dart';
 import 'package:get_it/get_it.dart';
 
 // TODO: Better way to do this?
@@ -48,18 +48,27 @@ Future<void> waitFor<T>() async {
 class CheckoutPageCubit extends Cubit<CheckoutPageState> {
   late StreamSubscription _checkoutStreamSubscription;
 
-  CheckoutPageCubit() : super(CheckoutPageState(status: Status.initial)) {
+  CheckoutPageCubit()
+      : super(CheckoutPageState(status: CheckoutPageStatus.initial)) {
     _checkoutStreamSubscription =
         GetIt.instance.get<CheckoutRepository>().stream.listen((checkoutInfo) {
+      // Update the validation only if something was invalid
+      // (no error are shown until the user tries to place order)
+      final wasInvalid = state.status == CheckoutPageStatus.invalid;
+
       emit(state.copyWith(
-        status: Status.success,
+        status: wasInvalid
+            ? state.isValid
+                ? CheckoutPageStatus.success
+                : CheckoutPageStatus.invalid
+            : CheckoutPageStatus.success,
         checkoutInfo: checkoutInfo,
       ));
     });
   }
 
   Future<void> loadCheckoutInfo() async {
-    emit(state.copyWith(status: Status.pending));
+    emit(state.copyWith(status: CheckoutPageStatus.pending));
 
     // If the cart is loading (likely to happen if the user just logged in),
     // then we wait for that loading to end so we can checkout the right cart.
@@ -73,6 +82,31 @@ class CheckoutPageCubit extends Cubit<CheckoutPageState> {
     await GetIt.instance
         .get<CheckoutRepository>()
         .fetchCheckoutInfo(cartId: cartId);
+  }
+
+  void validate() {
+    emit(state.copyWith(
+        status: state.isValid
+            ? CheckoutPageStatus.success
+            : CheckoutPageStatus.invalid));
+  }
+
+  Future<void> placeOrderIfValid({
+    required Map<String, dynamic> termsConditionsForm,
+  }) async {
+    if (!state.isValid || termsConditionsForm['termsChecked'] != true) {
+      return;
+    }
+
+    emit(state.copyWith(status: CheckoutPageStatus.orderPending));
+
+    final cartId = GetIt.instance.get<CartRepository>().currentCart.identifier;
+
+    await GetIt.instance
+        .get<OrderApi>()
+        .placeOrder(cartId, termsConditionsForm);
+
+    emit(state.copyWith(status: CheckoutPageStatus.orderPlaced));
   }
 
   @override

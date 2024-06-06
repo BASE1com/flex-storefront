@@ -14,6 +14,7 @@ import 'package:flex_storefront/category/category_page.dart';
 import 'package:flex_storefront/checkout/checkout_page.dart';
 import 'package:flex_storefront/flex_ui/layouts/modal_bottom_sheet.dart';
 import 'package:flex_storefront/home/home_page.dart';
+import 'package:flex_storefront/order/order_confirmation_page.dart';
 import 'package:flex_storefront/product_detail/product_detail_page.dart';
 import 'package:flex_storefront/product_list/pages/sort_page.dart';
 import 'package:flex_storefront/product_list/pages/filter_page.dart';
@@ -147,6 +148,12 @@ class AppRouter extends _$AppRouter {
         AutoRoute(
           page: CheckoutRoute.page,
           path: '/checkout',
+          fullscreenDialog: true,
+          guards: [AuthGuard()],
+        ),
+        AutoRoute(
+          page: OrderConfirmationRoute.page,
+          path: '/order-confirmation',
           fullscreenDialog: true,
           guards: [AuthGuard()],
         ),

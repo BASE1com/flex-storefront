@@ -101,6 +101,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const NewAddressPage(),
       );
     },
+    OrderConfirmationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const OrderConfirmationPage(),
+      );
+    },
     ProductDetailRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<ProductDetailRouteArgs>(
@@ -400,6 +406,20 @@ class NewAddressRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'NewAddressRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OrderConfirmationPage]
+class OrderConfirmationRoute extends PageRouteInfo<void> {
+  const OrderConfirmationRoute({List<PageRouteInfo>? children})
+      : super(
+          OrderConfirmationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderConfirmationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

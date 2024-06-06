@@ -6,10 +6,16 @@ class CheckoutSection extends StatelessWidget {
     super.key,
     required this.title,
     required this.content,
+    this.pending = false,
+    this.invalid = false,
+    this.invalidMessage,
   });
 
   final String title;
   final Widget content;
+  final bool pending;
+  final bool invalid;
+  final String? invalidMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +29,17 @@ class CheckoutSection extends StatelessWidget {
               .titleMedium
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: FlexSizes.sm),
-        content,
+        const SizedBox(height: FlexSizes.xs),
+        pending
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : content,
+        if (invalid)
+          Text(
+            invalidMessage!,
+            style: TextStyle(color: Theme.of(context).colorScheme.error),
+          )
       ],
     );
   }

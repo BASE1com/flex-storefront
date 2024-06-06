@@ -22,28 +22,29 @@ class AddressSelectionCard extends StatelessWidget {
     String? selectedId,
   ) async {
     return showDialog<Address>(
-        context: context,
-        builder: (_) {
-          return SimpleDialog(
-            title: const Text('Select address'),
-            children: addresses
-                .map(
-                  (a) => SimpleDialogOption(
-                    onPressed: () {
-                      Navigator.pop(context, a);
-                    },
-                    child: Row(
-                      children: [
-                        Expanded(child: Text(a.multiLineFormat)),
-                        if (a.id == selectedId)
-                          const Icon(LineAwesome.check_solid),
-                      ],
-                    ),
+      context: context,
+      builder: (_) {
+        return SimpleDialog(
+          title: const Text('Select address'),
+          children: addresses
+              .map(
+                (a) => SimpleDialogOption(
+                  onPressed: () {
+                    Navigator.pop(context, a);
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(child: Text(a.multiLineFormat)),
+                      if (a.id == selectedId)
+                        const Icon(LineAwesome.check_solid),
+                    ],
                   ),
-                )
-                .toList(),
-          );
-        });
+                ),
+              )
+              .toList(),
+        );
+      },
+    );
   }
 
   @override
@@ -67,18 +68,16 @@ class AddressSelectionCard extends StatelessWidget {
               address != null
                   ? Text(address.multiLineFormat)
                   : const SizedBox.shrink(),
-              ElevatedButton(
-                onPressed: address != null
-                    ? () async {
-                        final address = await _showAddressSelection(
-                            context, state.addresses, state.selectedId);
+              OutlinedButton(
+                onPressed: () async {
+                  final address = await _showAddressSelection(
+                      context, state.addresses, state.selectedId);
 
-                        if (address != null) {
-                          BlocProvider.of<AddressSelectionCubit>(context)
-                              .changeAddress(address.id!);
-                        }
-                      }
-                    : onAdd,
+                  if (address != null && context.mounted) {
+                    BlocProvider.of<AddressSelectionCubit>(context)
+                        .changeAddress(address.id!);
+                  }
+                },
                 child: Text(address != null ? 'Change' : 'Add'),
               ),
             ],
