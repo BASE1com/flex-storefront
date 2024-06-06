@@ -21,8 +21,8 @@ jobs:
       - name: Write Firebase credentials file
         uses: timheuer/base64-to-file@v1.2
         with:
-          fileName: 'google-services.json'
-          fileDir: './android/app/'
+          fileName: "google-services.json"
+          fileDir: "./android/app/"
           encodedString: ${{ secrets.FIREBASE_ANDROID_FILE }}
       - name: Update build number
         run: sed -r -i 's/version:(.*)\+(.*)/version:\1+${{ github.run_number }}/g' pubspec.yaml
@@ -57,25 +57,20 @@ jobs:
       - name: Write Firebase credentials file
         uses: timheuer/base64-to-file@v1.2
         with:
-          fileName: 'GoogleService-Info.plist'
-          fileDir: './ios/Runner/'
+          fileName: "GoogleService-Info.plist"
+          fileDir: "./ios/Runner/"
           encodedString: ${{ secrets.FIREBASE_IOS_FILE }}
       - name: Update build number
         run: sed -r -i '' 's/version:(.*)\+(.*)/version:\1+${{ github.run_number }}/' pubspec.yaml
       - run: flutter pub get
-      - name: Build IPA file
       - run: flutter build ios --release --no-codesign
-
       - run: mkdir Payload
         working-directory: build/ios/iphoneos
-
       - run: mv Runner.app/ Payload
         working-directory: build/ios/iphoneos
-
       - name: Zip output
         run: zip -qq -r -9 FlutterIpaExport.ipa Payload
         working-directory: build/ios/iphoneos
-
       - name: Upload artifact to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
