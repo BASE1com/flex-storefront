@@ -106,12 +106,8 @@ class CheckoutView extends StatelessWidget {
                   state.checkoutInfo?.paymentInfo == null,
               invalidMessage: 'Please select a payment method',
             ),
-            const SizedBox(height: FlexSizes.spacerSection),
-            const CheckoutSection(
-              title: 'Summary',
-              content: SummaryCard(),
-            ),
-            const SizedBox(height: FlexSizes.spacerSection),
+            const SizedBox(height: FlexSizes.spacerItems),
+            const SummaryCard(),
             FormBuilder(
               key: _formKey,
               child: FormBuilderCheckbox(
@@ -136,6 +132,7 @@ class CheckoutView extends StatelessWidget {
               },
               child: const Text('Place Order'),
             ),
+            const SizedBox(height: FlexSizes.spacerSection),
           ],
         );
       }),

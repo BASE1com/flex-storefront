@@ -1,5 +1,6 @@
 import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
 import 'package:flex_storefront/cart/cubits/cart_page_state.dart';
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/flex_ui/widgets/rounded_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,16 @@ class SummaryCard extends StatelessWidget {
     return BlocBuilder<CartPageCubit, CartPageState>(builder: (context, state) {
       return RoundedCard(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Text(
+              'Order Summary',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: FlexSizes.fontSizeLg,
+              ),
+            ),
+            const SizedBox(height: FlexSizes.spacerItems),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
