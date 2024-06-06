@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
+import 'package:flex_storefront/cart/widgets/order_summary.dart';
 import 'package:flex_storefront/checkout/cubits/address_selection_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/checkout_page_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/checkout_page_state.dart';
@@ -11,6 +12,8 @@ import 'package:flex_storefront/checkout/widgets/payment_selection_card.dart';
 import 'package:flex_storefront/checkout/widgets/summary_card.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
+import 'package:flex_storefront/flex_ui/widgets/rounded_card.dart';
+import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -50,6 +53,8 @@ class CheckoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = context.select((CartPageCubit cubit) => cubit.state.cart);
+
     return Scaffold(
       appBar: const FlexAppBar(
         showSearchButton: false,
@@ -60,7 +65,7 @@ class CheckoutView extends StatelessWidget {
       body: BlocBuilder<CheckoutPageCubit, CheckoutPageState>(
           builder: (context, state) {
         return ListView(
-          padding: const EdgeInsets.symmetric(horizontal: FlexSizes.md),
+          padding: const EdgeInsets.all(FlexSizes.appPadding),
           children: [
             CheckoutSection(
               title: 'Shipping Address',
@@ -101,12 +106,12 @@ class CheckoutView extends StatelessWidget {
                   state.checkoutInfo?.paymentInfo == null,
               invalidMessage: 'Please select a payment method',
             ),
-            const SizedBox(height: FlexSizes.spacerItems),
+            const SizedBox(height: FlexSizes.spacerSection),
             const CheckoutSection(
               title: 'Summary',
               content: SummaryCard(),
             ),
-            const SizedBox(height: FlexSizes.spacerItems),
+            const SizedBox(height: FlexSizes.spacerSection),
             FormBuilder(
               key: _formKey,
               child: FormBuilderCheckbox(

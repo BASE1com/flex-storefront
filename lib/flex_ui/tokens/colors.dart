@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class FlexColors {
   static const primary = Color.fromRGBO(33, 39, 56, 1.0); // #212738
+  static const secondary = Color.fromRGBO(31, 123, 192, 1.0); // #1F7BC0
 
   // information colors
   static const info = Color.fromRGBO(0, 122, 255, 1.0); // #007AFF
@@ -11,6 +12,7 @@ class FlexColors {
   static const disabled = Color.fromRGBO(142, 142, 147, 1.0); // #8E8E93
 
   static const onPrimary = Color.fromRGBO(250, 250, 250, 1);
+  static const onSecondary = Color.fromRGBO(250, 250, 250, 1);
   static const onInfo = Color.fromRGBO(250, 250, 250, 1);
   static const onSuccess = Color.fromRGBO(250, 250, 250, 1);
   static const onWarning = Color.fromRGBO(250, 250, 250, 1);

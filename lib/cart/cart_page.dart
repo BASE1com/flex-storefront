@@ -1,8 +1,10 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
 import 'package:flex_storefront/cart/cubits/cart_page_state.dart';
 import 'package:flex_storefront/cart/widgets/cart_content.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +29,18 @@ class CartView extends StatelessWidget {
   Widget build(BuildContext context) {
     final itemCount =
         context.select((CartPageCubit cubit) => cubit.state.cart?.totalItems);
+    final totalPrice = context.select(
+        (CartPageCubit cubit) => cubit.state.cart?.totalPrice.formattedValue);
 
     return Scaffold(
       appBar: FlexAppBar(
-        title: Text('Cart ${itemCount != null ? '($itemCount items)' : ''}'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Cart ${itemCount != null ? '($itemCount items)' : ''}'),
+            Text(totalPrice ?? ''),
+          ],
+        ),
         showSearchButton: false,
       ),
       body: BlocBuilder<CartPageCubit, CartPageState>(
@@ -48,6 +58,13 @@ class CartView extends StatelessWidget {
               );
           }
         },
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(FlexSizes.appPadding),
+        child: ElevatedButton(
+          onPressed: () => context.router.pushNamed('/checkout'),
+          child: const Text('Proceed to Checkout'),
+        ),
       ),
     );
   }

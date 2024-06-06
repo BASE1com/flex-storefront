@@ -1,7 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/cart/cubits/cart_page_cubit.dart';
 import 'package:flex_storefront/cart/widgets/cart_item_entry.dart';
 import 'package:flex_storefront/cart/widgets/order_summary.dart';
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
+import 'package:flex_storefront/flex_ui/widgets/rounded_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -20,24 +21,16 @@ class CartContent extends StatelessWidget {
           entry: entry,
         );
       }),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          OrderSummary(cart: cart),
-          const SizedBox(height: 8),
-          ElevatedButton(
-            onPressed: () => context.router.pushNamed('/checkout'),
-            child: const Text('Proceed to Checkout'),
-          ),
-        ],
-      ),
+      RoundedCard(child: OrderSummary(cart: cart)),
     ];
 
     return ListView.separated(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(FlexSizes.appPadding),
       itemCount: widgets.length,
       itemBuilder: (_, index) => widgets[index],
-      separatorBuilder: (_, __) => const Divider(height: 24),
+      separatorBuilder: (_, index) => index == widgets.length - 2
+          ? const SizedBox(height: FlexSizes.lg)
+          : const Divider(height: FlexSizes.lg),
     );
   }
 }

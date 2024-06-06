@@ -52,6 +52,10 @@ class CartPageCubit extends Cubit<CartPageState> {
     required CartItem entry,
     required int quantity,
   }) async {
+    if (quantity == 0) {
+      return; // TODO: handle differently, either remove or show a dialog
+    }
+
     emit(state.copyWith(status: Status.pending));
 
     try {

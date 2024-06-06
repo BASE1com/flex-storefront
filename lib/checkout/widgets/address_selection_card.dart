@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flex_storefront/checkout/cubits/address_selection_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/address_selection_state.dart';
 import 'package:flex_storefront/checkout/models/address.dart';
+import 'package:flex_storefront/flex_ui/widgets/rounded_card.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,28 +22,29 @@ class AddressSelectionCard extends StatelessWidget {
     String? selectedId,
   ) async {
     return showDialog<Address>(
-        context: context,
-        builder: (_) {
-          return SimpleDialog(
-            title: const Text('Select address'),
-            children: addresses
-                .map(
-                  (a) => SimpleDialogOption(
-                    onPressed: () {
-                      Navigator.pop(context, a);
-                    },
-                    child: Row(
-                      children: [
-                        Expanded(child: Text(a.multiLineFormat)),
-                        if (a.id == selectedId)
-                          const Icon(LineAwesome.check_solid),
-                      ],
-                    ),
+      context: context,
+      builder: (_) {
+        return SimpleDialog(
+          title: const Text('Select address'),
+          children: addresses
+              .map(
+                (a) => SimpleDialogOption(
+                  onPressed: () {
+                    Navigator.pop(context, a);
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(child: Text(a.multiLineFormat)),
+                      if (a.id == selectedId)
+                        const Icon(LineAwesome.check_solid),
+                    ],
                   ),
-                )
-                .toList(),
-          );
-        });
+                ),
+              )
+              .toList(),
+        );
+      },
+    );
   }
 
   @override
@@ -59,25 +61,27 @@ class AddressSelectionCard extends StatelessWidget {
           (a) => a.id == state.selectedId,
         );
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            address != null
-                ? Text(address.multiLineFormat)
-                : const SizedBox.shrink(),
-            ElevatedButton(
-              onPressed: () async {
-                final address = await _showAddressSelection(
-                    context, state.addresses, state.selectedId);
+        return RoundedCard(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              address != null
+                  ? Text(address.multiLineFormat)
+                  : const SizedBox.shrink(),
+              ElevatedButton(
+                onPressed: () async {
+                  final address = await _showAddressSelection(
+                      context, state.addresses, state.selectedId);
 
-                if (address != null) {
-                  BlocProvider.of<AddressSelectionCubit>(context)
-                      .changeAddress(address.id!);
-                }
-              },
-              child: Text(address != null ? 'Change' : 'Add'),
-            ),
-          ],
+                  if (address != null && context.mounted) {
+                    BlocProvider.of<AddressSelectionCubit>(context)
+                        .changeAddress(address.id!);
+                  }
+                },
+                child: Text(address != null ? 'Change' : 'Add'),
+              ),
+            ],
+          ),
         );
       },
     );
