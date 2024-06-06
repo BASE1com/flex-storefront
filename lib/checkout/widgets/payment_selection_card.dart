@@ -37,7 +37,7 @@ class PaymentSelectionCard extends StatelessWidget {
               const Icon(LineAwesome.cc_mastercard),
           ],
           const Expanded(child: SizedBox.shrink()),
-          ElevatedButton(
+          OutlinedButton(
             onPressed: paymentInfo != null ? onChange : onAdd,
             child: Text(paymentInfo != null ? 'Change' : 'Add'),
           ),

@@ -68,7 +68,7 @@ class AddressSelectionCard extends StatelessWidget {
               address != null
                   ? Text(address.multiLineFormat)
                   : const SizedBox.shrink(),
-              ElevatedButton(
+              OutlinedButton(
                 onPressed: () async {
                   final address = await _showAddressSelection(
                       context, state.addresses, state.selectedId);
