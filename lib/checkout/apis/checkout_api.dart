@@ -65,4 +65,19 @@ class CheckoutApi {
         '${dotenv.get('HYBRIS_BASE_URL')}$path/deliverymode$PARAMS',
         queryParameters: {'deliveryModeId': code});
   }
+
+  Future<void> updatePaymentInfo(String cartId, String paymentInfoId) async {
+    final path = PATH
+        .replaceAll(
+          '<CATALOG>',
+          GetIt.instance
+              .get<ConfigRepository>()
+              .getString(ConfigKey.shopHybrisCatalog),
+        )
+        .replaceAll('<CART_ID>', cartId);
+
+    await GetIt.instance.get<Dio>(instanceName: Singletons.hybrisClient).put(
+        '${dotenv.get('HYBRIS_BASE_URL')}$path/paymentdetails$PARAMS',
+        queryParameters: {'paymentDetailsId': paymentInfoId});
+  }
 }
