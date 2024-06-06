@@ -18,6 +18,7 @@ import 'package:flex_storefront/product_list/apis/product_list_api.dart';
 import 'package:flex_storefront/search/apis/suggestion_api.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_loggy_dio/flutter_loggy_dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -40,7 +41,7 @@ void init() {
     Dio()..interceptors.add(LoggyDioInterceptor(responseBody: false)),
     instanceName: Singletons.hybrisClient,
   );
-
+  GetIt.instance.registerSingleton(const FlutterSecureStorage());
   GetIt.instance.registerSingleton(FirebaseAnalytics.instance);
   GetIt.instance.registerSingletonAsync(() => SharedPreferences.getInstance());
 
