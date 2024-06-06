@@ -14,17 +14,28 @@ jobs:
       - name: Prepare environment
         run: |
           cp example.env .env
-          sed -i 's/STRAPI_TOKEN=/STRAPI_TOKEN=${{ secrets.STRAPI_TOKEN }}/g' .env
+          sed -i 's|STRAPI_TOKEN=|STRAPI_TOKEN=${{ secrets.STRAPI_TOKEN }}|g' .env
+          sed -i 's|HYBRIS_BASE_URL=|HYBRIS_BASE_URL=${{ secrets.HYBRIS_BASE_URL }}|g' .env
+          sed -i 's|HYBRIS_CLIENT_ID=|HYBRIS_CLIENT_ID=${{ secrets.HYBRIS_CLIENT_ID }}|g' .env
+          sed -i 's|HYBRIS_CLIENT_SECRET=|HYBRIS_CLIENT_SECRET=${{ secrets.HYBRIS_CLIENT_SECRET }}|g' .env
       - name: Write Firebase credentials file
         uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'google-services.json'
           fileDir: './android/app/'
           encodedString: ${{ secrets.FIREBASE_ANDROID_FILE }}
+      - name: Update build number
+        run: sed -r -i 's/version:(.*)\+(.*)/version:\1+${{ github.run_number }}/g' pubspec.yaml
       - run: flutter pub get
       - run: flutter build apk
       - run: flutter build appbundle
-
+      - name: Upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CREDENTIALS }}
+          groups: base1-internal
+          file: build/app/outputs/flutter-apk/app-release.apk
   iOS:
     runs-on: macos-latest
     steps:
@@ -38,12 +49,17 @@ jobs:
       - name: Prepare environment
         run: |
           cp example.env .env
-          sed -i '' 's/STRAPI_TOKEN=/STRAPI_TOKEN=${{ secrets.STRAPI_TOKEN }}/' .env
+          sed -i '' 's|STRAPI_TOKEN=|STRAPI_TOKEN=${{ secrets.STRAPI_TOKEN }}|' .env
+          sed -i '' 's|HYBRIS_BASE_URL=|HYBRIS_BASE_URL=${{ secrets.HYBRIS_BASE_URL }}|' .env
+          sed -i '' 's|HYBRIS_CLIENT_ID=|HYBRIS_CLIENT_ID=${{ secrets.HYBRIS_CLIENT_ID }}|' .env
+          sed -i '' 's|HYBRIS_CLIENT_SECRET=|HYBRIS_CLIENT_SECRET=${{ secrets.HYBRIS_CLIENT_SECRET }}|' .env
       - name: Write Firebase credentials file
         uses: timheuer/base64-to-file@v1.2
         with:
           fileName: 'GoogleService-Info.plist'
           fileDir: './ios/Runner/'
           encodedString: ${{ secrets.FIREBASE_IOS_FILE }}
+      - name: Update build number
+        run: sed -r -i '' 's/version:(.*)\+(.*)/version:\1+${{ github.run_number }}/' pubspec.yaml
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
