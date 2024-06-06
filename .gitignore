@@ -27,3 +27,6 @@ android/app/google-services.json
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# Mac dev specific
+.DS_Store

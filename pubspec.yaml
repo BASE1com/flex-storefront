@@ -1,9 +1,9 @@
 name: flex_storefront
-description: "A new Flutter project."
+description: "Flex Storefront is an open-source mobile app that allows you to quickly create your own branded storefront for SAP Commerce Cloud."
 
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 0.1.0+1
 
 environment:
   sdk: '>=3.2.6 <4.0.0'
