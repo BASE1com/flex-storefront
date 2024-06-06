@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flex_storefront/checkout/cubits/address_selection_cubit.dart';
 import 'package:flex_storefront/checkout/cubits/address_selection_state.dart';
@@ -67,17 +66,15 @@ class AddressSelectionCard extends StatelessWidget {
                 ? Text(address.multiLineFormat)
                 : const SizedBox.shrink(),
             ElevatedButton(
-              onPressed: address != null
-                  ? () async {
-                      final address = await _showAddressSelection(
-                          context, state.addresses, state.selectedId);
+              onPressed: () async {
+                final address = await _showAddressSelection(
+                    context, state.addresses, state.selectedId);
 
-                      if (address != null) {
-                        BlocProvider.of<AddressSelectionCubit>(context)
-                            .changeAddress(address.id!);
-                      }
-                    }
-                  : onAdd,
+                if (address != null) {
+                  BlocProvider.of<AddressSelectionCubit>(context)
+                      .changeAddress(address.id!);
+                }
+              },
               child: Text(address != null ? 'Change' : 'Add'),
             ),
           ],
