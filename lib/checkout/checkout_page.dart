@@ -11,6 +11,7 @@ import 'package:flex_storefront/checkout/widgets/delivery_mode_selection_card.da
 import 'package:flex_storefront/checkout/widgets/payment_selection_card.dart';
 import 'package:flex_storefront/checkout/widgets/summary_card.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
+import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,15 +116,30 @@ class CheckoutView extends StatelessWidget {
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                _formKey.currentState!.saveAndValidate();
-                context.read<CheckoutPageCubit>().validate();
-                context.read<CheckoutPageCubit>().placeOrderIfValid(
-                      termsConditionsForm: _formKey.currentState!.value,
-                    );
-              },
-              child: const Text('Place Order'),
+            // TODO Implement a proper button with a Pending state
+            Stack(
+              fit: StackFit.passthrough,
+              alignment: Alignment.centerRight,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _formKey.currentState!.saveAndValidate();
+                    context.read<CheckoutPageCubit>().validate();
+                    context.read<CheckoutPageCubit>().placeOrderIfValid(
+                          termsConditionsForm: _formKey.currentState!.value,
+                        );
+                  },
+                  child: const Text('Place Order'),
+                ),
+                if (state.status == CheckoutPageStatus.orderPending)
+                  Container(
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: FlexSizes.md),
+                    child: const CircularProgressIndicator(
+                      color: FlexColors.onPrimary,
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(height: FlexSizes.spacerSection),
           ],
