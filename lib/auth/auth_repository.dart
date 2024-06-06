@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:flex_storefront/auth/apis/auth_api.dart';
+import 'package:flex_storefront/auth/utils/secure_oauth2_token_storage.dart';
 import 'package:flex_storefront/init.dart';
 import 'package:fresh_dio/fresh_dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loggy/loggy.dart';
 import 'package:rxdart/rxdart.dart';
+
+const AUTH_TOKEN_STORAGE_KEY = 'flex_auth_token';
 
 mixin AuthRepositoryLoggy implements LoggyType {
   @override
@@ -33,7 +36,8 @@ class AuthRepository with AuthRepositoryLoggy {
     );
 
     freshInstance = Fresh.oAuth2(
-      tokenStorage: InMemoryTokenStorage<OAuth2Token>(),
+      tokenStorage:
+          SecureOAuth2TokenStorage(storageKey: AUTH_TOKEN_STORAGE_KEY),
       refreshToken: (token, client) async {
         loggy.debug('refreshing token...');
         final refreshedToken = await _authApi.refreshToken(token);
