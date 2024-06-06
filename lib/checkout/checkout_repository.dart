@@ -52,4 +52,15 @@ class CheckoutRepository with CheckoutRepositoryLoggy {
 
     await fetchCheckoutInfo(cartId: cartId);
   }
+
+  Future<void> updatePaymentInfo({
+    required String cartId,
+    required String paymentInfoId,
+  }) async {
+    await GetIt.instance
+        .get<CheckoutApi>()
+        .updatePaymentInfo(cartId, paymentInfoId);
+
+    await fetchCheckoutInfo(cartId: cartId);
+  }
 }

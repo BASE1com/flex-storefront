@@ -11,10 +11,7 @@ import 'package:icons_plus/icons_plus.dart';
 class AddressSelectionCard extends StatelessWidget {
   const AddressSelectionCard({
     super.key,
-    required this.onAdd,
   });
-
-  final VoidCallback onAdd;
 
   Future<Address?> _showAddressSelection(
     BuildContext context,

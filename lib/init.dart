@@ -10,6 +10,7 @@ import 'package:flex_storefront/category/apis/category_api.dart';
 import 'package:flex_storefront/checkout/apis/address_api.dart';
 import 'package:flex_storefront/checkout/apis/checkout_api.dart';
 import 'package:flex_storefront/checkout/apis/delivery_mode_api.dart';
+import 'package:flex_storefront/checkout/apis/payment_api.dart';
 import 'package:flex_storefront/checkout/checkout_repository.dart';
 import 'package:flex_storefront/cms/apis/cms_api.dart';
 import 'package:flex_storefront/config/config_repository.dart';
@@ -56,6 +57,7 @@ void init() {
   GetIt.instance.registerSingleton(CheckoutApi());
   GetIt.instance.registerSingleton(DeliveryModeApi());
   GetIt.instance.registerSingleton(AddressApi());
+  GetIt.instance.registerSingleton(PaymentApi());
   GetIt.instance.registerSingleton(UserApi());
   GetIt.instance.registerSingleton(OrderApi());
 
