@@ -102,7 +102,7 @@ class AuthRepository with AuthRepositoryLoggy {
 
   /// [LogoutUser] - Valid for any authentication
   Future<void> logout() async {
-    await freshInstance.setToken(null);
+    await freshInstance.clearToken();
   }
 
   Future<void> dispose() async {
