@@ -1,5 +1,8 @@
 name: CI Build
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
   Android:
     runs-on: ubuntu-latest
@@ -45,7 +48,6 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          architecture: x64
           flutter-version: 3.19.5
       - name: Prepare environment
         run: |
@@ -63,18 +65,76 @@ jobs:
       - name: Update build number
         run: sed -r -i '' 's/version:(.*)\+(.*)/version:\1+${{ github.run_number }}/' pubspec.yaml
       - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
-      - run: mkdir Payload
-        working-directory: build/ios/iphoneos
-      - run: mv Runner.app/ Payload
-        working-directory: build/ios/iphoneos
-      - name: Zip output
-        run: zip -qq -r -9 FlutterIpaExport.ipa Payload
-        working-directory: build/ios/iphoneos
-      - name: Upload artifact to Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+      - name: Install the Apple certificate and provisioning profile
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.STAGING_BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.STAGING_P12_PASSWORD }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.STAGING_BUILD_PROVISION_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.STAGING_KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+      - name: Build
+        run: flutter build ios --release --no-codesign
+
+      - name: Build resolve Swift dependencies
+        run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme Runner -configuration "Release"
+
+      - name: Build xArchive
+        run: |
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration "Release-staging" DEVELOPMENT_TEAM=JZ499NMRNW -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=d70ce4d8-31f4-44ef-bbbe-5ef0c8446ed5 clean archive CODE_SIGN_IDENTITY="05E6DDDCC67C186F5B444D015B59C074A0796CD0"
+
+      - name: Export ipa
+        run: |
+          xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-          appId: ${{ secrets.FIREBASE_IOS_APP_ID }}
+          name: App.ipa
+          path: /Users/runner/work/flex-storefront/flex-storefront/app/build-output/ios/FlexStorefront.ipa
+          retention-days: 1
+          if-no-files-found: error
+
+      - name: Clean up keychain and provisioning profile
+        if: ${{ always() }}
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+
+  distribute-ios:
+    needs: iOS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: App.ipa
+
+      - name: Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.2
+        with:
+          appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CREDENTIALS }}
           groups: base1-internal
-          file: build/ios/iphoneos/FlutterIpaExport.ipa
+          file: FlexStorefront.ipa
