@@ -11,7 +11,7 @@
         <key>provisioningProfiles</key>
         <dict>
             <key>com.base1.flexStorefront</key>
-            <string>FlexStorefront</string>
+            <string>Flex Wildcard</string>
         </dict>
     </dict>
 </plist>
