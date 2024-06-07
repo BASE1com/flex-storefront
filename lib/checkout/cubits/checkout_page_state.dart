@@ -1,5 +1,4 @@
 import 'package:flex_storefront/checkout/models/checkout_info.dart';
-import 'package:flex_storefront/shared/bloc_helper.dart';
 
 enum CheckoutPageStatus {
   initial,
