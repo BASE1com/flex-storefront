@@ -5,7 +5,6 @@ import 'package:flex_storefront/flex_ui/widgets/ecommerce/product_list_item.dart
 import 'package:flex_storefront/flex_ui/widgets/search/search_results_header.dart';
 import 'package:flex_storefront/product_list/cubits/product_search_cubit.dart';
 import 'package:flex_storefront/product_list/cubits/product_search_state.dart';
-import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -61,9 +60,8 @@ class _ProductListViewState extends State<ProductListView> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProductSearchCubit, ProductSearchState>(
       builder: (context, state) {
-        // switch on ProductSearchState status
         switch (state.status) {
-          case Status.initial || Status.pending:
+          case ProductSearchStatus.initial || ProductSearchStatus.pending:
             return const Column(
               children: [
                 SearchResultsHeaderShimmer(),
@@ -72,7 +70,7 @@ class _ProductListViewState extends State<ProductListView> {
                 ProductListItemShimmer(),
               ],
             );
-          case Status.success:
+          case ProductSearchStatus.success || ProductSearchStatus.pagePending:
             return Column(
               children: [
                 if (state.searchResults != null)
@@ -85,10 +83,6 @@ class _ProductListViewState extends State<ProductListView> {
                       searchResults: state.searchResults!,
                     ),
                   ),
-                if (state.status == Status.failure)
-                  const Center(child: Text('Failed to load products')),
-                if (state.status == Status.pending)
-                  const Center(child: CircularProgressIndicator()),
                 Expanded(
                   child: ListView.separated(
                     controller: controller,
@@ -100,7 +94,7 @@ class _ProductListViewState extends State<ProductListView> {
                     itemBuilder: (context, i) {
                       // handle the last item
                       if (i == state.products.length) {
-                        if (state.status == Status.pending) {
+                        if (state.status == ProductSearchStatus.pagePending) {
                           return const ProductListItemShimmer();
                         }
 
@@ -115,7 +109,6 @@ class _ProductListViewState extends State<ProductListView> {
                                 ))
                             : const ProductListItemShimmer();
                       }
-
                       return ProductListItem(
                         key: Key(state.products[i].code),
                         product: state.products[i],
@@ -125,7 +118,7 @@ class _ProductListViewState extends State<ProductListView> {
                 ),
               ],
             );
-          case Status.failure:
+          case ProductSearchStatus.failure:
             return const Center(child: Text('Failed to load products'));
         }
       },

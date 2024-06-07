@@ -3,27 +3,26 @@ import 'package:dio/dio.dart';
 import 'package:flex_storefront/product_list/apis/product_list_api.dart';
 import 'package:flex_storefront/product_list/cubits/product_search_state.dart';
 import 'package:flex_storefront/search/models/search_results.dart';
-import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:get_it/get_it.dart';
 
 class ProductSearchCubit extends Cubit<ProductSearchState> {
   ProductSearchCubit()
       : super(ProductSearchState(
-          status: Status.initial,
+          status: ProductSearchStatus.initial,
           pagination: Pagination.empty(),
         ));
 
   Future<void> searchProductsAutocomplete({
     required String query,
   }) async {
-    emit(state.copyWith(status: Status.pending));
+    emit(state.copyWith(status: ProductSearchStatus.pending));
 
     final searchResults = await GetIt.instance
         .get<ProductListApi>()
         .searchProducts(query: query, limit: 5);
 
     emit(state.copyWith(
-      status: Status.success,
+      status: ProductSearchStatus.success,
       searchResults: searchResults,
       products: searchResults.products,
     ));
@@ -36,7 +35,7 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
     FacetValue? filterBy,
   }) async {
     try {
-      emit(state.copyWith(status: Status.pending));
+      emit(state.copyWith(status: ProductSearchStatus.pending));
 
       final currentQuery = state.searchResults?.currentQuery;
       String query;
@@ -62,7 +61,7 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
         ..sort((a, b) => a.priority.compareTo(b.priority));
 
       emit(state.copyWith(
-        status: Status.success,
+        status: ProductSearchStatus.success,
         searchResults: searchResults,
         breadcrumbs: searchResults.breadcrumbs,
         facets: facets,
@@ -71,7 +70,7 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
       ));
     } on DioException catch (error) {
       emit(state.copyWith(
-        status: Status.failure,
+        status: ProductSearchStatus.failure,
         error: error,
         stackTrace: error.stackTrace,
       ));
@@ -81,12 +80,12 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
   Future<void> nextPage() async {
     if (state.pagination.currentPage + 1 >= state.pagination.totalPages ||
         state.searchResults == null ||
-        state.status == Status.pending) {
+        state.status == ProductSearchStatus.pagePending) {
       return;
     }
 
     try {
-      emit(state.copyWith(status: Status.pending));
+      emit(state.copyWith(status: ProductSearchStatus.pagePending));
 
       final searchResults =
           await GetIt.instance.get<ProductListApi>().searchProducts(
@@ -95,7 +94,7 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
               );
 
       emit(state.copyWith(
-        status: Status.success,
+        status: ProductSearchStatus.success,
         searchResults: searchResults,
         breadcrumbs: searchResults.breadcrumbs,
         facets: searchResults.facets,
@@ -104,7 +103,7 @@ class ProductSearchCubit extends Cubit<ProductSearchState> {
       ));
     } on DioException catch (error) {
       emit(state.copyWith(
-        status: Status.failure,
+        status: ProductSearchStatus.failure,
         error: error,
         stackTrace: error.stackTrace,
       ));
