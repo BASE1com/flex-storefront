@@ -106,16 +106,33 @@ jobs:
         run: |
           xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
 
-      - name: Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          appId: ${{ secrets.FIREBASE_IOS_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CREDENTIALS }}
-          groups: base1-internal
-          file: /Users/runner/work/flex-storefront/flex-storefront/build-output/ios/flex_storefront.ipa
+          name: App.ipa
+          path: /Users/runner/work/flex-storefront/flex-storefront/build-output/ios/flex_storefront.ipa
+          retention-days: 1
+          if-no-files-found: error
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
         run: |
           security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
           rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+
+  distribute-ios:
+    needs: iOS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: App.ipa
+
+      - name: Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.2
+        with:
+          appId: ${{ secrets.FIREBASE_IOS_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CREDENTIALS }}
+          groups: base1-internal
+          file: flex_storefront.ipa
