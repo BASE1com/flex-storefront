@@ -110,7 +110,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: App.ipa
-          path: /Users/runner/work/flex-storefront/flex-storefront/app/build-output/ios/FlexStorefront.ipa
+          path: /Users/runner/work/flex-storefront/flex-storefront/app/build-output/ios/flex_storefront.ipa
           retention-days: 1
           if-no-files-found: error
 
@@ -135,4 +135,4 @@ jobs:
           appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CREDENTIALS }}
           groups: base1-internal
-          file: FlexStorefront.ipa
+          file: flex_storefront.ipa
