@@ -61,50 +61,73 @@ class _ProductListViewState extends State<ProductListView> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProductSearchCubit, ProductSearchState>(
       builder: (context, state) {
-        return Column(
-          children: [
-            if (state.searchResults != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: FlexSizes.appPadding,
-                ),
-                child: SearchResultsHeader(
-                  breadcrumbs: state.breadcrumbs,
-                  searchResults: state.searchResults!,
-                ),
-              ),
-            if (state.status == Status.failure)
-              const Center(child: Text('Failed to load products')),
-            Expanded(
-              child: ListView.separated(
-                controller: controller,
-                itemCount: state.products.length + 1,
-                separatorBuilder: (_, __) => Divider(
-                  height: 0,
-                  color: Colors.grey[200],
-                ),
-                itemBuilder: (context, i) {
-                  // handle the last item
-                  if (i == state.products.length) {
-                    if (state.status == Status.pending) {
-                      return const ProductListItemShimmer();
-                    }
+        // switch on ProductSearchState status
+        switch (state.status) {
+          case Status.initial || Status.pending:
+            return const Column(
+              children: [
+                SearchResultsHeaderShimmer(),
+                ProductListItemShimmer(),
+                ProductListItemShimmer(),
+                ProductListItemShimmer(),
+              ],
+            );
+          case Status.success:
+            return Column(
+              children: [
+                if (state.searchResults != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: FlexSizes.appPadding,
+                    ),
+                    child: SearchResultsHeader(
+                      breadcrumbs: state.breadcrumbs,
+                      searchResults: state.searchResults!,
+                    ),
+                  ),
+                if (state.status == Status.failure)
+                  const Center(child: Text('Failed to load products')),
+                if (state.status == Status.pending)
+                  const Center(child: CircularProgressIndicator()),
+                Expanded(
+                  child: ListView.separated(
+                    controller: controller,
+                    itemCount: state.products.length + 1,
+                    separatorBuilder: (_, __) => Divider(
+                      height: 0,
+                      color: Colors.grey[200],
+                    ),
+                    itemBuilder: (context, i) {
+                      // handle the last item
+                      if (i == state.products.length) {
+                        if (state.status == Status.pending) {
+                          return const ProductListItemShimmer();
+                        }
 
-                    return state.pagination.currentPage + 1 >=
-                            state.pagination.totalPages
-                        ? const Center(child: Text('No more products to load'))
-                        : const ProductListItemShimmer();
-                  }
+                        return state.pagination.currentPage + 1 >=
+                                state.pagination.totalPages
+                            ? Container(
+                                padding:
+                                    const EdgeInsets.all(FlexSizes.appPadding),
+                                child: const Text(
+                                  'No more products to load',
+                                  textAlign: TextAlign.center,
+                                ))
+                            : const ProductListItemShimmer();
+                      }
 
-                  return ProductListItem(
-                    key: Key(state.products[i].code),
-                    product: state.products[i],
-                  );
-                },
-              ),
-            ),
-          ],
-        );
+                      return ProductListItem(
+                        key: Key(state.products[i].code),
+                        product: state.products[i],
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          case Status.failure:
+            return const Center(child: Text('Failed to load products'));
+        }
       },
     );
   }
