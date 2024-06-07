@@ -3,6 +3,7 @@ import 'package:flex_storefront/category/cubits/category_intermediary_cubit.dart
 import 'package:flex_storefront/category/cubits/category_intermediary_state.dart';
 import 'package:flex_storefront/category/widgets/category_header.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
+import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,23 +53,29 @@ class CategoryIntermediaryView extends StatelessWidget {
           case Status.success:
             final category = state.category!;
 
-            return ListView(
-              children: [
-                CategoryHeader(category: category),
-                ...category.children
-                    .map(
-                      (category) => ListTile(
-                        title: Text(category.name),
-                        onTap: () {
-                          context.router.pushNamed(
-                            category.destination ??
-                                'category/${category.id}?title=${category.name}',
-                          );
-                        },
-                      ),
-                    )
-                    .toList(),
-              ],
+            return ListView.separated(
+              itemCount: category.children.length + 1,
+              separatorBuilder: (context, index) => const Divider(
+                height: 1,
+                color: FlexColors.divider,
+              ),
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return CategoryHeader(category: category);
+                }
+
+                final childCategory = category.children[index - 1];
+
+                return ListTile(
+                  title: Text(childCategory.name),
+                  onTap: () {
+                    context.router.pushNamed(
+                      childCategory.destination ??
+                          'category/${childCategory.id}?title=${childCategory.name}',
+                    );
+                  },
+                );
+              },
             );
           case Status.failure:
             return Center(
