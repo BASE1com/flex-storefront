@@ -62,10 +62,14 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void toggleRememberMe() {
-    emit(state.copyWith(rememberMe: !state.rememberMe));
+    emit(state.copyWith(
+      status: Status.initial,
+      rememberMe: !state.rememberMe,
+    ));
   }
 
   void togglePasswordVisibility() {
-    emit(state.copyWith(hidePassword: !state.hidePassword));
+    emit(state.copyWith(
+        status: Status.initial, hidePassword: !state.hidePassword));
   }
 }

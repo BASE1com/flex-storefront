@@ -115,7 +115,7 @@ class MyAccountView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(FlexSizes.appPadding),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => context.read<AccountCubit>().logout(),
                 child: const Text('Sign Out'),
               ),
             ),
