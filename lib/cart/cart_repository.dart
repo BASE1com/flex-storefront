@@ -99,6 +99,34 @@ class CartRepository with CartRepositoryLoggy {
     }
   }
 
+  Future<void> refetchCart() async {
+    final userType = GetIt.instance.get<AuthRepository>().currentAuthStatus ==
+            AuthenticationStatus.authenticated
+        ? UserType.current
+        : UserType.anonymous;
+
+    try {
+      _cartMessageStreamController.add(CartLoading());
+
+      final cart = await _cartApi.fetchCart(
+        userType: userType,
+        cartId: currentCart.identifier,
+      );
+
+      _cartStreamController.add(cart);
+      _cartMessageStreamController.add(CartReady());
+    } on CartException catch (e) {
+      // if the cart is not found, create a new one
+      if (e.reason == CartExceptionReason.notFound) {
+        _cartMessageStreamController.add(CartNotFound());
+      } else {
+        _cartStreamController.addError(e);
+      }
+    } on Exception catch (e) {
+      _cartStreamController.addError(e);
+    }
+  }
+
   Future<void> createCart({required UserType userType}) async {
     try {
       _cartMessageStreamController.add(CartCreate());
