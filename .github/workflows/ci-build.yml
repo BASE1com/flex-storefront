@@ -1,8 +1,5 @@
 name: CI Build
-on:
-  push:
-    branches:
-      - main
+on: [push]
 jobs:
   Android:
     runs-on: ubuntu-latest
@@ -103,17 +100,17 @@ jobs:
 
       - name: Build xArchive
         run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration "Release-staging" DEVELOPMENT_TEAM=JZ499NMRNW -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=d70ce4d8-31f4-44ef-bbbe-5ef0c8446ed5 clean archive CODE_SIGN_IDENTITY="Apple Development"
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration "Release" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive clean archive
 
       - name: Export ipa
         run: |
           xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/ExportOptions.plist
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: App.ipa
-          path: /Users/runner/work/flex-storefront/flex-storefront/app/build-output/ios/FlexStorefront.ipa
+          name: flex_storefront.ipa
+          path: /Users/runner/work/flex-storefront/flex-storefront/build-output/ios/flex_storefront.ipa
           retention-days: 1
           if-no-files-found: error
 
@@ -127,15 +124,15 @@ jobs:
     needs: iOS
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
-          name: App.ipa
+          name: flex_storefront.ipa
 
       - name: Firebase App Distribution
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.2
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+          appId: ${{ secrets.FIREBASE_IOS_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CREDENTIALS }}
           groups: base1-internal
-          file: FlexStorefront.ipa
+          file: flex_storefront.ipa
