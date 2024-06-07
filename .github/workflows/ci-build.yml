@@ -65,6 +65,7 @@ jobs:
       - name: Update build number
         run: sed -r -i '' 's/version:(.*)\+(.*)/version:\1+${{ github.run_number }}/' pubspec.yaml
       - run: flutter pub get
+      - run: dart pub global activate flutterfire_cli
       - name: Install the Apple certificate and provisioning profile
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.STAGING_BUILD_CERTIFICATE_BASE64 }}
