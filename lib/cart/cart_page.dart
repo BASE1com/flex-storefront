@@ -27,8 +27,8 @@ class CartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final itemCount =
-        context.select((CartPageCubit cubit) => cubit.state.cart?.totalItems);
+    final itemCount = context
+        .select((CartPageCubit cubit) => cubit.state.cart?.totalUnitCount);
     final totalPrice = context.select(
         (CartPageCubit cubit) => cubit.state.cart?.totalPrice.formattedValue);
 
