@@ -10,12 +10,17 @@ class CartIconCubit extends CartSubscriptionCubit<CartIconState> {
     emit(CartIconState(
       status: Status.success,
       totalItems: cart.totalItems,
+      totalUnitCount: cart.totalUnitCount,
     ));
   }
 
   @override
   void onCartError(err, stackTrace) {
-    emit(CartIconState(status: Status.failure));
+    emit(state.copyWith(
+      status: Status.failure,
+      totalItems: 0,
+      totalUnitCount: 0,
+    ));
     addError(err, stackTrace);
   }
 }

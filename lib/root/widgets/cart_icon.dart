@@ -10,8 +10,9 @@ class CartIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: make this a remote config property
     final count =
-        context.select((CartIconCubit cubit) => cubit.state.totalItems);
+        context.select((CartIconCubit cubit) => cubit.state.totalUnitCount);
 
     const icon = Icon(LineAwesome.shopping_bag_solid);
 

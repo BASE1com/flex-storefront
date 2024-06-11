@@ -21,7 +21,9 @@ class CategoryHeader extends StatelessWidget {
           Expanded(
             child: Text(
               category.name,
-              style: Theme.of(context).textTheme.headlineSmall,
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
             ),

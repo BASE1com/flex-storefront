@@ -37,6 +37,11 @@ class AccountCubit extends Cubit<AccountState> {
   Future<void> logout() async {
     emit(state.copyWith(status: Status.pending));
     await GetIt.instance.get<AuthRepository>().logout();
+    emit(AccountState(
+      status: Status.success,
+      isLoggedIn: false,
+      user: null,
+    ));
   }
 
   @override

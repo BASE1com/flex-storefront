@@ -4,6 +4,7 @@ import 'package:flex_storefront/auth/login/cubits/login_state.dart';
 import 'package:flex_storefront/auth/login/widgets/login_form.dart';
 import 'package:flex_storefront/auth/login/widgets/login_header.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
+import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,6 +43,20 @@ class LoginView extends StatelessWidget {
       listener: (context, state) {
         if (state.status == Status.success) {
           onLoginAttempt(true);
+        }
+        if (state.status == Status.failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: FlexColors.error,
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(milliseconds: 1500),
+              elevation: FlexSizes.cardElevation,
+              content: Text(
+                'Invalid credentials',
+                style: TextStyle(color: FlexColors.onError),
+              ),
+            ),
+          );
         }
       },
       child: SingleChildScrollView(

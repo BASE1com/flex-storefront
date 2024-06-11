@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/product_list/cubits/product_search_cubit.dart';
 import 'package:flex_storefront/router.dart';
 import 'package:flex_storefront/search/models/search_results.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_breadcrumb/flutter_breadcrumb.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SearchResultsHeader extends StatelessWidget {
   const SearchResultsHeader({
@@ -93,6 +95,47 @@ class SearchResultsHeader extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class SearchResultsHeaderShimmer extends StatelessWidget {
+  const SearchResultsHeaderShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(FlexSizes.md),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 160,
+              height: FlexSizes.fontSizeMd,
+              color: Colors.white,
+            ),
+            const SizedBox(height: FlexSizes.spacerItems),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 96,
+                  height: FlexSizes.fontSizeMd,
+                  color: Colors.white,
+                ),
+                Container(
+                  width: 160,
+                  height: FlexSizes.fontSizeMd,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

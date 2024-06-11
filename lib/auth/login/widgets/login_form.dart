@@ -36,6 +36,8 @@ class LoginForm extends StatelessWidget {
                     prefixIcon: Icon(LineAwesome.envelope_solid),
                     labelText: 'Email',
                   ),
+                  keyboardType: TextInputType.emailAddress,
+                  textCapitalization: TextCapitalization.none,
                   initialValue: state.email,
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(),

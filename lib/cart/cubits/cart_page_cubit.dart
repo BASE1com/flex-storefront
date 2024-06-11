@@ -71,6 +71,11 @@ class CartPageCubit extends Cubit<CartPageState> {
     }
   }
 
+  Future<void> refreshCart() async {
+    emit(state.copyWith(status: Status.pending));
+    GetIt.instance.get<CartRepository>().refetchCart();
+  }
+
   @override
   Future<void> close() {
     _cartStreamSubscription.cancel();

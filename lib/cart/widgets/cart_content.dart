@@ -24,13 +24,18 @@ class CartContent extends StatelessWidget {
       RoundedCard(child: OrderSummary(cart: cart)),
     ];
 
-    return ListView.separated(
-      padding: const EdgeInsets.all(FlexSizes.appPadding),
-      itemCount: widgets.length,
-      itemBuilder: (_, index) => widgets[index],
-      separatorBuilder: (_, index) => index == widgets.length - 2
-          ? const SizedBox(height: FlexSizes.lg)
-          : const Divider(height: FlexSizes.lg),
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<CartPageCubit>().refreshCart();
+      },
+      child: ListView.separated(
+        padding: const EdgeInsets.all(FlexSizes.appPadding),
+        itemCount: widgets.length,
+        itemBuilder: (_, index) => widgets[index],
+        separatorBuilder: (_, index) => index == widgets.length - 2
+            ? const SizedBox(height: FlexSizes.lg)
+            : const Divider(height: FlexSizes.lg),
+      ),
     );
   }
 }

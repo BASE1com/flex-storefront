@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class FlexColors {
-  static const primary = Color.fromRGBO(33, 39, 56, 1.0); // #212738
-  static const secondary = Color.fromRGBO(31, 123, 192, 1.0); // #1F7BC0
+  static const primary = Color.fromRGBO(33, 39, 56, 1); // #212738
+  static const secondary = Color.fromRGBO(31, 123, 192, 1); // #1F7BC0
+
+  // app colors
+  static const divider = Color.fromRGBO(230, 230, 230, 1); // #FFFFFF80
 
   // information colors
   static const info = Color.fromRGBO(0, 122, 255, 1.0); // #007AFF
