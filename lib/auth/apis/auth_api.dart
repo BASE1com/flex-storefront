@@ -7,14 +7,17 @@ import 'package:get_it/get_it.dart';
 const PATH = '/authorizationserver/oauth/token';
 
 class AuthApi {
-  Future<OAuth2Token> getToken(String username, String password) async {
-    final requestBody = {
-      'grant_type': 'password',
+  Future<OAuth2Token> getToken({String? username, String? password}) async {
+    Map<String, dynamic> requestBody = {
+      'grant_type': password != null ? 'password' : 'client_credentials',
       'client_id': dotenv.get('HYBRIS_CLIENT_ID'),
       'client_secret': dotenv.get('HYBRIS_CLIENT_SECRET'),
-      'username': username,
-      'password': password,
     };
+
+    if (username != null && password != null) {
+      requestBody['username'] = username;
+      requestBody['password'] = password;
+    }
 
     final response =
         await GetIt.instance<Dio>(instanceName: Singletons.hybrisClient).post(

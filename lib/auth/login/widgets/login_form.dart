@@ -119,7 +119,7 @@ class LoginForm extends StatelessWidget {
                   width: double.infinity,
                   child: OutlinedButton(
                     onPressed: () {
-                      context.router.navigateNamed('/signup');
+                      context.router.replaceNamed('/register');
                     },
                     child: const Text('Register'),
                   ),

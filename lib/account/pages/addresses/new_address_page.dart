@@ -46,7 +46,7 @@ class NewAddressForm extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // conutry
+                  // country
                   FormBuilderDropdown(
                     name: 'countryIsoCode',
                     items: state.countries
