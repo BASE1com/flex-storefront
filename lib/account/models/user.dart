@@ -13,8 +13,8 @@ class User {
   final String name;
 
   final String type;
-  final String titleCode;
-  final String title;
+  final String? titleCode;
+  final String? title;
 
   final bool active;
   final bool selected;

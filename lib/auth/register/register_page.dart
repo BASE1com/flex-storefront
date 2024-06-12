@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flex_storefront/auth/login/cubits/login_cubit.dart';
-import 'package:flex_storefront/auth/login/cubits/login_state.dart';
-import 'package:flex_storefront/auth/login/widgets/login_form.dart';
-import 'package:flex_storefront/auth/login/widgets/login_header.dart';
+import 'package:flex_storefront/auth/register/cubits/register_cubit.dart';
+import 'package:flex_storefront/auth/register/cubits/register_state.dart';
+import 'package:flex_storefront/auth/register/widgets/register_form.dart';
+import 'package:flex_storefront/auth/register/widgets/register_header.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
@@ -11,35 +11,31 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class LoginPage extends StatelessWidget {
-  final Function onLoginAttempt;
-
-  const LoginPage({super.key, required this.onLoginAttempt});
+class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(),
-      child: Scaffold(
-        appBar: const FlexAppBar(
+      create: (context) => RegisterCubit(),
+      child: const Scaffold(
+        appBar: FlexAppBar(
           showBackArrow: true,
           leadingIcon: Icons.close,
           showSearchButton: false,
         ),
-        body: LoginView(onLoginAttempt: onLoginAttempt),
+        body: RegisterView(),
       ),
     );
   }
 }
 
-class LoginView extends StatelessWidget {
-  final Function onLoginAttempt;
-
-  const LoginView({super.key, required this.onLoginAttempt});
+class RegisterView extends StatelessWidget {
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginCubit, LoginState>(
+    return BlocListener<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state.status == Status.success) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -49,12 +45,12 @@ class LoginView extends StatelessWidget {
               duration: Duration(milliseconds: 1500),
               elevation: FlexSizes.cardElevation,
               content: Text(
-                'You are now logged in',
+                'Account created successfully. Please login.',
                 style: TextStyle(color: FlexColors.onSuccess),
               ),
             ),
           );
-          onLoginAttempt(true);
+          context.router.maybePop();
         }
         if (state.status == Status.failure) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -64,7 +60,7 @@ class LoginView extends StatelessWidget {
               duration: Duration(milliseconds: 1500),
               elevation: FlexSizes.cardElevation,
               content: Text(
-                'Invalid credentials',
+                'Account creation failed. Please try again later.',
                 style: TextStyle(color: FlexColors.onError),
               ),
             ),
@@ -77,8 +73,8 @@ class LoginView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const LoginHeader(),
-              LoginForm(),
+              const RegisterHeader(),
+              RegisterForm(),
             ],
           ),
         ),

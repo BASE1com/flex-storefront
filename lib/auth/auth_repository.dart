@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flex_storefront/account/apis/user_api.dart';
 import 'package:flex_storefront/auth/apis/auth_api.dart';
+import 'package:flex_storefront/auth/register/model/register_user_dto.dart';
 import 'package:flex_storefront/auth/utils/secure_oauth2_token_storage.dart';
 import 'package:flex_storefront/init.dart';
 import 'package:fresh_dio/fresh_dio.dart';
@@ -17,11 +19,14 @@ mixin AuthRepositoryLoggy implements LoggyType {
 }
 
 class AuthRepository with AuthRepositoryLoggy {
-  AuthRepository({required AuthApi authApi}) : _authApi = authApi;
+  AuthRepository({required AuthApi authApi, required UserApi userApi})
+      : _authApi = authApi,
+        _userApi = userApi;
 
   final _authStreamController = BehaviorSubject<AuthenticationStatus>();
 
   final AuthApi _authApi;
+  final UserApi _userApi;
   late StreamSubscription freshSubscription;
   late Fresh<OAuth2Token> freshInstance;
 
@@ -69,21 +74,19 @@ class AuthRepository with AuthRepositoryLoggy {
     required String password,
   }) async {
     loggy.info('Login..');
-    final token = await _authApi.getToken(email, password);
+    final token = await _authApi.getToken(username: email, password: password);
     await freshInstance.setToken(token);
     loggy.info('Login successful, set token: ${token.accessToken}');
   }
 
   /// [EmailAuthentication] - Register
   Future<void> registerWithEmailAndPassword({
-    required String email,
-    required String password,
+    required RegisterUserDto userDto,
   }) async {
     loggy.info('Register..');
-    // return _firebaseAuth.createUserWithEmailAndPassword(
-    //   email: email,
-    //   password: password,
-    // );
+    final token = await _authApi.getToken();
+    await _userApi.registerUser(userDto, token: token.accessToken);
+    loggy.info('Register successful');
   }
 
   /// [EmailVerification] - Send email verification link

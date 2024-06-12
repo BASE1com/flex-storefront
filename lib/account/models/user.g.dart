@@ -14,8 +14,8 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       lastName: json['lastName'] as String,
       name: json['name'] as String,
       type: json['type'] as String,
-      titleCode: json['titleCode'] as String,
-      title: json['title'] as String,
+      titleCode: json['titleCode'] as String?,
+      title: json['title'] as String?,
       active: json['active'] as bool,
       selected: json['selected'] as bool,
     );

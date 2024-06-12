@@ -76,7 +76,10 @@ void init() {
   );
 
   GetIt.instance.registerSingletonAsync(() async {
-    final AuthRepository authRepository = AuthRepository(authApi: AuthApi());
+    final AuthRepository authRepository = AuthRepository(
+      authApi: AuthApi(),
+      userApi: GetIt.instance.get<UserApi>(),
+    );
     await authRepository.init();
     return authRepository;
   }, dispose: (instance) => instance.dispose());

@@ -43,7 +43,7 @@ class LoginCubit extends Cubit<LoginState> {
         GetIt.instance<SharedPreferences>().remove(REMEMBER_EMAIL_KEY);
       }
 
-      // register user in firebase
+      // login user
       await GetIt.instance.get<AuthRepository>().loginWithEmailAndPassword(
             email: email.trim(),
             password: password.trim(),
