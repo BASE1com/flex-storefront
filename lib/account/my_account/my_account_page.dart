@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flex_storefront/account/cubits/account_cubit.dart';
+import 'package:flex_storefront/account/my_account/cubits/my_account_cubit.dart';
 import 'package:flex_storefront/account/widgets/account_header.dart';
 import 'package:flex_storefront/account/widgets/settings_list_tile.dart';
 import 'package:flex_storefront/account/widgets/settings_section_heading.dart';
@@ -16,7 +16,7 @@ class MyAccountPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AccountCubit(),
+      create: (context) => MyAccountCubit(),
       child: const Scaffold(
         appBar: FlexAppBar(
           title: Text('My Account'),
@@ -35,14 +35,14 @@ class MyAccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLoggedIn =
-        context.select((AccountCubit cubit) => cubit.state.isLoggedIn);
+        context.select((MyAccountCubit cubit) => cubit.state.isLoggedIn);
 
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const AccountHeader(),
-          const SizedBox(height: FlexSizes.spacerSection),
+          const SizedBox(height: FlexSizes.spacerItems),
           if (isLoggedIn) ...[
             const SettingsSectionHeading(title: 'Account Settings'),
             SettingsListTile(
@@ -115,7 +115,7 @@ class MyAccountView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(FlexSizes.appPadding),
               child: ElevatedButton(
-                onPressed: () => context.read<AccountCubit>().logout(),
+                onPressed: () => context.read<MyAccountCubit>().logout(),
                 child: const Text('Sign Out'),
               ),
             ),

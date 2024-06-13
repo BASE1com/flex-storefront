@@ -44,7 +44,7 @@ class CartRepository with CartRepositoryLoggy {
   /// Initialize the CartRepository, fetch the last-used cart from
   /// local storage or create a new one to prepare the Cart for usage.
   void init() async {
-    loggy.info('Cart initialization started');
+    loggy.info('Cart initialization started...');
 
     GetIt.instance.get<AuthRepository>().authStatus.listen((event) async {
       if (event == AuthenticationStatus.unauthenticated) {

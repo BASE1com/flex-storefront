@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flex_storefront/account/cubits/address_form_cubit.dart';
-import 'package:flex_storefront/account/cubits/address_form_state.dart';
+import 'package:flex_storefront/account/addresses/cubits/address_form_cubit.dart';
+import 'package:flex_storefront/account/addresses/cubits/address_form_state.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flex_storefront/account/cubits/account_cubit.dart';
+import 'package:flex_storefront/account/my_account/cubits/my_account_cubit.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
 import 'package:flex_storefront/router.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ class AccountHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.select((AccountCubit cubit) => cubit.state.user);
+    final user = context.select((MyAccountCubit cubit) => cubit.state.user);
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -30,11 +30,16 @@ class AccountHeader extends StatelessWidget {
             user?.name ?? 'Sign in to access your account.',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
-          if (user != null)
+          if (user != null) ...[
             Text(
               user.uid,
               style: Theme.of(context).textTheme.bodySmall,
             ),
+            TextButton(
+              onPressed: () => context.router.pushNamed('edit'),
+              child: const Text('Edit my account'),
+            ),
+          ],
           if (user == null) ...[
             const SizedBox(height: FlexSizes.sm),
             ElevatedButton(
