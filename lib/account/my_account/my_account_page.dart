@@ -36,12 +36,13 @@ class MyAccountView extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLoggedIn =
         context.select((MyAccountCubit cubit) => cubit.state.isLoggedIn);
+    final user = context.select((MyAccountCubit cubit) => cubit.state.user);
 
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const AccountHeader(),
+          AccountHeader(user: user),
           const SizedBox(height: FlexSizes.spacerItems),
           if (isLoggedIn) ...[
             const SettingsSectionHeading(title: 'Account Settings'),

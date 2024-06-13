@@ -15,7 +15,7 @@ abstract class CartSubscriptionCubit<T> extends Cubit<T> {
 
   void _subscribe() {
     _cartStreamSubscription =
-        GetIt.instance.get<CartRepository>().getCartStream().listen(
+        GetIt.instance.get<CartRepository>().cartStream.listen(
       (cart) {
         onCartData(cart);
       },

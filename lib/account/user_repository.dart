@@ -21,12 +21,12 @@ class UserRepository with UserRepositoryLoggy {
 
   final UserApi _userApi;
 
-  final _userStreamController = BehaviorSubject<User?>();
+  final _userStreamController = BehaviorSubject<User>.seeded(User.empty);
 
   // Provide a [Stream] of the near real-time cart
-  Stream<User?> getCartStream() => _userStreamController.asBroadcastStream();
+  Stream<User> get userStream => _userStreamController.asBroadcastStream();
 
-  User? get currentUser => _userStreamController.value;
+  User get currentUser => _userStreamController.value;
 
   /// Initialize the UserRepository, fetch the user from the server.
   Future<void> init() async {
@@ -37,7 +37,7 @@ class UserRepository with UserRepositoryLoggy {
     GetIt.instance.get<AuthRepository>().authStatus.listen((event) async {
       if (event == AuthenticationStatus.unauthenticated) {
         loggy.info('Anonymous user, emptying stream');
-        _userStreamController.add(null);
+        _userStreamController.add(User.empty);
       } else if (event == AuthenticationStatus.authenticated) {
         loggy.info('User loading');
         await fetchUser();

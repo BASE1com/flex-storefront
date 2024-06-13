@@ -32,7 +32,7 @@ class CartRepository with CartRepositoryLoggy {
       BehaviorSubject<CartMessage>.seeded(CartInitialize());
 
   // Provide a [Stream] of the near real-time cart
-  Stream<Cart> getCartStream() => _cartStreamController.asBroadcastStream();
+  Stream<Cart> get cartStream => _cartStreamController.asBroadcastStream();
 
   // Provide a [Stream] of important global cart messages
   Stream<CartMessage> getCartMessageStream() =>

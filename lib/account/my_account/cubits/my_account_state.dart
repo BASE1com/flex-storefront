@@ -3,12 +3,12 @@ import 'package:flex_storefront/shared/bloc_helper.dart';
 
 class MyAccountState extends BlocState {
   final bool isLoggedIn;
-  final User? user;
+  final User user;
 
   MyAccountState({
     required super.status,
     this.isLoggedIn = false,
-    this.user,
+    required this.user,
   });
 
   MyAccountState copyWith({

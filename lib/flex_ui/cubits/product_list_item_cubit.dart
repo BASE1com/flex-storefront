@@ -21,7 +21,7 @@ class ProductListItemCubit extends Cubit<ProductListItemState> {
   late final StreamSubscription _cartStreamSubscription;
 
   Future<void> _subscribe() async {
-    _cartStreamSubscription = _cartRepository.getCartStream().listen(
+    _cartStreamSubscription = _cartRepository.cartStream.listen(
       (cart) {
         emit(ProductListItemState(
           status: Status.success,
