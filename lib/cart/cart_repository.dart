@@ -19,9 +19,9 @@ mixin CartRepositoryLoggy implements LoggyType {
 }
 
 class CartRepository with CartRepositoryLoggy {
-  CartRepository({
-    required CartApi cartApi,
-  }) : _cartApi = cartApi {
+  static CartRepository get instance => GetIt.instance<CartRepository>();
+
+  CartRepository({required CartApi cartApi}) : _cartApi = cartApi {
     init();
   }
 

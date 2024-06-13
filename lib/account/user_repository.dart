@@ -54,8 +54,16 @@ class UserRepository with UserRepositoryLoggy {
   Future<void> fetchUser() async {
     try {
       final user = await _userApi.fetchUser();
-
       _userStreamController.add(user);
+    } on Exception catch (e) {
+      _userStreamController.addError(e);
+    }
+  }
+
+  Future<void> updateUser(Map<String, dynamic> userAttributes) async {
+    try {
+      await _userApi.updateUser(userAttributes);
+      fetchUser();
     } on Exception catch (e) {
       _userStreamController.addError(e);
     }

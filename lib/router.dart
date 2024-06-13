@@ -4,6 +4,8 @@ import 'package:flex_storefront/account/my_account/my_account_page.dart';
 import 'package:flex_storefront/account/addresses/address_page.dart';
 import 'package:flex_storefront/account/addresses/new_address_page.dart';
 import 'package:flex_storefront/account/edit_account/edit_account_page.dart';
+import 'package:flex_storefront/account/edit_account/edit_user_name_page.dart';
+import 'package:flex_storefront/account/models/user.dart';
 import 'package:flex_storefront/analytics/apis/analytics_api.dart';
 import 'package:flex_storefront/analytics/models/analytics_events.dart';
 import 'package:flex_storefront/auth/auth_repository.dart';
@@ -121,6 +123,10 @@ class AppRouter extends _$AppRouter {
                   page: EditAccountRoute.page,
                   path: 'edit',
                   guards: [AuthGuard()],
+                ),
+                AutoRoute(
+                  page: EditUserNameRoute.page,
+                  path: 'edit/name',
                 ),
               ],
             ),

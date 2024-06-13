@@ -1,27 +1,37 @@
-import 'dart:async';
-
 import 'package:flex_storefront/account/models/user.dart';
 import 'package:flex_storefront/account/user_repository.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flex_storefront/shared/utils/user_subscription_cubit.dart';
 
 part 'edit_account_state.dart';
 
-class EditAccountCubit extends Cubit<EditAccountState> {
-  late final StreamSubscription _userStreamSubscription;
+class EditAccountCubit extends UserSubscriptionCubit<EditAccountState> {
+  EditAccountCubit() : super(EditAccountState(status: Status.initial));
 
-  EditAccountCubit() : super(EditAccountState(status: Status.initial)) {
-    _userStreamSubscription = UserRepository.instance.userStream.listen((user) {
-      emit(state.copyWith(
-        status: Status.success,
-        user: user,
-      ));
-    });
+  @override
+  void onUserData(User user) {
+    emit(state.copyWith(
+      status: Status.success,
+      user: user,
+    ));
   }
 
   @override
-  Future<void> close() {
-    _userStreamSubscription.cancel();
-    return super.close();
+  void onUserError(err, stackTrace) {
+    emit(state.copyWith(
+      status: Status.failure,
+      user: User.empty,
+      error: err,
+      stackTrace: stackTrace,
+    ));
+    addError(err, stackTrace);
+  }
+
+  Future<void> updateUser(Map<String, dynamic> userAttributes) async {
+    emit(state.copyWith(
+      status: Status.pending,
+    ));
+
+    await UserRepository.instance.updateUser(userAttributes);
   }
 }

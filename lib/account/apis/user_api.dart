@@ -29,6 +29,20 @@ class UserApi {
     return User.fromJson(response.data);
   }
 
+  Future<void> updateUser(Map<String, dynamic> json) async {
+    final path = '$PATH/current'.replaceAll(
+      '<CATALOG>',
+      GetIt.instance
+          .get<ConfigRepository>()
+          .getString(ConfigKey.shopHybrisCatalog),
+    );
+
+    await GetIt.instance.get<Dio>(instanceName: Singletons.hybrisClient).patch(
+          '${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS',
+          data: json,
+        );
+  }
+
   Future<User> registerUser(RegisterUserDto dto, {String? token}) async {
     final path = PATH.replaceAll(
       '<CATALOG>',

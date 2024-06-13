@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/account/edit_account/cubits/edit_account_cubit.dart';
+import 'package:flex_storefront/account/models/user.dart';
 import 'package:flex_storefront/account/widgets/settings_section_heading.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/colors.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
+import 'package:flex_storefront/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,11 +56,18 @@ class EditAccountView extends StatelessWidget {
             SettingsValueListTile(
               title: 'Name',
               value: user.name,
+              onTap: () {
+                context.router.push<User>(EditUserNameRoute(
+                  user: user,
+                  onSave: (fields) {
+                    context.read<EditAccountCubit>().updateUser(fields);
+                  },
+                ));
+              },
             ),
             SettingsValueListTile(
               title: 'Customer #',
               value: user.customerId,
-              showTrailingArrow: false,
             ),
 
             const SizedBox(height: FlexSizes.spacerSection),
@@ -84,39 +93,42 @@ class SettingsValueListTile extends StatelessWidget {
     super.key,
     required this.title,
     required this.value,
-    this.showTrailingArrow = true,
+    this.onTap,
   });
 
   final String title;
   final String value;
-  final bool showTrailingArrow;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: FlexSizes.appPadding,
-        vertical: FlexSizes.spacerItems,
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              title,
-              style: const TextStyle(
-                color: FlexColors.disabled,
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: FlexSizes.appPadding,
+          vertical: FlexSizes.spacerItems,
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: FlexColors.disabled,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 5,
-            child: Text(value),
-          ),
-          showTrailingArrow
-              ? const Icon(Icons.chevron_right, size: FlexSizes.iconMd)
-              : const SizedBox(width: FlexSizes.iconMd),
-        ],
+            Expanded(
+              flex: 5,
+              child: Text(value),
+            ),
+            onTap != null
+                ? const Icon(Icons.chevron_right, size: FlexSizes.iconMd)
+                : const SizedBox(width: FlexSizes.iconMd),
+          ],
+        ),
       ),
     );
   }
