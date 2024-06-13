@@ -15,6 +15,8 @@ mixin UserRepositoryLoggy implements LoggyType {
 }
 
 class UserRepository with UserRepositoryLoggy {
+  static UserRepository get instance => GetIt.instance<UserRepository>();
+
   UserRepository({required UserApi userApi}) : _userApi = userApi {
     init();
   }

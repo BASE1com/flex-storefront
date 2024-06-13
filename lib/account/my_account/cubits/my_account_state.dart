@@ -8,7 +8,7 @@ class MyAccountState extends BlocState {
   MyAccountState({
     required super.status,
     this.isLoggedIn = false,
-    required this.user,
+    this.user = User.empty,
   });
 
   MyAccountState copyWith({

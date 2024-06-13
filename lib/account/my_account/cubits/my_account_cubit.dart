@@ -10,17 +10,10 @@ import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:get_it/get_it.dart';
 
 class MyAccountCubit extends Cubit<MyAccountState> {
-  late StreamSubscription _userStreamSubscription;
+  late final StreamSubscription _userStreamSubscription;
 
-  MyAccountCubit()
-      : super(
-          MyAccountState(
-            status: Status.initial,
-            user: User.empty,
-          ),
-        ) {
-    _userStreamSubscription =
-        GetIt.instance.get<UserRepository>().userStream.listen((user) {
+  MyAccountCubit() : super(MyAccountState(status: Status.initial)) {
+    _userStreamSubscription = UserRepository.instance.userStream.listen((user) {
       emit(state.copyWith(
         status: Status.success,
         isLoggedIn: user != User.empty,

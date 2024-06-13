@@ -34,7 +34,7 @@ class EditAccountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = 'John Doe';
+    final user = context.select((EditAccountCubit cubit) => cubit.state.user);
 
     return SingleChildScrollView(
       child: Padding(
@@ -48,12 +48,16 @@ class EditAccountView extends StatelessWidget {
             ),
             const SizedBox(height: FlexSizes.spacerItems),
             SettingsValueListTile(
-              title: 'Name',
-              value: name,
+              title: 'Title',
+              value: user.title ?? 'None',
             ),
-            const SettingsValueListTile(
+            SettingsValueListTile(
+              title: 'Name',
+              value: user.name,
+            ),
+            SettingsValueListTile(
               title: 'Customer #',
-              value: '12345678',
+              value: user.customerId,
               showTrailingArrow: false,
             ),
 
@@ -64,13 +68,9 @@ class EditAccountView extends StatelessWidget {
               title: 'Personal information',
             ),
             const SizedBox(height: FlexSizes.spacerItems),
-            const SettingsValueListTile(
+            SettingsValueListTile(
               title: 'Email',
-              value: 'tester@mailinator.com',
-            ),
-            const SettingsValueListTile(
-              title: 'Phone',
-              value: '(250) 123 4567',
+              value: user.displayUid,
             ),
           ],
         ),

@@ -1,27 +1,27 @@
 import 'dart:async';
 
+import 'package:flex_storefront/account/models/user.dart';
+import 'package:flex_storefront/account/user_repository.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'edit_account_state.dart';
 
 class EditAccountCubit extends Cubit<EditAccountState> {
-  // late final StreamSubscription _subscription;
+  late final StreamSubscription _userStreamSubscription;
 
-  EditAccountCubit() : super(EditAccountState(status: Status.initial));
-
-  // void _subscribe() async {
-  //   _subscription = UserRepository.instance.userStream.listen((user) {
-  //     emit(state.copyWith(
-  //       status: Status.initial,
-  //       user: user,
-  //     ));
-  //   });
-  // }
+  EditAccountCubit() : super(EditAccountState(status: Status.initial)) {
+    _userStreamSubscription = UserRepository.instance.userStream.listen((user) {
+      emit(state.copyWith(
+        status: Status.success,
+        user: user,
+      ));
+    });
+  }
 
   @override
   Future<void> close() {
-    // _subscription.cancel();
+    _userStreamSubscription.cancel();
     return super.close();
   }
 }
