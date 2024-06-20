@@ -89,7 +89,7 @@ class MyAccountView extends StatelessWidget {
             title: 'Clear App Data',
             subtitle: 'Clear all app data and cache',
             trailing: const Icon(LineAwesome.arrow_right_solid),
-            onTap: () {},
+            onTap: () => context.read<MyAccountCubit>().clearAppData(),
           ),
           const SizedBox(height: FlexSizes.spacerSection),
           const SettingsSectionHeading(title: 'Customer Service'),

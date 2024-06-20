@@ -47,7 +47,7 @@ class UserRepository with UserRepositoryLoggy {
     });
 
     loggy.info(
-      'Cart initialization ended, cart ready',
+      'User initialization ended, user ready',
     );
   }
 
