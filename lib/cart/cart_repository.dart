@@ -19,9 +19,9 @@ mixin CartRepositoryLoggy implements LoggyType {
 }
 
 class CartRepository with CartRepositoryLoggy {
-  CartRepository({
-    required CartApi cartApi,
-  }) : _cartApi = cartApi {
+  static CartRepository get instance => GetIt.instance<CartRepository>();
+
+  CartRepository({required CartApi cartApi}) : _cartApi = cartApi {
     init();
   }
 
@@ -32,7 +32,7 @@ class CartRepository with CartRepositoryLoggy {
       BehaviorSubject<CartMessage>.seeded(CartInitialize());
 
   // Provide a [Stream] of the near real-time cart
-  Stream<Cart> getCartStream() => _cartStreamController.asBroadcastStream();
+  Stream<Cart> get cartStream => _cartStreamController.asBroadcastStream();
 
   // Provide a [Stream] of important global cart messages
   Stream<CartMessage> getCartMessageStream() =>
@@ -44,7 +44,7 @@ class CartRepository with CartRepositoryLoggy {
   /// Initialize the CartRepository, fetch the last-used cart from
   /// local storage or create a new one to prepare the Cart for usage.
   void init() async {
-    loggy.info('Cart initialization started');
+    loggy.info('Cart initialization started...');
 
     GetIt.instance.get<AuthRepository>().authStatus.listen((event) async {
       if (event == AuthenticationStatus.unauthenticated) {

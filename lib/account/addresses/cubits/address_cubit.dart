@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flex_storefront/account/cubits/address_state.dart';
+import 'package:flex_storefront/account/addresses/cubits/address_state.dart';
 import 'package:flex_storefront/checkout/apis/address_api.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 import 'package:get_it/get_it.dart';

@@ -2,28 +2,23 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flex_storefront/account/apis/user_api.dart';
-import 'package:flex_storefront/account/cubits/account_state.dart';
+import 'package:flex_storefront/account/models/user.dart';
+import 'package:flex_storefront/account/my_account/cubits/my_account_state.dart';
+import 'package:flex_storefront/account/user_repository.dart';
 import 'package:flex_storefront/auth/auth_repository.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
-import 'package:fresh_dio/fresh_dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
-class AccountCubit extends Cubit<AccountState> {
-  late StreamSubscription _authStreamSubscription;
+class MyAccountCubit extends Cubit<MyAccountState> {
+  late final StreamSubscription _userStreamSubscription;
 
-  AccountCubit()
-      : super(
-          AccountState(status: Status.initial),
-        ) {
-    _authStreamSubscription =
-        GetIt.instance.get<AuthRepository>().authStatus.listen((status) {
-      if (status == AuthenticationStatus.authenticated) {
-        loadUser();
-      }
-
+  MyAccountCubit() : super(MyAccountState(status: Status.initial)) {
+    _userStreamSubscription = UserRepository.instance.userStream.listen((user) {
       emit(state.copyWith(
         status: Status.success,
-        isLoggedIn: status == AuthenticationStatus.authenticated,
+        isLoggedIn: user != User.empty,
+        user: user,
       ));
     });
   }
@@ -37,16 +32,15 @@ class AccountCubit extends Cubit<AccountState> {
   Future<void> logout() async {
     emit(state.copyWith(status: Status.pending));
     await GetIt.instance.get<AuthRepository>().logout();
-    emit(AccountState(
-      status: Status.success,
-      isLoggedIn: false,
-      user: null,
-    ));
+  }
+
+  Future<void> clearAppData() async {
+    await GetIt.instance.get<FlutterSecureStorage>().deleteAll();
   }
 
   @override
   Future<void> close() async {
-    await _authStreamSubscription.cancel();
+    await _userStreamSubscription.cancel();
     super.close();
   }
 }

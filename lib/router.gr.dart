@@ -62,6 +62,23 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const CheckoutPage(),
       );
     },
+    EditAccountRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EditAccountPage(),
+      );
+    },
+    EditUserNameRoute.name: (routeData) {
+      final args = routeData.argsAs<EditUserNameRouteArgs>();
+      return AutoRoutePage<User>(
+        routeData: routeData,
+        child: EditUserNamePage(
+          key: args.key,
+          user: args.user,
+          onSave: args.onSave,
+        ),
+      );
+    },
     FilterRoute.name: (routeData) {
       final args = routeData.argsAs<FilterRouteArgs>(
           orElse: () => const FilterRouteArgs());
@@ -298,6 +315,63 @@ class CheckoutRoute extends PageRouteInfo<void> {
   static const String name = 'CheckoutRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EditAccountPage]
+class EditAccountRoute extends PageRouteInfo<void> {
+  const EditAccountRoute({List<PageRouteInfo>? children})
+      : super(
+          EditAccountRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EditAccountRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EditUserNamePage]
+class EditUserNameRoute extends PageRouteInfo<EditUserNameRouteArgs> {
+  EditUserNameRoute({
+    Key? key,
+    required User user,
+    required void Function(Map<String, dynamic>) onSave,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EditUserNameRoute.name,
+          args: EditUserNameRouteArgs(
+            key: key,
+            user: user,
+            onSave: onSave,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'EditUserNameRoute';
+
+  static const PageInfo<EditUserNameRouteArgs> page =
+      PageInfo<EditUserNameRouteArgs>(name);
+}
+
+class EditUserNameRouteArgs {
+  const EditUserNameRouteArgs({
+    this.key,
+    required this.user,
+    required this.onSave,
+  });
+
+  final Key? key;
+
+  final User user;
+
+  final void Function(Map<String, dynamic>) onSave;
+
+  @override
+  String toString() {
+    return 'EditUserNameRouteArgs{key: $key, user: $user, onSave: $onSave}';
+  }
 }
 
 /// generated route for

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flex_storefront/account/apis/user_api.dart';
+import 'package:flex_storefront/account/user_repository.dart';
 import 'package:flex_storefront/analytics/apis/analytics_api.dart';
 import 'package:flex_storefront/auth/apis/auth_api.dart';
 import 'package:flex_storefront/auth/auth_repository.dart';
@@ -70,11 +71,6 @@ void init() {
     return configRepository;
   });
 
-  GetIt.instance.registerSingletonWithDependencies(
-    () => CartRepository(cartApi: CartApi()),
-    dependsOn: [SharedPreferences, ConfigRepository],
-  );
-
   GetIt.instance.registerSingletonAsync(() async {
     final AuthRepository authRepository = AuthRepository(
       authApi: AuthApi(),
@@ -83,4 +79,14 @@ void init() {
     await authRepository.init();
     return authRepository;
   }, dispose: (instance) => instance.dispose());
+
+  GetIt.instance.registerSingletonWithDependencies(
+    () => CartRepository(cartApi: CartApi()),
+    dependsOn: [SharedPreferences, ConfigRepository, AuthRepository],
+  );
+
+  GetIt.instance.registerSingletonWithDependencies(
+    () => UserRepository(userApi: GetIt.instance.get<UserApi>()),
+    dependsOn: [ConfigRepository, AuthRepository],
+  );
 }

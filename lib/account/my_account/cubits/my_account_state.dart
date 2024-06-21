@@ -1,22 +1,22 @@
 import 'package:flex_storefront/account/models/user.dart';
 import 'package:flex_storefront/shared/bloc_helper.dart';
 
-class AccountState extends BlocState {
+class MyAccountState extends BlocState {
   final bool isLoggedIn;
-  final User? user;
+  final User user;
 
-  AccountState({
+  MyAccountState({
     required super.status,
     this.isLoggedIn = false,
-    this.user,
+    this.user = User.empty,
   });
 
-  AccountState copyWith({
+  MyAccountState copyWith({
     Status? status,
     bool? isLoggedIn,
     User? user,
   }) =>
-      AccountState(
+      MyAccountState(
         status: status ?? this.status,
         isLoggedIn: isLoggedIn ?? this.isLoggedIn,
         user: user ?? this.user,

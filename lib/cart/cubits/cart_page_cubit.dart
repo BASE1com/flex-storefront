@@ -19,7 +19,7 @@ class CartPageCubit extends Cubit<CartPageState> {
 
   Future<void> _subscribe() async {
     _cartStreamSubscription =
-        GetIt.instance.get<CartRepository>().getCartStream().listen(
+        GetIt.instance.get<CartRepository>().cartStream.listen(
       (cart) {
         emit(CartPageState(
           status: Status.success,

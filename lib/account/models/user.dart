@@ -19,7 +19,7 @@ class User {
   final bool active;
   final bool selected;
 
-  User({
+  const User({
     required this.uid,
     required this.customerId,
     required this.displayUid,
@@ -36,6 +36,23 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  bool get isAnonymous => uid.isEmpty;
+
+  /// Empty user which represents an unauthenticated user.
+  static const empty = User(
+    uid: '',
+    customerId: '',
+    displayUid: '',
+    firstName: '',
+    lastName: '',
+    name: '',
+    type: '',
+    titleCode: '',
+    title: '',
+    active: false,
+    selected: false,
+  );
 
   @override
   String toString() {

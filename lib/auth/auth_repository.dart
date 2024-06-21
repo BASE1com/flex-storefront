@@ -27,8 +27,8 @@ class AuthRepository with AuthRepositoryLoggy {
 
   final AuthApi _authApi;
   final UserApi _userApi;
-  late StreamSubscription freshSubscription;
-  late Fresh<OAuth2Token> freshInstance;
+  late StreamSubscription _freshSubscription;
+  late Fresh<OAuth2Token> _freshInstance;
 
   Stream<AuthenticationStatus> get authStatus =>
       _authStreamController.asBroadcastStream();
@@ -40,7 +40,7 @@ class AuthRepository with AuthRepositoryLoggy {
       'Auth initialization started...',
     );
 
-    freshInstance = Fresh.oAuth2(
+    _freshInstance = Fresh.oAuth2(
       tokenStorage:
           SecureOAuth2TokenStorage(storageKey: AUTH_TOKEN_STORAGE_KEY),
       refreshToken: (token, client) async {
@@ -52,14 +52,15 @@ class AuthRepository with AuthRepositoryLoggy {
       shouldRefresh: (Response? response) => response?.statusCode == 401,
     );
 
-    freshSubscription = freshInstance.authenticationStatus.listen((event) {
+    _freshSubscription = _freshInstance.authenticationStatus.listen((event) {
+      loggy.info('Auth status changed to $event');
       _authStreamController.add(event);
     });
 
     // add fresh as our interceptor, to manage token refresh
     GetIt.instance<Dio>(instanceName: Singletons.hybrisClient)
         .interceptors
-        .add(freshInstance);
+        .add(_freshInstance);
 
     loggy.info(
       'Auth initialization ended, fresh_dio ready',
@@ -75,7 +76,7 @@ class AuthRepository with AuthRepositoryLoggy {
   }) async {
     loggy.info('Login..');
     final token = await _authApi.getToken(username: email, password: password);
-    await freshInstance.setToken(token);
+    await _freshInstance.setToken(token);
     loggy.info('Login successful, set token: ${token.accessToken}');
   }
 
@@ -105,12 +106,12 @@ class AuthRepository with AuthRepositoryLoggy {
 
   /// [LogoutUser] - Valid for any authentication
   Future<void> logout() async {
-    await freshInstance.clearToken();
+    await _freshInstance.clearToken();
   }
 
   Future<void> dispose() async {
-    await freshSubscription.cancel();
-    await freshInstance.close();
+    await _freshSubscription.cancel();
+    await _freshInstance.close();
     await _authStreamController.close();
   }
 }
