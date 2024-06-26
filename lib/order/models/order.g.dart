@@ -17,3 +17,12 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       paymentInfo:
           PaymentInfo.fromJson(json['paymentInfo'] as Map<String, dynamic>),
     );
+
+OrderSummary _$OrderSummaryFromJson(Map<String, dynamic> json) => OrderSummary(
+      code: json['code'] as String,
+      guid: json['guid'] as String,
+      statusDisplay: json['statusDisplay'] as String,
+      placed: DateTime.parse(json['placed'] as String),
+      status: json['status'] as String,
+      total: CartPrice.fromJson(json['total'] as Map<String, dynamic>),
+    );

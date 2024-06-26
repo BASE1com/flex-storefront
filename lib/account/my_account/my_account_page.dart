@@ -50,7 +50,7 @@ class MyAccountView extends StatelessWidget {
               title: 'Order History',
               subtitle: 'View your previous orders',
               trailing: const Icon(LineAwesome.arrow_right_solid),
-              onTap: () {},
+              onTap: () => context.router.pushNamed('orders'),
             ),
             SettingsListTile(
               title: 'Address Book',

@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';

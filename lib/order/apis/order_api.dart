@@ -3,6 +3,7 @@ import 'package:flex_storefront/config/config_repository.dart';
 import 'package:flex_storefront/config/data/default_config.dart';
 import 'package:flex_storefront/init.dart';
 import 'package:flex_storefront/order/models/order.dart';
+import 'package:flex_storefront/order/models/order_results.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 
@@ -29,5 +30,20 @@ class OrderApi {
     });
 
     return Order.fromJson(response.data);
+  }
+
+  Future<OrderResults> fetchOrders() async {
+    final path = PATH.replaceAll(
+      '<CATALOG>',
+      GetIt.instance
+          .get<ConfigRepository>()
+          .getString(ConfigKey.shopHybrisCatalog),
+    );
+
+    final response = await GetIt.instance
+        .get<Dio>(instanceName: Singletons.hybrisClient)
+        .get('${dotenv.get('HYBRIS_BASE_URL')}$path$PARAMS'); // TODO: page size
+
+    return OrderResults.fromJson(response.data);
   }
 }

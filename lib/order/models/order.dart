@@ -1,3 +1,4 @@
+import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/checkout/models/address.dart';
 import 'package:flex_storefront/checkout/models/delivery_mode.dart';
 import 'package:flex_storefront/checkout/models/payment_info.dart';
@@ -28,5 +29,34 @@ class Order {
   @override
   String toString() {
     return 'Order{code: $code, statusDisplay: $statusDisplay, created: $created, deliveryAddress: $deliveryAddress, deliveryMode: $deliveryMode, paymentInfo: $paymentInfo}';
+  }
+}
+
+@JsonSerializable(createToJson: false)
+class OrderSummary {
+  final String code;
+  final String guid;
+  final String statusDisplay;
+  final DateTime placed;
+  final String status; // TODO: turn into an enum
+  final CartPrice total;
+
+  OrderSummary({
+    required this.code,
+    required this.guid,
+    required this.statusDisplay,
+    required this.placed,
+    required this.status,
+    required this.total,
+  });
+
+  factory OrderSummary.fromJson(Map<String, dynamic> json) =>
+      _$OrderSummaryFromJson(json);
+
+  @override
+  String toString() {
+    return 'OrderSummary{code: $code, '
+        'statusDisplay: $statusDisplay, status: $status'
+        'placed: $placed, total: $total}';
   }
 }
