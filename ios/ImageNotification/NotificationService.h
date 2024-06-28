@@ -6,7 +6,8 @@
 //
 
 #import <UserNotifications/UserNotifications.h>
+#import <EmarsysNotificationService/EMSNotificationService.h>
 
-@interface NotificationService : UNNotificationServiceExtension
+@interface NotificationService : EMSNotificationService
 
 @end

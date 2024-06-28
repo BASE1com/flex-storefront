@@ -48,5 +48,8 @@ end
 
 target 'ImageNotification' do
   use_frameworks!
+  use_modular_headers!
+
   pod 'Firebase/Messaging'
+  pod 'EmarsysNotificationService'
 end
