@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flex_storefront/account/apis/user_api.dart';
 import 'package:flex_storefront/account/models/user.dart';
 import 'package:flex_storefront/account/my_account/cubits/my_account_state.dart';
 import 'package:flex_storefront/account/user_repository.dart';
@@ -21,12 +20,6 @@ class MyAccountCubit extends Cubit<MyAccountState> {
         user: user,
       ));
     });
-  }
-
-  Future<void> loadUser() async {
-    emit(state.copyWith(status: Status.pending));
-    final user = await GetIt.instance.get<UserApi>().fetchUser();
-    emit(state.copyWith(user: user, status: Status.success));
   }
 
   Future<void> logout() async {

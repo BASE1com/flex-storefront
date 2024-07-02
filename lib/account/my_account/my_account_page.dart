@@ -5,9 +5,11 @@ import 'package:flex_storefront/account/widgets/settings_list_tile.dart';
 import 'package:flex_storefront/account/widgets/settings_section_heading.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
+import 'package:flex_storefront/notifications/notification_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 @RoutePage()
 class MyAccountPage extends StatelessWidget {
@@ -74,10 +76,13 @@ class MyAccountView extends StatelessWidget {
           ],
           const SettingsSectionHeading(title: 'App Settings'),
           SettingsListTile(
-            title: 'Notifications',
-            subtitle: 'Manage your notification settings',
+            title: 'Push Notifications',
+            subtitle: 'Configure push notification settings',
             trailing: const Icon(LineAwesome.arrow_right_solid),
-            onTap: () {},
+            onTap: () async {
+              await openAppSettings();
+              NotificationRepository.instance.printDebugInfo();
+            },
           ),
           SettingsListTile(
             title: 'Change Language',

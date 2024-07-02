@@ -15,6 +15,7 @@ import 'package:flex_storefront/checkout/apis/payment_api.dart';
 import 'package:flex_storefront/checkout/checkout_repository.dart';
 import 'package:flex_storefront/cms/apis/cms_api.dart';
 import 'package:flex_storefront/config/config_repository.dart';
+import 'package:flex_storefront/notifications/notification_repository.dart';
 import 'package:flex_storefront/order/apis/order_api.dart';
 import 'package:flex_storefront/product_detail/apis/product_api.dart';
 import 'package:flex_storefront/product_list/apis/product_list_api.dart';
@@ -88,5 +89,10 @@ void init() {
   GetIt.instance.registerSingletonWithDependencies(
     () => UserRepository(userApi: GetIt.instance.get<UserApi>()),
     dependsOn: [ConfigRepository, AuthRepository],
+  );
+
+  GetIt.instance.registerSingletonWithDependencies(
+    () => NotificationRepository(),
+    dependsOn: [ConfigRepository],
   );
 }

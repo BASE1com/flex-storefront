@@ -50,14 +50,12 @@ void main() async {
   // Allow all network requests, temporarily for local hybris instance over https
   // TODO: Remove when hybris moves to cloud instance
   // https://stackoverflow.com/questions/61411580/flutter-web-http-request-badcertificatecallback
-  HttpOverrides.global = MyHttpOverrides();
+  // HttpOverrides.global = MyHttpOverrides();
 
   Bloc.observer = BlocLogger();
 
   init();
-
   await GetIt.instance.allReady();
-
   unawaited(GetIt.instance.get<ConfigRepository>().fetch());
 
   runApp(App());
