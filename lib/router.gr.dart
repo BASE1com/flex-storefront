@@ -70,7 +70,7 @@ abstract class _$AppRouter extends RootStackRouter {
     },
     EditUserNameRoute.name: (routeData) {
       final args = routeData.argsAs<EditUserNameRouteArgs>();
-      return AutoRoutePage<User>(
+      return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: EditUserNamePage(
           key: args.key,
@@ -122,6 +122,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const OrderConfirmationPage(),
+      );
+    },
+    OrderListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const OrderListPage(),
       );
     },
     ProductDetailRoute.name: (routeData) {
@@ -500,6 +506,20 @@ class OrderConfirmationRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'OrderConfirmationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OrderListPage]
+class OrderListRoute extends PageRouteInfo<void> {
+  const OrderListRoute({List<PageRouteInfo>? children})
+      : super(
+          OrderListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderListRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
