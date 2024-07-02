@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:emarsys_sdk/emarsys_sdk.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flex_storefront/account/apis/user_api.dart';
 import 'package:flex_storefront/account/user_repository.dart';
@@ -89,4 +90,24 @@ void init() {
     () => UserRepository(userApi: GetIt.instance.get<UserApi>()),
     dependsOn: [ConfigRepository, AuthRepository],
   );
+
+  // Initialize Emarsys
+  // Emarsys.setContact(contactFieldId, contactFieldValue)
+  Emarsys.push.registerAndroidNotificationChannels([
+    NotificationChannel(
+      id: 'marketing',
+      name: 'Marketing',
+      description: 'Marketing notification channel',
+      importance: NotificationChannel.IMPORTANCE_HIGH,
+    ),
+  ]);
+
+  Emarsys.push.pushEventStream.listen((event) {
+    print('Event received: ${event.name}');
+    print('Payload: ${event.payload}');
+  });
+  Emarsys.inApp.inAppEventStream.listen((event) {
+    print('In-app event received: ${event.name}');
+    print('Payload: ${event.payload}');
+  });
 }

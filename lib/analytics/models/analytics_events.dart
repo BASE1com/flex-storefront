@@ -3,7 +3,7 @@ import 'package:flex_storefront/cart/models/cart.dart';
 import 'package:flex_storefront/product_list/models/product.dart';
 
 abstract class AnalyticsEvent {
-  final Map<String, Object?>? parameters;
+  final Map<String, Object>? parameters;
 
   const AnalyticsEvent({this.parameters});
 }
