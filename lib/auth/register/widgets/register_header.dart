@@ -1,6 +1,4 @@
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
-import 'package:flex_storefront/flex_ui/widgets/cached_image.dart';
-import 'package:flex_storefront/shared/utils/image_strings.dart';
 import 'package:flutter/material.dart';
 
 class RegisterHeader extends StatelessWidget {
