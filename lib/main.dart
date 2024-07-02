@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:emarsys_sdk/emarsys_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flex_storefront/app.dart';
@@ -53,14 +52,10 @@ void main() async {
   // https://stackoverflow.com/questions/61411580/flutter-web-http-request-badcertificatecallback
   // HttpOverrides.global = MyHttpOverrides();
 
-  Emarsys.setup(EmarsysConfig(applicationCode: dotenv.get('EMARSYS_APP_CODE')));
-
   Bloc.observer = BlocLogger();
 
   init();
-
   await GetIt.instance.allReady();
-
   unawaited(GetIt.instance.get<ConfigRepository>().fetch());
 
   runApp(App());

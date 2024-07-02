@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:emarsys_sdk/emarsys_sdk.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flex_storefront/account/apis/user_api.dart';
 import 'package:flex_storefront/account/user_repository.dart';
@@ -16,6 +15,7 @@ import 'package:flex_storefront/checkout/apis/payment_api.dart';
 import 'package:flex_storefront/checkout/checkout_repository.dart';
 import 'package:flex_storefront/cms/apis/cms_api.dart';
 import 'package:flex_storefront/config/config_repository.dart';
+import 'package:flex_storefront/notifications/notification_repository.dart';
 import 'package:flex_storefront/order/apis/order_api.dart';
 import 'package:flex_storefront/product_detail/apis/product_api.dart';
 import 'package:flex_storefront/product_list/apis/product_list_api.dart';
@@ -91,23 +91,8 @@ void init() {
     dependsOn: [ConfigRepository, AuthRepository],
   );
 
-  // Initialize Emarsys
-  // Emarsys.setContact(contactFieldId, contactFieldValue)
-  Emarsys.push.registerAndroidNotificationChannels([
-    NotificationChannel(
-      id: 'marketing',
-      name: 'Marketing',
-      description: 'Marketing notification channel',
-      importance: NotificationChannel.IMPORTANCE_HIGH,
-    ),
-  ]);
-
-  Emarsys.push.pushEventStream.listen((event) {
-    print('Event received: ${event.name}');
-    print('Payload: ${event.payload}');
-  });
-  Emarsys.inApp.inAppEventStream.listen((event) {
-    print('In-app event received: ${event.name}');
-    print('Payload: ${event.payload}');
-  });
+  GetIt.instance.registerSingletonWithDependencies(
+    () => NotificationRepository(),
+    dependsOn: [ConfigRepository],
+  );
 }

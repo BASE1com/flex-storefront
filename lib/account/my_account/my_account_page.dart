@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:emarsys_sdk/emarsys_sdk.dart';
 import 'package:flex_storefront/account/my_account/cubits/my_account_cubit.dart';
 import 'package:flex_storefront/account/widgets/account_header.dart';
 import 'package:flex_storefront/account/widgets/settings_list_tile.dart';
 import 'package:flex_storefront/account/widgets/settings_section_heading.dart';
 import 'package:flex_storefront/flex_ui/components/app_bar.dart';
 import 'package:flex_storefront/flex_ui/tokens/sizes.dart';
+import 'package:flex_storefront/notifications/notification_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -76,30 +76,12 @@ class MyAccountView extends StatelessWidget {
           ],
           const SettingsSectionHeading(title: 'App Settings'),
           SettingsListTile(
-            title: 'Notifications',
-            subtitle: 'Allow push notifications',
+            title: 'Push Notifications',
+            subtitle: 'Configure push notification settings',
             trailing: const Icon(LineAwesome.arrow_right_solid),
             onTap: () async {
-              String hardwareId = await Emarsys.config.hardwareId();
-              String? appCode = await Emarsys.config.applicationCode();
-              String? merchantId = await Emarsys.config.merchantId();
-              int? contactFieldId = await Emarsys.config.contactFieldId();
-
-              final status = await Permission.notification.status;
-
-              print('Existing status: $status');
-
-              await Permission.notification.request();
-
-              NotificationSettings settings =
-                  await Emarsys.config.notificationSettings();
-
-              print('-- Emarsys Debug --');
-              print('Hardware ID: $hardwareId');
-              print('App Code: $appCode');
-              print('Merchant ID: $merchantId');
-              print('Contact Field ID: $contactFieldId');
-              print('Notification Settings: $settings');
+              await openAppSettings();
+              NotificationRepository.instance.printDebugInfo();
             },
           ),
           SettingsListTile(
