@@ -53,7 +53,7 @@ jobs:
       - name: Prepare environment
         run: |
           cp example.env .env
-          sed -i 's|EMARSYS_APP_CODE=|EMARSYS_APP_CODE=${{ secrets.EMARSYS_APP_CODE }}|g' .env
+          sed -i '' 's|EMARSYS_APP_CODE=|EMARSYS_APP_CODE=${{ secrets.EMARSYS_APP_CODE }}|' .env
           sed -i '' 's|STRAPI_TOKEN=|STRAPI_TOKEN=${{ secrets.STRAPI_TOKEN }}|' .env
           sed -i '' 's|HYBRIS_BASE_URL=|HYBRIS_BASE_URL=${{ secrets.HYBRIS_BASE_URL }}|' .env
           sed -i '' 's|HYBRIS_CLIENT_ID=|HYBRIS_CLIENT_ID=${{ secrets.HYBRIS_CLIENT_ID }}|' .env
