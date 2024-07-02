@@ -78,16 +78,19 @@ jobs:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.STAGING_BUILD_CERTIFICATE_BASE64 }}
           P12_PASSWORD: ${{ secrets.STAGING_P12_PASSWORD }}
           BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.STAGING_BUILD_PROVISION_PROFILE_BASE64 }}
+          NOTIFICATION_PROVISION_PROFILE_BASE64: ${{ secrets.STAGING_NOTIFICATION_PROVISION_PROFILE_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.STAGING_KEYCHAIN_PASSWORD }}
         run: |
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
           PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          NPP_PATH=$RUNNER_TEMP/notification_pp.mobileprovision
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
 
           # import certificate and provisioning profile from secrets
           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
           echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+          echo -n "$NOTIFICATION_PROVISION_PROFILE_BASE64" | base64 --decode --output $NPP_PATH
 
           # create temporary keychain
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
@@ -98,9 +101,10 @@ jobs:
           security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
-          # apply provisioning profile
+          # apply provisioning profiles
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $NPP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
       - name: Build
         run: flutter build ios --release --no-codesign
