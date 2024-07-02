@@ -11,7 +11,9 @@
         <key>provisioningProfiles</key>
         <dict>
             <key>com.base1.flexStorefront</key>
-            <string>Flex Wildcard</string>
+            <string>Flex Storefront</string>
+            <key>com.base1.flexStorefront.ImageNotification</key>
+            <string>Flex Image Notifications</string>
         </dict>
     </dict>
 </plist>

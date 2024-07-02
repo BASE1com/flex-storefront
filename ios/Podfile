@@ -56,5 +56,6 @@ target 'ImageNotification' do
   use_modular_headers!
 
   pod 'Firebase/Messaging'
+  pod 'GoogleUtilities'
   pod 'EmarsysNotificationService'
 end
